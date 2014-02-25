@@ -1,0 +1,309 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="LTBL">
+      <UniqueIdentifier>{f8035254-a0f0-4ce4-b6b3-83cee37ca5dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LTBL\Light">
+      <UniqueIdentifier>{fa807e12-6b27-44bb-bdf1-4cab5194ecd4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LTBL\Constructs">
+      <UniqueIdentifier>{170da255-fc59-42cc-a82c-1eac7b6e2378}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LTBL\QuadTree">
+      <UniqueIdentifier>{7ebf3910-5596-464b-9eb9-55d39d021d62}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StateManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StartMenuState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OptionsState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadingState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="State.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Level.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Guard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GuardPatrolState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GuardSearchState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GuardShootingState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GuardStateManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Settings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundRippleManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundRipple.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GuardInvestigateState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimatedSprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CreditState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LightManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WallManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Deps\let-there-be-light\LTBL\Constructs\AABB.cpp">
+      <Filter>LTBL\Constructs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Deps\let-there-be-light\LTBL\Constructs\Color3f.cpp">
+      <Filter>LTBL\Constructs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Deps\let-there-be-light\LTBL\Constructs\Point2i.cpp">
+      <Filter>LTBL\Constructs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Deps\let-there-be-light\LTBL\Constructs\Vec2f.cpp">
+      <Filter>LTBL\Constructs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Deps\let-there-be-light\LTBL\Light\ConvexHull.cpp">
+      <Filter>LTBL\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Deps\let-there-be-light\LTBL\Light\EmissiveLight.cpp">
+      <Filter>LTBL\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Deps\let-there-be-light\LTBL\Light\Light.cpp">
+      <Filter>LTBL\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Deps\let-there-be-light\LTBL\Light\LightSystem.cpp">
+      <Filter>LTBL\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Deps\let-there-be-light\LTBL\Light\Light_Point.cpp">
+      <Filter>LTBL\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Deps\let-there-be-light\LTBL\Light\ShadowFin.cpp">
+      <Filter>LTBL\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Deps\let-there-be-light\LTBL\QuadTree\QuadTree.cpp">
+      <Filter>LTBL\QuadTree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Deps\let-there-be-light\LTBL\QuadTree\QuadTreeNode.cpp">
+      <Filter>LTBL\QuadTree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Deps\let-there-be-light\LTBL\QuadTree\QuadTreeOccupant.cpp">
+      <Filter>LTBL\QuadTree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Deps\let-there-be-light\LTBL\QuadTree\StaticQuadTree.cpp">
+      <Filter>LTBL\QuadTree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Deps\let-there-be-light\LTBL\Utils.cpp">
+      <Filter>LTBL</Filter>
+    </ClCompile>
+    <ClCompile Include="HullManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Background.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="StateManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="State.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StartMenuState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OptionsState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CreditState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadingState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Level.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimatedSprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Guard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GuardPatrolState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GuardSearchState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GuardShootingState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GuardState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GuardStateManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Settings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundRippleManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundRipple.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GuardInvestigateState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HullManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LightManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WallManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Deps\let-there-be-light\LTBL\Constructs\AABB.h">
+      <Filter>LTBL\Constructs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Deps\let-there-be-light\LTBL\Constructs\Color3f.h">
+      <Filter>LTBL\Constructs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Deps\let-there-be-light\LTBL\Constructs\Point2i.h">
+      <Filter>LTBL\Constructs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Deps\let-there-be-light\LTBL\Constructs\Vec2f.h">
+      <Filter>LTBL\Constructs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Deps\let-there-be-light\LTBL\Light\ConvexHull.h">
+      <Filter>LTBL\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Deps\let-there-be-light\LTBL\Light\EmissiveLight.h">
+      <Filter>LTBL\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Deps\let-there-be-light\LTBL\Light\Light.h">
+      <Filter>LTBL\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Deps\let-there-be-light\LTBL\Light\LightSystem.h">
+      <Filter>LTBL\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Deps\let-there-be-light\LTBL\Light\Light_Point.h">
+      <Filter>LTBL\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Deps\let-there-be-light\LTBL\Light\ShadowFin.h">
+      <Filter>LTBL\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Deps\let-there-be-light\LTBL\QuadTree\QuadTree.h">
+      <Filter>LTBL\QuadTree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Deps\let-there-be-light\LTBL\QuadTree\QuadTreeNode.h">
+      <Filter>LTBL\QuadTree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Deps\let-there-be-light\LTBL\QuadTree\QuadTreeOccupant.h">
+      <Filter>LTBL\QuadTree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Deps\let-there-be-light\LTBL\QuadTree\StaticQuadTree.h">
+      <Filter>LTBL\QuadTree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Deps\let-there-be-light\LTBL\Utils.h">
+      <Filter>LTBL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Deps\let-there-be-light\LTBL\Constructs.h">
+      <Filter>LTBL</Filter>
+    </ClInclude>
+    <ClInclude Include="Background.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

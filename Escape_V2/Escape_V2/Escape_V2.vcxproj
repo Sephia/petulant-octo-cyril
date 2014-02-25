@@ -1,0 +1,229 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{82515E44-26BF-4170-8998-2E0C7759737B}</ProjectGuid>
+    <RootNamespace>Escape_V2</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>..\Deps\let-there-be-light;..\Deps\SFML-2.1\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>
+      </PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>..\Deps\SFML-2.1\lib;...\Deps\let-there-be-light;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>..\Deps\let-there-be-light;..\Deps\SFML-2.1\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>
+      </PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>..\Deps\SFML-2.1\lib;...\Deps\let-there-be-light;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Deps\let-there-be-light\LTBL\Constructs\AABB.cpp" />
+    <ClCompile Include="..\Deps\let-there-be-light\LTBL\Constructs\Color3f.cpp" />
+    <ClCompile Include="..\Deps\let-there-be-light\LTBL\Constructs\Point2i.cpp" />
+    <ClCompile Include="..\Deps\let-there-be-light\LTBL\Constructs\Vec2f.cpp" />
+    <ClCompile Include="..\Deps\let-there-be-light\LTBL\Light\ConvexHull.cpp" />
+    <ClCompile Include="..\Deps\let-there-be-light\LTBL\Light\EmissiveLight.cpp" />
+    <ClCompile Include="..\Deps\let-there-be-light\LTBL\Light\Light.cpp" />
+    <ClCompile Include="..\Deps\let-there-be-light\LTBL\Light\LightSystem.cpp" />
+    <ClCompile Include="..\Deps\let-there-be-light\LTBL\Light\Light_Point.cpp" />
+    <ClCompile Include="..\Deps\let-there-be-light\LTBL\Light\ShadowFin.cpp" />
+    <ClCompile Include="..\Deps\let-there-be-light\LTBL\QuadTree\QuadTree.cpp" />
+    <ClCompile Include="..\Deps\let-there-be-light\LTBL\QuadTree\QuadTreeNode.cpp" />
+    <ClCompile Include="..\Deps\let-there-be-light\LTBL\QuadTree\QuadTreeOccupant.cpp" />
+    <ClCompile Include="..\Deps\let-there-be-light\LTBL\QuadTree\StaticQuadTree.cpp" />
+    <ClCompile Include="..\Deps\let-there-be-light\LTBL\Utils.cpp" />
+    <ClCompile Include="AnimatedSprite.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Background.cpp" />
+    <ClCompile Include="CollisionManager.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="CreditState.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Engine.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="GameState.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Guard.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="GuardInvestigateState.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="GuardPatrolState.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="GuardSearchState.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="GuardShootingState.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="GuardStateManager.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="HullManager.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="Level.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="LightManager.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="LoadingState.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="OptionsState.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="PlayerObject.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Settings.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp" />
+    <ClCompile Include="SoundRipple.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="SoundRippleManager.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="SpriteManager.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="StartMenuState.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="State.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="StateManager.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="WallManager.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Deps\let-there-be-light\LTBL\Constructs.h" />
+    <ClInclude Include="..\Deps\let-there-be-light\LTBL\Constructs\AABB.h" />
+    <ClInclude Include="..\Deps\let-there-be-light\LTBL\Constructs\Color3f.h" />
+    <ClInclude Include="..\Deps\let-there-be-light\LTBL\Constructs\Point2i.h" />
+    <ClInclude Include="..\Deps\let-there-be-light\LTBL\Constructs\Vec2f.h" />
+    <ClInclude Include="..\Deps\let-there-be-light\LTBL\Light\ConvexHull.h" />
+    <ClInclude Include="..\Deps\let-there-be-light\LTBL\Light\EmissiveLight.h" />
+    <ClInclude Include="..\Deps\let-there-be-light\LTBL\Light\Light.h" />
+    <ClInclude Include="..\Deps\let-there-be-light\LTBL\Light\LightSystem.h" />
+    <ClInclude Include="..\Deps\let-there-be-light\LTBL\Light\Light_Point.h" />
+    <ClInclude Include="..\Deps\let-there-be-light\LTBL\Light\ShadowFin.h" />
+    <ClInclude Include="..\Deps\let-there-be-light\LTBL\QuadTree\QuadTree.h" />
+    <ClInclude Include="..\Deps\let-there-be-light\LTBL\QuadTree\QuadTreeNode.h" />
+    <ClInclude Include="..\Deps\let-there-be-light\LTBL\QuadTree\QuadTreeOccupant.h" />
+    <ClInclude Include="..\Deps\let-there-be-light\LTBL\QuadTree\StaticQuadTree.h" />
+    <ClInclude Include="..\Deps\let-there-be-light\LTBL\Utils.h" />
+    <ClInclude Include="AnimatedSprite.h" />
+    <ClInclude Include="Background.h" />
+    <ClInclude Include="CollisionManager.h" />
+    <ClInclude Include="CreditState.h" />
+    <ClInclude Include="Engine.h" />
+    <ClInclude Include="GameState.h" />
+    <ClInclude Include="Guard.h" />
+    <ClInclude Include="GuardInvestigateState.h" />
+    <ClInclude Include="GuardPatrolState.h" />
+    <ClInclude Include="GuardSearchState.h" />
+    <ClInclude Include="GuardShootingState.h" />
+    <ClInclude Include="GuardState.h" />
+    <ClInclude Include="GuardStateManager.h" />
+    <ClInclude Include="HullManager.h" />
+    <ClInclude Include="InputManager.h" />
+    <ClInclude Include="Level.h" />
+    <ClInclude Include="LightManager.h" />
+    <ClInclude Include="LoadingState.h" />
+    <ClInclude Include="OptionsState.h" />
+    <ClInclude Include="PlayerObject.h" />
+    <ClInclude Include="Settings.h" />
+    <ClInclude Include="SoundManager.h" />
+    <ClInclude Include="SoundRipple.h" />
+    <ClInclude Include="SoundRippleManager.h" />
+    <ClInclude Include="SpriteManager.h" />
+    <ClInclude Include="StartMenuState.h" />
+    <ClInclude Include="State.h" />
+    <ClInclude Include="StateManager.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="WallManager.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
