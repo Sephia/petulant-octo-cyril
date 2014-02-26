@@ -1,14 +1,18 @@
-﻿Build started 2014-02-25 13:51:00.
+﻿Build started 2014-02-25 19:23:36.
      1>Project "C:\Users\Spork\Desktop\Escape_V2\Escape_V2\Escape_V2.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"..\Deps\let-there-be-light" /I"..\Deps\SFML-2.1\include\\" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt GameState.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"..\Deps\let-there-be-light" /I"..\Deps\SFML-2.1\include\\" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Engine.cpp GameState.cpp StateManager.cpp
          GameState.cpp
      1>c:\users\spork\desktop\escape_v2\escape_v2\gamestate.cpp(44): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
-     1>c:\users\spork\desktop\escape_v2\escape_v2\gamestate.cpp(72): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\spork\desktop\escape_v2\escape_v2\gamestate.cpp(141): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\spork\desktop\escape_v2\escape_v2\gamestate.cpp(149): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\spork\desktop\escape_v2\escape_v2\gamestate.cpp(267): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\spork\desktop\escape_v2\escape_v2\gamestate.cpp(276): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\spork\desktop\escape_v2\escape_v2\gamestate.cpp(171): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\spork\desktop\escape_v2\escape_v2\gamestate.cpp(309): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\spork\desktop\escape_v2\escape_v2\gamestate.cpp(318): warning C4018: '<' : signed/unsigned mismatch
+         Generating Code...
+         Compiling...
+         Engine.cpp
+         Generating Code...
+         Skipping... (no relevant changes detected)
+         StateManager.cpp
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Spork\Desktop\Escape_V2\Debug\Escape_V2.exe" /INCREMENTAL /NOLOGO /LIBPATH:"..\Deps\SFML-2.1\lib" /LIBPATH:"...\Deps\let-there-be-light" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Spork\Desktop\Escape_V2\Debug\Escape_V2.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Spork\Desktop\Escape_V2\Debug\Escape_V2.lib" /MACHINE:X86 Debug\AABB.obj
          Debug\Color3f.obj
@@ -60,4 +64,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:02.42
+Time Elapsed 00:00:03.80

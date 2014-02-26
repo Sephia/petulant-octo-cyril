@@ -42,14 +42,23 @@ void GameState::Enter() {
 
 	mp_view->setCenter(mp_player->GetPosition());
 	mp_view->setSize(Settings::ms_window->getSize().x, Settings::ms_window->getSize().y);
+
 	
 	ls = new ltbl::LightSystem(AABB(Vec2f(0, 0), Vec2f(static_cast<float>(3657), static_cast<float>(5651))), Settings::ms_window, "../data/lightFin.png", "../data/shaders/lightAttenuationShader.frag");
     ls->SetView(*mp_view);
+
+	/*ls2 = new ltbl::LightSystem(AABB(Vec2f(0, 0), Vec2f(static_cast<float>(3657), static_cast<float>(5651))), Settings::ms_window, "../data/lightFin.png", "../data/shaders/lightAttenuationShader.frag");
+    ls2->SetView(*mp_view);*/
     
     lm = new LightManager(ls);
     hl = new HullManager(ls);
     wl = new WallManager(hl);
     cl = new CollisionManager(wl);
+
+	/*lm2 = new LightManager(ls2);
+    hl2 = new HullManager(ls2);
+    wl2 = new WallManager(hl2);
+    cl2 = new CollisionManager(wl2);*/
 
 	ltbl::Light_Point* testLight = new ltbl::Light_Point();
 	testLight->m_intensity = 1.0f;
@@ -63,41 +72,41 @@ void GameState::Enter() {
 	testLight->m_softSpreadAngle = 0.0f;
 	testLight->m_bleed = 0.0f;
 	testLight->m_linearizeFactor = 0.8f;
-	//testLight->m_lightSubdivisionSize = 5.0f;
 	testLight->CalculateAABB();
     
 	lm->AddLight(testLight, mp_player);
 	testLight->SetAlwaysUpdate(true);
 
-	for( int i = 0; i < m_guards.size(); i++) {
+	/*for( int i = 0; i < m_guards.size(); i++) {
 		ltbl::Light_Point* guardLight = new ltbl::Light_Point();
 		guardLight->m_intensity = 1.5f;
 		guardLight->m_center = Vec2f(100.0f, 100.0f);
 		guardLight->m_radius = 800.0f;
 		guardLight->m_size = 48.0f;
-		guardLight->m_color.b = 0.7f;
-		guardLight->m_color.r = 0.7f;
-		guardLight->m_color.g = 0.7f;
+		guardLight->m_color.b = 1.0f;
+		guardLight->m_color.r = 1.0f;
+		guardLight->m_color.g = 1.0f;
 		guardLight->m_spreadAngle = 1.0f;
-		guardLight->m_softSpreadAngle = 0.5f;
+		guardLight->m_softSpreadAngle = 0.0f;
 		guardLight->m_bleed = 0.3f;
 
 		guardLight->CalculateAABB();
 	
     
-		lm->AddLight(guardLight, m_guards.at(i));
+		lm2->AddLight(guardLight, m_guards.at(i));
 		guardLight->SetAlwaysUpdate(true);
-	}
+	}*/
 
 	
 	ltbl::Light_Point* testLight2 = new ltbl::Light_Point();
-	testLight2->m_center = Vec2f(Settings::ms_enter.x, -4000);
-	testLight2->m_radius = 100.0f;
+	testLight2->m_center = Vec2f(Settings::ms_enter.x, -4150);
+	testLight2->m_radius = 1000.0f;
 	testLight2->m_size = 10.0f;
-	testLight2->m_color.r = 0.0f;
-    testLight2->m_color.g = 0.0f;
-    testLight2->m_color.b = 0.0f;
-	testLight2->m_intensity = 2.0f;
+	testLight2->m_color.r = 5.0f;
+    testLight2->m_color.g = 5.0f;
+    testLight2->m_color.b = 5.0f;
+	testLight2->m_intensity = 1.0f;
+	//testLight2->m_bleed = 0.0f;
 	testLight2->m_spreadAngle = ltbl::pifTimes2;
 	testLight2->m_softSpreadAngle = 0.0f;
 	testLight2->CalculateAABB();
@@ -105,10 +114,31 @@ void GameState::Enter() {
 	lm->AddLight(testLight2, lm);
 	
 	testLight2->SetAlwaysUpdate(false);
+
+	/*testLight3 = new ltbl::Light_Point();
+	testLight3->m_center = Vec2f(Settings::ms_enter.x, -4000);
+	testLight3->m_radius = 1000.0f;
+	testLight3->m_size = 10.0f;
+	testLight3->m_color.r = 5.0f;
+    testLight3->m_color.g = 5.0f;
+    testLight3->m_color.b = 5.0f;
+	testLight3->m_intensity = 1.0f;
+	testLight3->m_bleed = 0.0f;
+	testLight3->m_spreadAngle = ltbl::pifTimes2;
+	testLight3->m_softSpreadAngle = 0.0f;
+	testLight3->CalculateAABB();
+    
+	lm2->AddLight(testLight3, lm2);
+
+	testLight3->SetAlwaysUpdate(false);*/
 	
 	if(!wl->LoadFromFile("../data/EnterLevelNameSquareWalls.txt")) {
 		abort();
 	}
+
+	/*if(!wl2->LoadFromFile("../data/EnterLevelNameSquareWalls.txt")) {
+		abort();
+	}*/
 
 	if (!m_music.openFromFile("../data/I Knew a Guy - Stealth.wav")) {
 		std::cout << "Failed loading music for GameState!\n";
@@ -145,11 +175,11 @@ bool GameState::Update() {
 			
 		}
 
-		Vec2f vecG(m_guards.at(i)->GetPosition().x, -m_guards.at(i)->GetPosition().y + mp_view->getSize().y);
+		/*Vec2f vecG(m_guards.at(i)->GetPosition().x, -m_guards.at(i)->GetPosition().y + mp_view->getSize().y);
 		float angle = (m_guards.at(i)->GetSprite()->getSprite()->getRotation() - 90) * (3.141592 / 180);
-		lm->GetLight(m_guards.at(i))->m_directionAngle = -angle;
-		lm->GetLight(m_guards.at(i))->CalculateAABB();
-		lm->GetLight(m_guards.at(i))->SetCenter(vecG);
+		lm2->GetLight(m_guards.at(i))->m_directionAngle = -angle;
+		lm2->GetLight(m_guards.at(i))->SetCenter(vecG);
+		lm2->GetLight(m_guards.at(i))->CalculateAABB();*/
 	}
 
 	if(m_timer > 0.5f) {
@@ -162,7 +192,7 @@ bool GameState::Update() {
 	//lm->GetLight(mp_player)->CalculateAABB();
 	lm->GetLight(mp_player)->SetCenter(vec);
 
-	ls->SetView(*mp_view);
+	
 
 	if(Settings::ms_gameOver || 
 		(	mp_player->GetPosition().x > Settings::ms_exit.x && mp_player->GetPosition().x < Settings::ms_exit.x + 100 &&
@@ -185,8 +215,20 @@ void GameState::Draw() {
 	mp_view->setCenter(mp_player->GetPosition());
 	Settings::ms_window->setView(*mp_view);
 
+	ls->SetView(*mp_view);
+	//ls2->SetView(*mp_view);
+
+	/*ls2->RenderLights();
+	ls2->RenderLightTexture();*/
+
 	ls->RenderLights();
 	ls->RenderLightTexture();
+
+	
+	
+
+
+	
 
 	m_soundRippleManager.Draw();
 	Settings::ms_window->display();

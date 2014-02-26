@@ -64,5 +64,14 @@ private:
 	WallManager* wl;
 	CollisionManager* cl;
 	ltbl::LightSystem* ls;
+
+	/*LightManager* lm2;
+	HullManager* hl2;
+	WallManager* wl2;
+	CollisionManager* cl2;
+	ltbl::LightSystem* ls2;*/
+
+	
+	//ltbl::Light_Point* testLight3;
 	
 };
