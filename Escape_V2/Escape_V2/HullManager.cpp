@@ -27,6 +27,12 @@ HullManager::~HullManager()
 
 bool HullManager::AddHull(ltbl::ConvexHull* hull, sf::Shape* wall)
 {
+    if(wall == nullptr)
+    {
+        m_staticHulls.push_back(hull);
+        m_lightSystem->AddConvexHull(hull);
+        return true;
+    }
     std::map<sf::Shape*, ltbl::ConvexHull*>::iterator it;
     it = m_hulls.find(wall);
     if(it == m_hulls.end())
@@ -75,10 +81,10 @@ std::vector<sf::ConvexShape*> HullManager::LoadFromFile(std::string filename)
     }
     std::string row;
     std::getline(stream, row, '\n');
-    if (*(row.end()-1) == '\r')
+    /*if (*(row.end()-1) == '\r')
     {
         row.erase(row.end()-1);
-    }
+    }*/
     if (*(row.begin()) == '\xef')
     {
         for(int i =0; i<3; i++)
@@ -88,44 +94,88 @@ std::vector<sf::ConvexShape*> HullManager::LoadFromFile(std::string filename)
     }
     while (!stream.eof())
     {
-        std::vector<int> x, y;
-        
-        while(row != "\xc2\xa7")
+        std::vector<int> sx, sy;
+        //ladda in första formen (collision box)
+        while (row != "")
         {
             int tx, ty;
             std::stringstream ss(row);
             ss >> tx >> ty;
-            x.push_back(tx);
-            y.push_back(ty);
+            sx.push_back(tx);
+            sy.push_back(ty);
+            
             std::getline(stream, row, '\n');
-            if (*(row.end()-1) == '\r')
+          /*  if (*(row.end()-1) == '\r')
             {
                 row.erase(row.end()-1);
+            }*/
+        }
+        /*std::getline(stream, row, '\n');
+        if (*(row.end()-1) == '\r')
+        {
+            row.erase(row.end()-1);
+        }*/
+        sf::ConvexShape* shape = new sf::ConvexShape();
+        shape->setPointCount(sx.size()-1);
+        shape->setPosition(sx[0], sy[0]);
+        
+        for(int i =1; i < sx.size(); i++)
+        {
+            shape->setPoint(i-1, sf::Vector2f((float)sx[i]-(float)sx[0], (float)sy[i]-(float)sy[0]));
+        }
+        shapes.push_back(shape);
+        
+        //ladda in hulls
+        while(row != "\xc2\xa7")
+        {
+            std::vector<int> x, y;
+            std::getline(stream, row, '\n');
+            /*if (*(row.end()-1) == '\r')
+            {
+                row.erase(row.end()-1);
+            }*/
+            while (row != "" && row != "\xc2\xa7")
+            {
+                int tx, ty;
+                std::stringstream ss(row);
+                ss >> tx >> ty;
+                x.push_back(tx);
+                y.push_back(ty);
+                
+                std::getline(stream, row, '\n');
+                /*if (*(row.end()-1) == '\r')
+                {
+                    row.erase(row.end()-1);
+                }*/
+            }
+            
+            
+            
+            if(x.size()!=0)
+            {
+                ltbl::ConvexHull* hull = new ltbl::ConvexHull();
+                
+                for(int i =1; i < x.size(); i++)
+                {
+                    hull->m_vertices.push_back(Vec2f((float)x[i]-(float)x[0], - ((float)y[i]-(float)y[0])));
+                }
+                hull->CalculateNormals();
+                hull->CalculateAABB();
+                hull->SetWorldCenter(Vec2f((float)x[0], (m_lightSystem->m_viewAABB.GetDims().y - (float)y[0])));
+                
+                //alternativt ändra till false senare för att inte rendera ljus genom väggarna
+                hull->m_renderLightOverHull = false;
+                AddHull(hull, nullptr);
             }
         }
         std::getline(stream, row, '\n');
-        if(x.size()!=0)
+        /*if (*(row.end()-1) == '\r')
         {
-            ltbl::ConvexHull* hull = new ltbl::ConvexHull();
-            sf::ConvexShape* shape = new sf::ConvexShape();
-            shape->setPointCount(x.size()-1);
-            shape->setPosition(x[0], y[0]);
-            shape->setFillColor(sf::Color (100,100,50));
-            
-            for(int i =1; i < x.size(); i++)
-            {
-                shape->setPoint(i-1, sf::Vector2f((float)x[i]-(float)x[0], (float)y[i]-(float)y[0]));
-                hull->m_vertices.push_back(Vec2f((float)x[i]-(float)x[0], - ((float)y[i]-(float)y[0])));
-            }
-            hull->CalculateNormals();
-            hull->CalculateAABB();
-            hull->SetWorldCenter(Vec2f((float)x[0], (m_lightSystem->m_viewAABB.GetDims().y - (float)y[0])));
-            
-            //alternativt ändra till false senare för att inte rendera ljus genom väggarna
-            hull->m_renderLightOverHull = false;
-            m_hulls.insert(std::make_pair(shape, hull));
-            m_lightSystem->AddConvexHull(hull);
-            shapes.push_back(shape);
+            row.erase(row.end()-1);
+        }*/
+        if (row == "")
+        {
+            break;
         }
     }
     return shapes;

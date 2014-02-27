@@ -1,20 +1,22 @@
-﻿Build started 2014-02-25 19:23:36.
-     1>Project "C:\Users\Spork\Desktop\Escape_V2\Escape_V2\Escape_V2.vcxproj" on node 2 (Build target(s)).
+﻿Build started 2014-02-27 20:53:04.
+     1>Project "D:\petulant-octo-cyril\Escape_V2\Escape_V2\Escape_V2.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"..\Deps\let-there-be-light" /I"..\Deps\SFML-2.1\include\\" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Engine.cpp GameState.cpp StateManager.cpp
-         GameState.cpp
-     1>c:\users\spork\desktop\escape_v2\escape_v2\gamestate.cpp(44): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
-     1>c:\users\spork\desktop\escape_v2\escape_v2\gamestate.cpp(171): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\spork\desktop\escape_v2\escape_v2\gamestate.cpp(309): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\spork\desktop\escape_v2\escape_v2\gamestate.cpp(318): warning C4018: '<' : signed/unsigned mismatch
-         Generating Code...
-         Compiling...
-         Engine.cpp
-         Generating Code...
-         Skipping... (no relevant changes detected)
-         StateManager.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"..\Deps\let-there-be-light" /I"..\Deps\SFML-2.1\include\\" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Grid2D.cpp
+         Grid2D.cpp
+     1>d:\petulant-octo-cyril\escape_v2\escape_v2\grid2d.cpp(17): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>d:\petulant-octo-cyril\escape_v2\escape_v2\grid2d.cpp(18): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>d:\petulant-octo-cyril\escape_v2\escape_v2\grid2d.cpp(22): warning C4018: '<' : signed/unsigned mismatch
+     1>d:\petulant-octo-cyril\escape_v2\escape_v2\grid2d.cpp(24): warning C4018: '<' : signed/unsigned mismatch
+     1>d:\petulant-octo-cyril\escape_v2\escape_v2\grid2d.cpp(38): warning C4018: '<' : signed/unsigned mismatch
+     1>d:\petulant-octo-cyril\escape_v2\escape_v2\grid2d.cpp(39): warning C4018: '<' : signed/unsigned mismatch
+     1>d:\petulant-octo-cyril\escape_v2\escape_v2\grid2d.cpp(51): warning C4244: 'argument' : conversion from 'float' to 'sf::Uint8', possible loss of data
+     1>d:\petulant-octo-cyril\escape_v2\escape_v2\grid2d.cpp(53): warning C4018: '<' : signed/unsigned mismatch
+     1>d:\petulant-octo-cyril\escape_v2\escape_v2\grid2d.cpp(54): warning C4018: '<' : signed/unsigned mismatch
+     1>d:\petulant-octo-cyril\escape_v2\escape_v2\grid2d.cpp(56): warning C4244: 'argument' : conversion from 'float' to 'sf::Uint8', possible loss of data
+     1>d:\petulant-octo-cyril\escape_v2\escape_v2\grid2d.cpp(59): warning C4244: 'argument' : conversion from 'float' to 'sf::Uint8', possible loss of data
+     1>d:\petulant-octo-cyril\escape_v2\escape_v2\grid2d.cpp(61): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Spork\Desktop\Escape_V2\Debug\Escape_V2.exe" /INCREMENTAL /NOLOGO /LIBPATH:"..\Deps\SFML-2.1\lib" /LIBPATH:"...\Deps\let-there-be-light" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Spork\Desktop\Escape_V2\Debug\Escape_V2.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Spork\Desktop\Escape_V2\Debug\Escape_V2.lib" /MACHINE:X86 Debug\AABB.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\petulant-octo-cyril\Escape_V2\Debug\Escape_V2.exe" /INCREMENTAL /NOLOGO /LIBPATH:"..\Deps\SFML-2.1\lib" /LIBPATH:"...\Deps\let-there-be-light" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\petulant-octo-cyril\Escape_V2\Debug\Escape_V2.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\petulant-octo-cyril\Escape_V2\Debug\Escape_V2.lib" /MACHINE:X86 Debug\AABB.obj
          Debug\Color3f.obj
          Debug\Point2i.obj
          Debug\Vec2f.obj
@@ -33,8 +35,12 @@
          Debug\Background.obj
          Debug\CollisionManager.obj
          Debug\CreditState.obj
+         Debug\Door.obj
+         Debug\DoorManager.obj
          Debug\Engine.obj
+         Debug\FurnitureManager.obj
          Debug\GameState.obj
+         Debug\Grid2D.obj
          Debug\Guard.obj
          Debug\GuardInvestigateState.obj
          Debug\GuardPatrolState.obj
@@ -43,12 +49,16 @@
          Debug\GuardStateManager.obj
          Debug\HullManager.obj
          Debug\InputManager.obj
+         Debug\Key.obj
+         Debug\KeyManager.obj
          Debug\Level.obj
          Debug\LightManager.obj
          Debug\LoadingState.obj
          Debug\main.obj
          Debug\OptionsState.obj
+         Debug\PathFinding.obj
          Debug\PlayerObject.obj
+         Debug\SearchCell.obj
          Debug\Settings.obj
          Debug\SoundManager.obj
          Debug\SoundRipple.obj
@@ -59,9 +69,9 @@
          Debug\StateManager.obj
          Debug\stdafx.obj
          Debug\WallManager.obj
-         Escape_V2.vcxproj -> C:\Users\Spork\Desktop\Escape_V2\Debug\Escape_V2.exe
-     1>Done Building Project "C:\Users\Spork\Desktop\Escape_V2\Escape_V2\Escape_V2.vcxproj" (Build target(s)).
+         Escape_V2.vcxproj -> D:\petulant-octo-cyril\Escape_V2\Debug\Escape_V2.exe
+     1>Done Building Project "D:\petulant-octo-cyril\Escape_V2\Escape_V2\Escape_V2.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:03.80
+Time Elapsed 00:00:02.00

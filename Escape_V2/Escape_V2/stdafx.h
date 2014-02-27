@@ -5,7 +5,9 @@
 #include "targetver.h"
 
 #include <stdio.h>
+#ifndef __APPLE__
 #include <tchar.h>
+#endif
 #include <vector>
 #include <string>
 #include <map>
@@ -16,10 +18,10 @@
 #include <algorithm>
 #include <iterator>
 #include <ctime>
-#include <LTBL\Light\LightSystem.h>
-#include <LTBL\Constructs.h>
-#include <LTBL\Light\Light_Point.h>
-#include <LTBL\Utils.h>
+#include <LTBL/Light/LightSystem.h>
+#include <LTBL/Constructs.h>
+#include <LTBL/Light/Light_Point.h>
+#include <LTBL/Utils.h>
 
 
 #pragma warning(disable:4099)
@@ -38,7 +40,7 @@
 #pragma comment(lib, "sfml-audio.lib")
 #pragma comment(lib, "OpenGL32.lib")
 #endif
-#include <SFML\Window.hpp>
-#include <SFML\Graphics.hpp>
-#include <SFML\System.hpp>
-#include <SFML\Audio.hpp>
+#include <SFML/Window.hpp>
+#include <SFML/Graphics.hpp>
+#include <SFML/System.hpp>
+#include <SFML/Audio.hpp>

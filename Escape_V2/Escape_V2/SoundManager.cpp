@@ -45,8 +45,8 @@ SoundManager::~SoundManager(){
 }
 */
 
-#include <SFML\Audio.hpp>
-#include <SFML\System.hpp>
+#include <SFML/Audio.hpp>
+#include <SFML/System.hpp>
 #include <iostream>
 #include "SoundManager.h"
 

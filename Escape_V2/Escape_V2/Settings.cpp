@@ -35,7 +35,7 @@ void Settings::Load() {
 		if(stream.is_open()) {
 			while(!stream.eof()) {
 				std::getline(stream, row);
-				if(row.find("§") != std::string::npos) {
+				if(row.find("\xc2\xa7") != std::string::npos) {
 
 					if(ms_guards.size() > 0) {
 						m_allGuardWaypoints.insert(std::pair<int, std::vector<sf::Vector2f>>(ms_guards.size() - 1, waypoints));
@@ -79,7 +79,7 @@ void Settings::Load() {
 		std::string split;
 		std::vector<sf::Vector2f> waypoints;
 		sf::Vector2f vect;
-	
+		
 
 		if(stream.is_open()) {
 			while(!stream.eof()) {

@@ -17,8 +17,8 @@ public:
 */
 
 #pragma once
-#include <SFML\Audio.hpp>
-#include <SFML\System.hpp>
+#include <SFML/Audio.hpp>
+#include <SFML/System.hpp>
 
 class SoundEntity
 {

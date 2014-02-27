@@ -17,7 +17,7 @@ public:
 
 	void Update(sf::Vector2f iRect);
 	void Update();
-	void AnimatedSprite::AddAnimation(const std::string& name, std::vector<Frame> frame, sf::Sprite* psprites);
+	void AddAnimation(const std::string& name, std::vector<Frame> frame, sf::Sprite* psprites);
 	bool Init(const std::string& name);
 	bool ChangeAnimation(const std::string& name);
 

@@ -8,12 +8,17 @@
 #include "State.h"
 #include "SoundRippleManager.h"
 
+class Grid2D;
+class PathFinding;
 class PlayerObject;
 class Guard;
 class WallManager;
 class HullManager;
 class CollisionManager;
 class LightManager;
+class FurnitureManager;
+class KeyManager;
+class DoorManager;
 
 namespace ltbl {
 	class LightSystem;
@@ -62,16 +67,20 @@ private:
 	LightManager* lm;
 	HullManager* hl;
 	WallManager* wl;
+    DoorManager* dm;
+    KeyManager* km;
+    FurnitureManager* fm;
 	CollisionManager* cl;
 	ltbl::LightSystem* ls;
 
-	/*LightManager* lm2;
+	LightManager* lm2;
 	HullManager* hl2;
 	WallManager* wl2;
+    FurnitureManager* fm2;
 	CollisionManager* cl2;
-	ltbl::LightSystem* ls2;*/
-
+	ltbl::LightSystem* ls2;
+	ltbl::Light_Point* testLight3;
 	
-	//ltbl::Light_Point* testLight3;
-	
+	Grid2D* mp_grid;
+	PathFinding* mp_finding;
 };

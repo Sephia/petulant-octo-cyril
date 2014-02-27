@@ -4,8 +4,12 @@
 #include "FurnitureManager.h"
 #include <LTBL/Light/ConvexHull.h>
 #include <LTBL/Light/LightSystem.h>
+#include "HullManager.h"
 #include <fstream>
 #include <sstream>
+#include <cmath>
+
+const float M_PI = 3.14159265359;
 
 FurnitureManager::FurnitureManager(HullManager* hullManager)
 :mp_hullManager(hullManager)
@@ -25,12 +29,10 @@ sf::RectangleShape* FurnitureManager::GetFurniture(int index)
     }
     return nullptr;
 }
-
 int FurnitureManager::GetCount()
 {
     return m_furniture.size();
 }
-
 void FurnitureManager::Draw(sf::RenderWindow* win)
 {
     if(win != nullptr && m_furniture.size() !=0)
@@ -54,10 +56,10 @@ bool FurnitureManager::LoadFromFile(std::string filename, ltbl::LightSystem* lm)
     }
     std::string row;
     std::getline(stream, row, '\n');
-    if (*(row.end()-1) == '\r')
+    /*if (*(row.end()-1) == '\r')
     {
         row.erase(row.end()-1);
-    }
+    }*/
     if (*(row.begin()) == '\xef')
     {
         for(int i =0; i<3; i++)
@@ -74,21 +76,26 @@ bool FurnitureManager::LoadFromFile(std::string filename, ltbl::LightSystem* lm)
             std::stringstream ss(row);
             ss >> x >> y;
             sf::RectangleShape* shape;
-            std::string filename;
-            ss >> filename;
-            if(m_textures.find(filename) == m_textures.end())
+            std::string textureName;
+            ss >> textureName;
+            if(m_textures.find(textureName)== m_textures.end())
             {
                 sf::Texture* texture = new sf::Texture();
                 std::ifstream image;
-                image.open(filename);
+                image.open(textureName);
                 if(!image.is_open())
                 {
                     delete texture;
+                    std::getline(stream, row, '\n');
+                    /*if (*(row.end()-1) == '\r')
+                    {
+                        row.erase(row.end()-1);
+                    }*/
                     continue;
                 }
                 image.close();
-                texture->loadFromFile(filename);
-                m_textures.insert(std::make_pair(filename, texture));
+                texture->loadFromFile(textureName);
+                m_textures.insert(std::make_pair(textureName, texture));
                 sf::Vector2f size = static_cast<sf::Vector2f>(texture->getSize());
                 shape = new sf::RectangleShape(size);
                 shape->setTexture(texture);
@@ -96,7 +103,7 @@ bool FurnitureManager::LoadFromFile(std::string filename, ltbl::LightSystem* lm)
             }
             else
             {
-                sf::Texture* texture = m_textures.find(filename)->second;
+                sf::Texture* texture = m_textures.find(textureName)->second;
                 sf::Vector2f size = static_cast<sf::Vector2f>(texture->getSize());
                 shape = new sf::RectangleShape(size);
                 shape->setTexture(texture);
@@ -117,7 +124,6 @@ bool FurnitureManager::LoadFromFile(std::string filename, ltbl::LightSystem* lm)
             {
                 ltbl::ConvexHull* hull = new ltbl::ConvexHull();
                 
-                
                 for (int i = 0; i < shape->getPointCount(); i++)
                 {
                     hull->m_vertices.push_back(Vec2f(shape->getPoint(i).x - shape->getSize().x/2, shape->getPoint(i).y - shape->getSize().y/2));
@@ -137,15 +143,18 @@ bool FurnitureManager::LoadFromFile(std::string filename, ltbl::LightSystem* lm)
                 }
                 m_furniture.push_back(shape);
                 mp_hullManager->AddHull(hull, shape);
-                lm->AddConvexHull(hull);
             }
             std::getline(stream, row, '\n');
-            if (*(row.end()-1) == '\r')
+           /* if (*(row.end()-1) == '\r')
             {
                 row.erase(row.end()-1);
-            }
+            }*/
         }
         std::getline(stream, row, '\n');
+        if (row == "")
+        {
+            break;
+        }
     }
     return true;
 }
@@ -167,8 +176,8 @@ void FurnitureManager::Clear()
     auto it2 = m_textures.begin();
     while (it2 != m_textures.end())
     {
-        delete (*it2).second;
-        (*it2).second = nullptr;
+        delete it2->second;
+        it2->second = nullptr;
         it2++;
     }
     m_textures.clear();

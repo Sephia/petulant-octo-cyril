@@ -1,0 +1,3 @@
+2435 5030 ../data/chair.png 0 0
+2058 5277 ../data/Bookshelf.png 0 2
+§

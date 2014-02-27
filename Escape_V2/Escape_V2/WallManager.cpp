@@ -2,26 +2,17 @@
 //  WallManager.cpp
 
 #include "WallManager.h"
+#include "HullManager.h"
 
 
 WallManager::WallManager(HullManager* hullManager)
-:m_hullManager(hullManager)
+:mp_hullManager(hullManager)
 {
     
 }
 WallManager::~WallManager()
 {
-    auto it = m_walls.begin();
-    while (it < m_walls.end())
-    {
-        if ((*it) != nullptr)
-        {
-            m_hullManager->RemoveHull((*it));
-            delete (*it);
-            (*it) = nullptr;
-            it++;
-        }
-    }
+    Clear();
 }
 
 bool WallManager::AddWall(sf::ConvexShape* wall)
@@ -61,7 +52,7 @@ void WallManager::RemoveWall(int index)
 {
     if(!(index < 0) && !(index >= m_walls.size()))
     {
-        m_hullManager->RemoveHull(m_walls[index]);
+        mp_hullManager->RemoveHull(m_walls[index]);
         delete m_walls[index];
         m_walls[index] = nullptr;
     }
@@ -73,7 +64,7 @@ bool WallManager::LoadFromFile(std::string filename)
     {
         Clear();
     }
-    m_walls = m_hullManager->LoadFromFile(filename);
+    m_walls = mp_hullManager->LoadFromFile(filename);
     if(m_walls.size()==0)
     {
         return false;
@@ -90,7 +81,7 @@ void WallManager::Clear()
     {
         if ((*it) != nullptr)
         {
-            m_hullManager->RemoveHull((*it));
+            mp_hullManager->RemoveHull((*it));
             delete (*it);
             (*it) = nullptr;
             it++;

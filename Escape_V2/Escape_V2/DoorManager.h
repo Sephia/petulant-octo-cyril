@@ -4,11 +4,10 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include <LTBL/Light/LightSystem.h>
-#include "HullManager.h"
-
 
 class Door;
+class HullManager;
+namespace ltbl { class LightSystem;}
 
 class DoorManager
 {
@@ -43,4 +42,5 @@ private:
     ltbl::LightSystem* mp_lightSystem;
     std::map<sf::CircleShape*, Door*> m_doors;
     std::map<std::string, sf::Texture*> m_textures;
+    
 };

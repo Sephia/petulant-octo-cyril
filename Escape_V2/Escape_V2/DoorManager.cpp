@@ -9,6 +9,8 @@
 #include "fstream"
 #include "sstream"
 
+const float M_PI = 3.14159265359;
+
 DoorManager::DoorManager(HullManager* hullManager, ltbl::LightSystem* lightsystem)
 :mp_hullManager(hullManager)
 ,mp_lightSystem(lightsystem)
@@ -22,7 +24,7 @@ DoorManager::~DoorManager()
 
 sf::CircleShape* DoorManager::GetUseRadius(int index)
 {
-    if(index >= m_doors.size())
+    if(index >= m_doors.size() || index < 0)
     {
         return nullptr;
     }
@@ -127,10 +129,10 @@ bool DoorManager::LoadFromFile(std::string filename)
     }
     std::string row;
     std::getline(stream, row, '\n');
-    if (*(row.end()-1) == '\r')
+    /*if (*(row.end()-1) == '\r')
     {
         row.erase(row.end()-1);
-    }
+    }*/
     if (*(row.begin()) == '\xef')
     {
         for(int i =0; i<3; i++)
@@ -222,15 +224,18 @@ bool DoorManager::LoadFromFile(std::string filename)
             
             m_doors.insert(std::make_pair(door->GetUseRadius(), door));
             mp_hullManager->AddHull(hull, door);
-            mp_lightSystem->AddConvexHull(hull);
             
             std::getline(stream, row, '\n');
-            if (*(row.end()-1) == '\r')
+            /*if (*(row.end()-1) == '\r')
             {
                 row.erase(row.end()-1);
-            }
+            }*/
         }
         std::getline(stream, row, '\n');
+        if (row == "")
+        {
+            break;
+        }
     }
     return true;
 }

@@ -4,7 +4,9 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include "HullManager.h"
+
+class HullManager;
+namespace ltbl {class LightSystem;}
 
 class FurnitureManager
 {
@@ -21,7 +23,7 @@ public:
     
     //ladda furnitures från fil
     bool LoadFromFile(std::string filename, ltbl::LightSystem* lm);
-    //töm m_furniture
+    //töm m_furniture och m_textures
     void Clear();
     
     
@@ -29,4 +31,5 @@ private:
     HullManager* mp_hullManager;
     std::vector<sf::RectangleShape*> m_furniture;
     std::map<std::string, sf::Texture*> m_textures;
+    
 };

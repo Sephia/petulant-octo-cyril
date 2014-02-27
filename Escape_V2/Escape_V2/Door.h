@@ -5,15 +5,16 @@
 
 #include <SFML/Graphics.hpp>
 
-class Door : public sf::Shape
+class Door : public sf::RectangleShape
 {
 public:
-    Door(int x, int y, sf::Texture* texture, int degree, bool open = false, sf::Color* key = new sf::Color(255, 255, 255, 50));
+    Door(int x, int y, sf::Texture* texture, int degree, sf::Color* key = new sf::Color(255, 255, 255, 50), bool open = false);
     ~Door();
     
     void Update(float deltatime);
     void Draw(sf::RenderWindow* win);
     bool Open(sf::Color key);
+    //Plaque* GetPlaque();
     bool IsOpen();
     sf::CircleShape* GetUseRadius();
     
@@ -24,8 +25,8 @@ private:
     sf::CircleShape* mp_useRadius;
     sf::Color* mp_key;
     float m_transparency;
-    bool m_open;
-    bool m_locked;
+    bool m_open, m_locked;
     int m_degree;
+    //Plaque* m_plaque
     
 };

@@ -1,9 +1,10 @@
 //
 //  HullManager.h
-
 #pragma once
 
-#include "stdafx.h"
+#include <map>
+#include <vector>
+#include <SFML/Graphics.hpp>
 
 namespace ltbl
 {
@@ -34,5 +35,6 @@ public:
 private:
     ltbl::LightSystem* m_lightSystem;
     std::map<sf::Shape*, ltbl::ConvexHull*> m_hulls;
+    std::vector<ltbl::ConvexHull*> m_staticHulls;
     
 };

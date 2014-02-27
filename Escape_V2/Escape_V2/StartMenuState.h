@@ -1,7 +1,7 @@
 // StateMenuState.h
 
 #pragma once
-#include <SFML\Graphics.hpp>
+#include <SFML/Graphics.hpp>
 #include "SoundManager.h"
 #include "state.h"
 #include "stdafx.h"

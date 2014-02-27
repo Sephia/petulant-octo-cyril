@@ -3,8 +3,9 @@
 
 #pragma once
 
-#include "HullManager.h"
-#include "stdafx.h"
+#include <SFML/Graphics.hpp>
+
+class HullManager;
 
 class WallManager
 {
@@ -28,7 +29,7 @@ public:
     //möjligtvis kolla efter kollision här
     
 private:
-    HullManager* m_hullManager;
+    HullManager* mp_hullManager;
     std::vector<sf::ConvexShape*> m_walls;
     
 };
