@@ -27,7 +27,10 @@ SoundRipple::SoundRipple(sf::Vector2f position, int volume, bool isPlayer, Anima
 
 
 SoundRipple::~SoundRipple() {
-
+	if(mp_sprite != nullptr) {
+		delete mp_sprite;
+		mp_sprite = nullptr;
+	}
 }
 
 sf::Vector2f SoundRipple::getPosition() {

@@ -17,8 +17,11 @@ public:
 */
 
 #pragma once
-#include <SFML/Audio.hpp>
-#include <SFML/System.hpp>
+#include <SFML\Audio.hpp>
+#include <SFML\System.hpp>
+#include "state.h"
+#include <map>
+
 
 class SoundEntity
 {
@@ -32,12 +35,16 @@ public:
 	void Play(bool stop);
 	void Init(std::string filename);
 	void Update();
+	static bool toggleSound;
+	
 };
 
 class SoundManager
 {
 public:
-	std::vector<SoundEntity> Sounds;
+	std::vector <SoundEntity*> Sounds;
+	std::vector <sf::Music*> Songs;
 	int newSound(std::string filename, bool Looping);
+	int newSong(std::string filename, bool Looping);
 	void Update();
 };

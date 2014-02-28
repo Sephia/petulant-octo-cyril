@@ -5,6 +5,8 @@
 #include "AnimatedSprite.h"
 #include "CollisionManager.h"
 #include "stdafx.h"
+#include "PathFinding.h"
+
 
 GuardPatrolState::GuardPatrolState() {
 	
@@ -24,7 +26,7 @@ void GuardPatrolState::Exit() {
 
 }
 
-void GuardPatrolState::Init(int number, sf::Vector2f* p_position, AnimatedSprite* sprite) {
+void GuardPatrolState::Init(int number, sf::Vector2f* p_position, AnimatedSprite* sprite, Grid2D* p_grid) {
 	m_number = number;
 
 	m_waypoints.clear();
@@ -45,6 +47,10 @@ void GuardPatrolState::Init(int number, sf::Vector2f* p_position, AnimatedSprite
 	mp_position = p_position;
 
 	mp_sprite = sprite;
+
+	mp_grid = p_grid;
+	mp_pathfinding = new PathFinding();
+	mp_pathfinding->Init(mp_grid);
 }
 
 bool GuardPatrolState::Update() {

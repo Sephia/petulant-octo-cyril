@@ -1,0 +1,1 @@
+setVolume((pointer position.x - slider position.x) / ((slider width - pointer width) / 100)))

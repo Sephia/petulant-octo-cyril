@@ -166,8 +166,6 @@ void PathFinding::ContinuePath() {
 sf::Vector2f PathFinding::NextPathPos(sf::Vector2f pos, float radius) {
 	int index = 1;
 
-	pos /= 50.0f;
-
 	sf::Vector2f nextPos;
 	nextPos.x = m_pathToGoal.at(m_pathToGoal.size() - index)->x;
 	nextPos.y = m_pathToGoal.at(m_pathToGoal.size() - index)->y;

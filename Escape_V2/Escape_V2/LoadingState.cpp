@@ -32,7 +32,6 @@ void LoadingState::Enter() {
 	setting.antialiasingLevel = 8;
 	Settings::ms_window = new sf::RenderWindow(video, "SFML shapes", sf::Style::Default, setting);
 	Settings::Load();
-
 }
 
 void LoadingState::Exit() {

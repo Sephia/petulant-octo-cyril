@@ -35,6 +35,7 @@ void SoundRippleManager::UpdateSounds() {
 	for(int i = 0; i < m_soundOrigins.size(); i++) {
 		if(m_soundOrigins.at(i)->Update()) {
 			auto it = m_soundOrigins.begin() + i;
+			delete *it;
 			m_soundOrigins.erase(it);
 			i--;
 		}

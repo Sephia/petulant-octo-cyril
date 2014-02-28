@@ -4,13 +4,18 @@
 #include "AnimatedSprite.h"
 #include "CollisionManager.h"
 #include "Settings.h"
+#include "PathFinding.h"
+#include "Grid2D.h"
 
 GuardShootingState::GuardShootingState() {
 	m_nextState = "GuardSearchState";
 }
 
 GuardShootingState::~GuardShootingState() {
-
+	if(mp_pathfinding != nullptr) {
+		delete mp_pathfinding;
+		mp_pathfinding = nullptr;
+	}
 }
 
 void GuardShootingState::Enter() {
@@ -23,7 +28,7 @@ void GuardShootingState::Exit() {
 
 }
 
-void GuardShootingState::Init(int number, sf::Vector2f* p_position, AnimatedSprite* sprite) {
+void GuardShootingState::Init(int number, sf::Vector2f* p_position, AnimatedSprite* sprite, Grid2D* p_grid) {
 	m_waypoints.clear();
 
 	mp_position = p_position;
@@ -32,6 +37,10 @@ void GuardShootingState::Init(int number, sf::Vector2f* p_position, AnimatedSpri
 	m_nextState = "";
 
 	mp_sprite = sprite;
+
+	mp_grid = p_grid;
+	mp_pathfinding = new PathFinding();
+	mp_pathfinding->Init(mp_grid);
 }
 
 bool GuardShootingState::Update() {

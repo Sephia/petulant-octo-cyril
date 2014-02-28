@@ -3,6 +3,8 @@
 #include "GuardSearchState.h"
 #include "AnimatedSprite.h"
 #include "CollisionManager.h"
+#include "PathFinding.h"
+#include "Grid2D.h"
 
 GuardSearchState::GuardSearchState() {
 
@@ -21,7 +23,7 @@ void GuardSearchState::Exit() {
 
 }
 
-void GuardSearchState::Init(int number, sf::Vector2f* p_position, AnimatedSprite* sprite) {
+void GuardSearchState::Init(int number, sf::Vector2f* p_position, AnimatedSprite* sprite, Grid2D* p_grid) {
 	m_number = number;
 
 	m_waypoints.clear();
@@ -30,6 +32,10 @@ void GuardSearchState::Init(int number, sf::Vector2f* p_position, AnimatedSprite
 	m_nextState = "";
 
 	mp_sprite = sprite;
+
+	mp_grid = p_grid;
+	mp_pathfinding = new PathFinding();
+	mp_pathfinding->Init(mp_grid);
 }
 
 bool GuardSearchState::Update() {

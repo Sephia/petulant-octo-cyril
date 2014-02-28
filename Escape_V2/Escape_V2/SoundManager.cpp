@@ -45,10 +45,10 @@ SoundManager::~SoundManager(){
 }
 */
 
-#include <SFML/Audio.hpp>
-#include <SFML/System.hpp>
 #include <iostream>
 #include "SoundManager.h"
+
+bool SoundEntity::toggleSound = true;
 
 
 void SoundEntity::Loop()
@@ -56,13 +56,17 @@ void SoundEntity::Loop()
 	Sound.setPlayingOffset(startingPoint);
 }
 
-void SoundEntity::Play(bool stop = true)        // stops the sound, then starts it from the beginning of the loop, then starts it
+void SoundEntity::Play(bool stop)        // stops the sound, then starts it from the beginning of the loop, then starts it
 {
-	if (stop)
-		Sound.stop();
-	Sound.setPlayingOffset(startingPoint);
-	Sound.play();
+	if (toggleSound){
+		if (stop)
+			Sound.stop();
+		Sound.setPlayingOffset(startingPoint);
+		Sound.play();
+	}
 }
+
+
 
 void SoundEntity::Init(std::string filename)
 {
@@ -76,6 +80,7 @@ void SoundEntity::Init(std::string filename)
 
 SoundEntity::SoundEntity()
 {
+	std::cout << "Hi\n";
 	startingPoint = sf::seconds(0);
 	endPoint = sf::seconds(0);
 }
@@ -92,20 +97,31 @@ void SoundEntity::Update()
 	}
 }
 
+
+
 int SoundManager::newSound(std::string filename, bool Looping)
 {
-	SoundEntity newSoundEntity;
+	SoundEntity* newSoundEntity = new SoundEntity;
 	Sounds.push_back(newSoundEntity);
-	Sounds[Sounds.size() - 1].Init(filename);
-	Sounds[Sounds.size() - 1].Sound.setLoop(Looping);
+	Sounds[Sounds.size() - 1]->Init(filename);
+	Sounds[Sounds.size() - 1]->Sound.setLoop(Looping);
 	return Sounds.size() - 1;
+}
+
+int SoundManager::newSong(std::string filename, bool Looping)
+{
+	sf::Music* newSoundEntity = new sf::Music;
+	Songs.push_back(newSoundEntity);
+	Songs[Songs.size() - 1]->openFromFile(filename);
+	Songs[Songs.size() - 1]->setLoop(Looping);
+	return Songs.size() - 1;
 }
 
 void SoundManager::Update()
 {
 	for (int i = 0; i < Sounds.size(); i++)
 	{
-		Sounds[i].Update();
+		Sounds[i]->Update();
 	}
 
 }

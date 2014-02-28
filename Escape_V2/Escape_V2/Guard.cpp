@@ -9,8 +9,9 @@
 #include "Settings.h"
 #include "AnimatedSprite.h"
 #include "stdafx.h"
+#include "Grid2D.h"
 
-Guard::Guard(int number, AnimatedSprite* p_sprite) {
+Guard::Guard(int number, AnimatedSprite* p_sprite, Grid2D* p_grid) {
 	m_number = number;
 
 	mp_sprite = p_sprite;
@@ -25,7 +26,7 @@ Guard::Guard(int number, AnimatedSprite* p_sprite) {
 	mp_guardStateManager->Attach(new GuardShootingState());
 	mp_guardStateManager->Attach(new GuardInvestigateState());
 	mp_guardStateManager->SetState("GuardPatrolState");
-	mp_guardStateManager->Init(m_number, &m_position, mp_sprite);
+	mp_guardStateManager->Init(m_number, &m_position, mp_sprite, p_grid);
 
 	m_speed = 10;
 }
@@ -41,7 +42,7 @@ Guard::~Guard() {
 void Guard::Update(sf::Vector2f playerPosition, CollisionManager* p_collisionManager) {
 
 	mp_guardStateManager->Update();
-	sf::Vector2f distancev = m_position - playerPosition;
+	/*sf::Vector2f distancev = m_position - playerPosition;
 	float distance = sqrtf(distancev.x * distancev.x + distancev.y * distancev.y);
 	std::string type = "GuardShootingState";
 	if(distance < 250) {
@@ -51,7 +52,7 @@ void Guard::Update(sf::Vector2f playerPosition, CollisionManager* p_collisionMan
 	}
 	else if(mp_guardStateManager->IsCurrent(type)) {
 		mp_guardStateManager->SetState("GuardPatrolState");
-	}
+	}*/
 
 	UpdateAnimation();
 }

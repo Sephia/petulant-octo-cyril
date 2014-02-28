@@ -2,15 +2,19 @@
 
 #include "StartMenuState.h"
 #include "OptionsState.h"
+#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
+#include <iostream>
 #include <memory>
 #include <stdlib.h>
 #include "Settings.h"
-#include "stdafx.h"
+
 
 StartMenuState::StartMenuState() {
 	m_nextState = "";
 	m_done = false;
 	optionsTab = false;
+	creditsTab = false;
 	
 	//Buttons selected
 	playSelected = false;
@@ -19,6 +23,10 @@ StartMenuState::StartMenuState() {
 
 	soundActivation = true;
 	musicActivation = true;
+
+	checkFade = false;
+	fade = 255;
+	//toggleMusic = true;
 	
 }
 
@@ -28,12 +36,14 @@ StartMenuState::~StartMenuState() {
 
 void StartMenuState::Enter() {
 	m_nextState = "";
-	m_done = false;
 
 	//Header Timer
-	turnOnTimer = new sf::Clock;
-	turnOn = turnOnTimer->getElapsedTime();
+	turnOnHeader = new sf::Clock;
+//	turnOn = turnOnHeader->getElapsedTime();
 
+	//Credits Timer
+	turnOnCredits = new sf::Clock;
+//	creditsRollOn = turnOnCredits->getElapsedTime();
 	//Sprite List
 
 	//Start Menu
@@ -61,6 +71,8 @@ void StartMenuState::Enter() {
 	mp_resoulutionUp = new sf::Sprite;
 	mp_resoulutionDown = new sf::Sprite;
 	mp_defaultOptions = new sf::Sprite;
+	//Credits
+	mp_creditsRoll = new sf::Sprite;
 
 	//Background Image
 	bg1 = new sf::Texture;
@@ -203,7 +215,7 @@ void StartMenuState::Enter() {
 		std::cout << "could not load sliderOn" << std::endl;
 	}
 	sliderOff = new sf::Texture;
-	if (!sliderOn->loadFromFile("../Data/Sprites/MAIN_MENU/Slider_bar_2.png"))
+	if (!sliderOff->loadFromFile("../Data/Sprites/MAIN_MENU/Slider_bar_Off.png"))
 	{
 		std::cout << "could not load sliderOff" << std::endl;
 	}
@@ -236,55 +248,163 @@ void StartMenuState::Enter() {
 	mp_sliderGamma->setTexture(*sliderOn);
 	mp_sliderGamma->setPosition(745, 678);
 	mp_pointerSound->setTexture(*pointerOn);
-	mp_pointerSound->setPosition(1037, 547);
+	mp_pointerSound->setPosition(1329, 547);
 	mp_pointerMusic->setTexture(*pointerOn);
-	mp_pointerMusic->setPosition(1037, 451);
+	mp_pointerMusic->setPosition(1329, 451);
 	mp_pointerGamma->setTexture(*pointerOn);
-	mp_pointerGamma->setPosition(1037, 643);
+	mp_pointerGamma->setPosition(1329, 643);
 	mp_checkboxSound->setTexture(*checkboxOn);
 	mp_checkboxSound->setPosition(1359, 498);
 	mp_checkboxMusic->setTexture(*checkboxOn);
 	mp_checkboxMusic->setPosition(1359, 402);
 
+	//Credits
+	creditsNumber = 0;
+	fadeTimer = 8;
+	sf::Texture* tempTex;
+	tempTex = new sf::Texture;
+	if (!tempTex->loadFromFile("../Data/Sprites/MAIN_MENU/Credits/1_Lead-Designer.png"))
+	{
+		std::cout << "could not load credits1" << std::endl;
+	}
+	Credits.push_back(tempTex);
+	tempTex = new sf::Texture;
+	if (!tempTex->loadFromFile("../Data/Sprites/MAIN_MENU/Credits/2_Producer.png"))
+	{
+		std::cout << "could not load credits2" << std::endl;
+	}
+	Credits.push_back(tempTex);
+	tempTex = new sf::Texture;
+	if (!tempTex->loadFromFile("../Data/Sprites/MAIN_MENU/Credits/3_Programming.png"))
+	{
+		std::cout << "could not load credits3" << std::endl;
+	}
+	Credits.push_back(tempTex);
+	tempTex = new sf::Texture;
+	if (!tempTex->loadFromFile("../Data/Sprites/MAIN_MENU/Credits/4_Graphics.png"))
+	{
+		std::cout << "could not load credits4" << std::endl;
+	}
+	Credits.push_back(tempTex);
+	tempTex = new sf::Texture;
+	if (!tempTex->loadFromFile("../Data/Sprites/MAIN_MENU/Credits/5_Sound-Effects.png"))
+	{
+		std::cout << "could not load credits5" << std::endl;
+	}
+	Credits.push_back(tempTex);
+	tempTex = new sf::Texture;
+	if (!tempTex->loadFromFile("../Data/Sprites/MAIN_MENU/Credits/5_5_Lead-Animator.png"))
+	{
+		std::cout << "could not load credits6" << std::endl;
+	}
+	Credits.push_back(tempTex);
+	tempTex = new sf::Texture;
+	if (!tempTex->loadFromFile("../Data/Sprites/MAIN_MENU/Credits/6_Level-Design.png"))
+	{
+		std::cout << "could not load credits7" << std::endl;
+	}
+	Credits.push_back(tempTex);
+	tempTex = new sf::Texture;
+	if (!tempTex->loadFromFile("../Data/Sprites/MAIN_MENU/Credits/7_Level-Software-Designer.png"))
+	{
+		std::cout << "could not load credits8" << std::endl;
+	}
+	Credits.push_back(tempTex);
+	tempTex = new sf::Texture;
+	if (!tempTex->loadFromFile("../Data/Sprites/MAIN_MENU/Credits/8_Level-Builder.png"))
+	{
+		std::cout << "could not load credits9" << std::endl;
+	}
+	Credits.push_back(tempTex);
+	tempTex = new sf::Texture;
+	if (!tempTex->loadFromFile("../Data/Sprites/MAIN_MENU/Credits/9_Let-there-be-light.png"))
+	{
+		std::cout << "could not load credits10" << std::endl;
+	}
+	Credits.push_back(tempTex);
+	tempTex = new sf::Texture;
+	if (!tempTex->loadFromFile("../Data/Sprites/MAIN_MENU/Credits/10_Music.png"))
+	{
+		std::cout << "could not load credits11" << std::endl;
+	}
+	Credits.push_back(tempTex);
+
+	mp_creditsRoll->setTexture(*Credits.at(0));
+	mp_creditsRoll->setPosition(420, 380);
+
 	//Sound: Button On
+	soundManager = new SoundManager;
+	soundButtonOn = soundManager->newSound("../Data/Sound/MAIN_MENU/KEY_PRESS_DOWN.wav", false);
 	
-	//int m_soundButtonOn = soundButtonOn.newSound("../Data/Sound/MAIN_MENU/KEY_PRESS_DOWN.wav", false);
-	soundButtonOn.Init("../Data/Sound/MAIN_MENU/KEY_PRESS_DOWN.wav");
-	soundButtonOn.Sound.setVolume(40.0f);
 	//Sound: Button Off
-	soundButtonOff.Init("../Data/Sound/MAIN_MENU/KEY-PRESS-RELEASE.wav");
-	//int m_soundButtonOff = soundButtonOn.newSound("../Data/Sound/MAIN_MENU/KEY-PRESS-RELEASE.wav", false);
+	soundButtonOff = soundManager->newSound("../Data/Sound/MAIN_MENU/KEY-PRESS-RELEASE.wav", false);
 
 	//Sound: Header Buzzing
 	if (!buzzing.openFromFile("../Data/Sound/MAIN_MENU/BUZZ3_5.wav")){
 		std::cout << "could not load buzzing" << std::endl;
 	}
-	buzzing.setVolume(15.0f);
 	
 	//Menu Music
-	if (!menuMusic.openFromFile("../Data/Music/Dances_and_Dames.wav")){
+	/*if (!menuMusic.openFromFile("../Data/Music/Dances_and_Dames.wav")){
 		std::cout << "could not load menuMusic" << std::endl;
 	}
-	
-	menuMusic.play();
+	*/
+	menuMusic = soundManager->newSong("../Data/Music/Dances_and_Dames.wav", true);
+	soundManager->Songs.at(menuMusic)->play();
 }
 
 void StartMenuState::Exit() {
 	//har du något new vid enter måste du ha delete i exit
-	menuMusic.stop();
 	buzzing.stop();
+	soundManager->Songs.at(menuMusic)->stop();
 }
 
 bool StartMenuState::Update() {
 	UpdateEvents();
 
-	Draw();
+//	Draw();
 
-	if (m_done){
-		return false;
+
+	if (creditsTab){
+		//float opacity = 255;
+		//mp_creditsRoll->setColor(sf::Color(255, 255, 255, opacity));
+		float creditsChangeSprite = turnOnCredits->getElapsedTime().asSeconds();
+		sf::Color opacity = mp_creditsRoll->getColor();
+		if (creditsChangeSprite > 5.0f) {
+			if (checkFade == false){
+				fade -= 0.30f;
+			}
+			else {
+				fade += 0.30f;
+			}
+			opacity.a = fade;
+				mp_creditsRoll->setColor(opacity);
+				if (fade <= 1){
+					checkFade = true;
+				}
+				if (fade >= 253){
+				checkFade = false;
+			}
+		}
+		if (creditsChangeSprite > fadeTimer){
+			creditsNumber++;
+			fadeTimer += 5.98;
+			if (creditsNumber == Credits.size()){
+				creditsNumber = 0;
+			}
+			mp_creditsRoll->setTexture(*Credits.at(creditsNumber));			
+			
+		}
+
+	}
+	else {
+		creditsNumber = 0;
+		mp_creditsRoll->setColor(sf::Color(255, 255, 255, 255));
+		mp_creditsRoll->setTexture(*Credits.at(creditsNumber));
+		turnOnCredits->restart();
 	}
 
-	return true;
+	return !m_done;
 
 }
 
@@ -300,20 +420,24 @@ void StartMenuState::Draw() {
 	Settings::ms_window->draw(*mp_arrow_1);
 	Settings::ms_window->draw(*mp_arrow_2);
 	//Options
-	Settings::ms_window->display();
-	Settings::ms_window->draw(*mp_sound);
-	Settings::ms_window->draw(*mp_sliderSound);
-	Settings::ms_window->draw(*mp_pointerSound);
-	Settings::ms_window->draw(*mp_checkboxSound);
-	Settings::ms_window->draw(*mp_music);
-	Settings::ms_window->draw(*mp_sliderMusic);
-	Settings::ms_window->draw(*mp_pointerMusic);
-	Settings::ms_window->draw(*mp_checkboxMusic);
-	Settings::ms_window->draw(*mp_gamma);
-	Settings::ms_window->draw(*mp_sliderGamma);
-	Settings::ms_window->draw(*mp_pointerGamma);
+	if (optionsTab){
+		Settings::ms_window->draw(*mp_sound);
+		Settings::ms_window->draw(*mp_sliderSound);
+		Settings::ms_window->draw(*mp_pointerSound);
+		Settings::ms_window->draw(*mp_checkboxSound);
+		Settings::ms_window->draw(*mp_music);
+		Settings::ms_window->draw(*mp_sliderMusic);
+		Settings::ms_window->draw(*mp_pointerMusic);
+		Settings::ms_window->draw(*mp_checkboxMusic);
+		Settings::ms_window->draw(*mp_gamma);
+		Settings::ms_window->draw(*mp_sliderGamma);
+		Settings::ms_window->draw(*mp_pointerGamma);
+	}
+	if (creditsTab){
+		Settings::ms_window->draw(*mp_creditsRoll);
+	}
 
-	
+	Settings::ms_window->display();
 }
 
 std::string StartMenuState::Next() {
@@ -332,20 +456,14 @@ void StartMenuState::UpdateEvents() {
 	sf::Event event;
 	while (Settings::ms_window->pollEvent(event)) {
 		if (event.type == sf::Event::Closed) {
-			m_done = true;
 			Settings::ms_window->close();
+			m_done = true;
 		}
 	}
-
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-		Settings::SetFullscreen();
-	}
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::BackSpace)) {
-		Settings::SetWindowed();
-	}
+	
 
 	//Header blinking
-	float restartHeader = turnOnTimer->getElapsedTime().asSeconds();
+	float restartHeader = turnOnHeader->getElapsedTime().asSeconds();
 	int headerChance1 = 0;
 	int headerChance2 = 0;
 	if (restartHeader > 0.5f) {
@@ -357,13 +475,13 @@ void StartMenuState::UpdateEvents() {
 				buzzing.play();
 			}
 			headerChance2 = rand() % 4 + 1;
-			if (headerChance2 == 2 ){
+			if (headerChance2 == 2){
 				if (restartHeader > 0.6f) {
 					if (buzzing.Playing){
 						buzzing.pause();
 					}
-				
-				mp_header->setTexture(*headerOff);
+
+					mp_header->setTexture(*headerOff);
 				}
 			}
 		}
@@ -379,14 +497,14 @@ void StartMenuState::UpdateEvents() {
 				mp_header->setTexture(*headerOn);
 			}
 		}
-		turnOnTimer->restart();
+		turnOnHeader->restart();
 	}
 
 	sf::Vector2i mPos = sf::Mouse::getPosition(*Settings::ms_window);
 	//Temp: Window Position
 	sf::Vector2i winPos = Settings::ms_window->getPosition();
 
-	
+
 	//Mouse within "Play"
 	if (playSelected == false) {
 		if (mPos.x > 120 && mPos.x < 251 && mPos.y > 428 && mPos.y < 487)  {
@@ -394,22 +512,22 @@ void StartMenuState::UpdateEvents() {
 			mp_play->setTexture(*playOn);
 			mp_arrow_1->setPosition(50, 408);
 
-				if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){	
-
-					m_nextState = "GameState";
-					m_done = true;
-
-					playSelected = true;
-					if (creditsSelected) {
-						creditsSelected = false;
-					}
-					if (optionsSelected) {
-						optionsSelected = false;	
-					}
-					soundButtonOn.Sound.play();
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
+				playSelected = true;
+				optionsTab = false;
+				creditsTab = false;
+				m_nextState = "GameState";
+				m_done = true;
+				if (creditsSelected) {
+					creditsSelected = false;
 				}
-
+				if (optionsSelected) {
+					optionsSelected = false;
+				}
+				soundManager->Sounds[soundButtonOn]->Play(0);
 			}
+
+		}
 
 		else {
 
@@ -419,7 +537,7 @@ void StartMenuState::UpdateEvents() {
 	if (playSelected == true) {
 		mp_arrow_2->setPosition(50, 408);
 		mp_play->setTexture(*playOn);
-		}
+	}
 
 	//Mouse within "Options"
 	if (optionsSelected == false) {
@@ -431,7 +549,7 @@ void StartMenuState::UpdateEvents() {
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
 
 				optionsTab = true;
-				
+				creditsTab = false;
 				optionsSelected = true;
 				if (playSelected) {
 					playSelected = false;
@@ -439,7 +557,7 @@ void StartMenuState::UpdateEvents() {
 				if (creditsSelected) {
 					creditsSelected = false;
 				}
-				soundButtonOn.Sound.play();
+				soundManager->Sounds[soundButtonOn]->Play(0);
 			}
 		}
 
@@ -462,6 +580,8 @@ void StartMenuState::UpdateEvents() {
 
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
 				creditsSelected = true;
+				optionsTab = false;
+				creditsTab = true;
 				if (playSelected) {
 					playSelected = false;
 				}
@@ -469,7 +589,7 @@ void StartMenuState::UpdateEvents() {
 					optionsSelected = false;
 				}
 				//soundButtonOn.Sounds[m_soundButtonOn].Play(0);
-				soundButtonOn.Sound.play();
+				soundManager->Sounds[soundButtonOn]->Play(0);
 			}
 		}
 
@@ -488,9 +608,9 @@ void StartMenuState::UpdateEvents() {
 
 		mp_quit->setTexture(*quitOn);
 		mp_arrow_1->setPosition(50, 630);
-		
+
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
-			menuMusic.pause();
+			soundManager->Songs.at(menuMusic)->stop();
 			m_done = true;
 		}
 	}
@@ -499,58 +619,140 @@ void StartMenuState::UpdateEvents() {
 
 		mp_quit->setTexture(*quitOff);
 	}
-
-	//Music
-	if (mPos.x > 1359 && mPos.x < 1514 && mPos.y > 402 && mPos.y < 547)  {
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
-			if (musicActivation = true){
-				mp_checkboxMusic->setTexture(*checkboxOff);
-				mp_music->setTexture(*musicOff);
-				mp_sliderMusic->setTexture(*sliderOff);
-				mp_pointerMusic->setTexture(*pointerOff);
-				musicActivation = false;
+	if (optionsTab){
+		
+		//Music Activation
+		if (mPos.x > mp_checkboxMusic->getPosition().x && mPos.x < mp_checkboxMusic->getLocalBounds().width + mp_checkboxMusic->getPosition().x 
+			&& mPos.y > mp_checkboxMusic->getPosition().y && mPos.y < mp_checkboxMusic->getLocalBounds().height + mp_checkboxMusic->getPosition().y){
+			if (event.type == sf::Event::MouseButtonPressed){
+				if (event.mouseButton.button == sf::Mouse::Left){
+					if (musicActivation == true){
+						musicActivation = false;
+					}
+					else {
+						for (int i = 0; i < soundManager->Songs.size(); i++){
+							soundManager->Songs.at(i)->play();
+						}
+						musicActivation = true;
+					}
+					soundManager->Sounds[soundButtonOn]->Play(0);
+				}
 			}
-			else {
-				mp_checkboxMusic->setTexture(*checkboxOn);
-				mp_music->setTexture(*musicOn);
-				mp_sliderMusic->setTexture(*sliderOn);
-				mp_pointerMusic->setTexture(*pointerOn);
-				musicActivation = true;
+
+		}
+
+		if (musicActivation == true){
+		//	toggleMusic = true;
+			mp_checkboxMusic->setTexture(*checkboxOn);
+			mp_music->setTexture(*musicOn);
+			mp_sliderMusic->setTexture(*sliderOn);
+			mp_pointerMusic->setTexture(*pointerOn);
+		}
+
+		if (musicActivation == false){
+		//	toggleMusic = false;
+			for (int i = 0; i < soundManager->Songs.size(); i++){
+				soundManager->Songs.at(i)->pause();
+			}
+			mp_checkboxMusic->setTexture(*checkboxOff);
+			mp_music->setTexture(*musicOff);
+			mp_sliderMusic->setTexture(*sliderOff);
+			mp_pointerMusic->setTexture(*pointerOff);
+		}
+
+		// Sound Activation
+		if (mPos.x > mp_checkboxSound->getPosition().x && mPos.x < mp_checkboxSound->getLocalBounds().width + mp_checkboxSound->getPosition().x 
+			&& mPos.y > mp_checkboxSound->getPosition().y && mPos.y < mp_checkboxSound->getLocalBounds().height + mp_checkboxSound->getPosition().y)  {
+			if (event.type == sf::Event::MouseButtonPressed){
+				if (event.mouseButton.button == sf::Mouse::Left){
+					
+					if (soundActivation == true){
+						soundActivation = false;
+					}
+					else {
+						soundActivation = true;
+					}
+					soundManager->Sounds[soundButtonOn]->Play(0);
+				}
+			}
+
+		}
+
+		if (soundActivation == true){
+			for (int i = 0; i < soundManager->Sounds.size(); i++){
+				soundManager->Sounds.at(i)->toggleSound = true;
+			}
+			buzzing.setVolume((mp_pointerSound->getPosition().x - mp_sliderSound->getPosition().x) / ((mp_sliderSound->getLocalBounds().width - mp_pointerSound->getLocalBounds().width) / 100));
+			mp_checkboxSound->setTexture(*checkboxOn);
+			mp_sound->setTexture(*soundOn);
+			mp_sliderSound->setTexture(*sliderOn);
+			mp_pointerSound->setTexture(*pointerOn);
+		}
+
+		if (soundActivation == false){
+			for (int i = 0; i < soundManager->Sounds.size(); i++){
+				soundManager->Sounds.at(i)->toggleSound = false;
+			}
+			buzzing.setVolume(0);
+			mp_checkboxSound->setTexture(*checkboxOff);
+			mp_sound->setTexture(*soundOff);
+			mp_sliderSound->setTexture(*sliderOff);
+			mp_pointerSound->setTexture(*pointerOff);
+		}
+
+		// Music Slider
+
+		if (mPos.x > mp_sliderMusic->getPosition().x && mPos.x < mp_sliderMusic->getLocalBounds().width + mp_sliderMusic->getPosition().x
+			&& mPos.y > mp_pointerMusic->getPosition().y && mPos.y < mp_pointerMusic->getLocalBounds().height + mp_pointerMusic->getPosition().y){
+				if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
+					mp_pointerMusic->setPosition(mPos.x - mp_pointerMusic->getLocalBounds().width / 2, mp_pointerMusic->getPosition().y);
+					if (mp_pointerMusic->getPosition().x < mp_sliderMusic->getPosition().x) {
+						mp_pointerMusic->setPosition(mp_sliderMusic->getPosition().x, mp_pointerMusic->getPosition().y);
+					}
+					if (mp_pointerMusic->getLocalBounds().width + mp_pointerMusic->getPosition().x > mp_sliderMusic->getLocalBounds().width + mp_sliderMusic->getPosition().x){
+						mp_pointerMusic->setPosition(mp_sliderMusic->getPosition().x + mp_sliderMusic->getLocalBounds().width - mp_pointerMusic->getLocalBounds().width, mp_pointerMusic->getPosition().y);
+					}
+					for (int i = 0; i < soundManager->Songs.size(); i++){
+						soundManager->Songs.at(i)->setVolume((mp_pointerMusic->getPosition().x - mp_sliderMusic->getPosition().x) / ((mp_sliderMusic->getLocalBounds().width - mp_pointerMusic->getLocalBounds().width) / 100));
+					}
+				}
+		}
+		
+		//Sound Slider
+
+		if (mPos.x > mp_sliderSound->getPosition().x && mPos.x < mp_sliderSound->getLocalBounds().width + mp_sliderSound->getPosition().x
+			&& mPos.y > mp_pointerSound->getPosition().y && mPos.y < mp_pointerSound->getLocalBounds().height + mp_pointerSound->getPosition().y){
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
+				mp_pointerSound->setPosition(mPos.x - mp_pointerSound->getLocalBounds().width / 2, mp_pointerSound->getPosition().y);
+				if (mp_pointerSound->getPosition().x < mp_sliderSound->getPosition().x) {
+					mp_pointerSound->setPosition(mp_sliderSound->getPosition().x, mp_pointerSound->getPosition().y);
+				}
+				if (mp_pointerSound->getLocalBounds().width + mp_pointerSound->getPosition().x > mp_sliderSound->getLocalBounds().width + mp_sliderSound->getPosition().x){
+					mp_pointerSound->setPosition(mp_sliderSound->getPosition().x + mp_sliderSound->getLocalBounds().width - mp_pointerSound->getLocalBounds().width, mp_pointerSound->getPosition().y);
+				}
+				for (int i = 0; i < soundManager->Sounds.size(); i++){
+					soundManager->Sounds.at(i)->Sound.setVolume((mp_pointerSound->getPosition().x - mp_sliderSound->getPosition().x) / ((mp_sliderSound->getLocalBounds().width - mp_pointerSound->getLocalBounds().width) / 100));
+				}				
 			}
 		}
 
-	}
-	// Sound
-	if (mPos.x > 1359 && mPos.x < 1514 && mPos.y > 498 && mPos.y < 643)  {
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
-			if (soundActivation = true){
-				mp_checkboxSound->setTexture(*checkboxOn);
-				mp_sound->setTexture(*soundOn);
-				mp_sliderSound->setTexture(*sliderOn);
-				mp_pointerSound->setTexture(*pointerOn);
-				soundActivation = false;
-			}
-			else {
-				mp_checkboxSound->setTexture(*checkboxOff);
-				mp_sound->setTexture(*soundOff);
-				mp_sliderSound->setTexture(*sliderOff);
-				mp_pointerSound->setTexture(*pointerOff);
-				soundActivation = true;
+		//Gamma Slider
+
+		if (mPos.x > mp_sliderGamma->getPosition().x && mPos.x < mp_sliderGamma->getLocalBounds().width + mp_sliderGamma->getPosition().x
+			&& mPos.y > mp_pointerGamma->getPosition().y && mPos.y < mp_pointerGamma->getLocalBounds().height + mp_pointerGamma->getPosition().y){
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
+				mp_pointerGamma->setPosition(mPos.x - mp_pointerGamma->getLocalBounds().width / 2, mp_pointerGamma->getPosition().y);
+				if (mp_pointerGamma->getPosition().x < mp_sliderGamma->getPosition().x) {
+					mp_pointerGamma->setPosition(mp_sliderGamma->getPosition().x, mp_pointerGamma->getPosition().y);
+				}
+				if (mp_pointerGamma->getLocalBounds().width + mp_pointerGamma->getPosition().x > mp_sliderGamma->getLocalBounds().width + mp_sliderGamma->getPosition().x){
+					mp_pointerGamma->setPosition(mp_sliderGamma->getPosition().x + mp_sliderGamma->getLocalBounds().width - mp_pointerGamma->getLocalBounds().width, mp_pointerGamma->getPosition().y);
+				}
 			}
 		}
 
+
 	}
-	// Music Slider
-
-	if (mPos.x > mp_pointerMusic->getPosition().x + winPos.x && mPos.x < (mp_pointerMusic->getPosition().x + mp_pointerMusic->getGlobalBounds().width + winPos.x) &&
-		mPos.y > mp_pointerMusic->getPosition().y + winPos.y && mPos.y < (mp_pointerMusic->getPosition().y + mp_pointerMusic->getGlobalBounds().height + winPos.y)){
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
-			if (mp_pointerMusic->getPosition().x > mp_sliderMusic->getPosition().x + mp_sliderMusic->getGlobalBounds().width && mp_pointerMusic->getPosition().x < (mp_pointerMusic->getPosition().x + mp_pointerMusic->getGlobalBounds().width + mp_sliderMusic->getGlobalBounds().width) &&
-				mp_pointerMusic->getPosition().y > mp_sliderMusic->getPosition().y + mp_sliderMusic->getGlobalBounds().height && mp_pointerMusic->getPosition().y < (mp_pointerMusic->getPosition().y + mp_pointerMusic->getGlobalBounds().height + mp_sliderMusic->getGlobalBounds().height)){
-
-
-			}
-		}
-	}
-
+	
+	
 }

@@ -1,11 +1,9 @@
 // StateMenuState.h
 
 #pragma once
-#include <SFML/Graphics.hpp>
+#include <SFML\Graphics.hpp>
 #include "SoundManager.h"
 #include "state.h"
-#include "stdafx.h"
-#include "Settings.h"
 
 class StartMenuState :
 	public State
@@ -48,18 +46,17 @@ private:
 	sf::Sprite *mp_quit;
 	sf::Sprite *mp_arrow_1;
 	sf::Sprite *mp_arrow_2;
+	
 	sf::Time turnOn;
-	sf::Clock *turnOnTimer;
-/*	sf::SoundBuffer buttonOn;
-	sf::SoundBuffer buttonOff;
-*/
-	//SoundManager soundButtonOn;
-	//int m_soundButtonOn;
-	//int m_soundButtonOff;
-	SoundEntity soundButtonOn;
-	SoundEntity soundButtonOff;
-	sf::Music menuMusic;
+	sf::Clock *turnOnHeader;
+	sf::Time creditsRollOn;
+	sf::Clock *turnOnCredits;
+
+	int soundButtonOn;
+	int soundButtonOff;
+	SoundManager* soundManager;
 	sf::Music buzzing;
+	int menuMusic;
 
 	//Options
 	sf::Texture *soundOn;
@@ -75,6 +72,9 @@ private:
 	sf::Texture *pointerOff;
 	sf::Texture *checkboxOn;
 	sf::Texture *checkboxOff;
+	std::vector <sf::Texture*> Credits;
+	int creditsNumber;
+	float fadeTimer;
 	sf::Sprite *mp_sound;
 	sf::Sprite *mp_sliderSound;
 	sf::Sprite *mp_pointerSound;
@@ -90,7 +90,11 @@ private:
 	sf::Sprite *mp_resoulutionUp;
 	sf::Sprite *mp_resoulutionDown;
 	sf::Sprite *mp_defaultOptions;
+	sf::Sprite *mp_creditsRoll;
 	//
+	bool checkFade;
+	float fade;
+
 	bool playSelected;
 	bool optionsSelected;
 	bool creditsSelected;
@@ -99,6 +103,8 @@ private:
 	bool musicActivation;
 
 	bool optionsTab;
+	bool creditsTab;
 
 	bool m_done;
 };
+

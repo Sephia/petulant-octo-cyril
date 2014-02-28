@@ -22,7 +22,6 @@ GameState::GameState() {
 	mp_player = nullptr;
 	m_timer = 0.0f;
 	mp_grid = nullptr;
-	mp_player = nullptr;
 }
 
 GameState::~GameState() {
@@ -40,10 +39,6 @@ void GameState::Enter() {
 	m_spriteManager.Init("../data/");
 	
 	mp_player = new PlayerObject(m_spriteManager.Load("male.txt"));
-
-	for(unsigned int i = 0; i < Settings::ms_guards.size(); i++) {
-		m_guards.push_back(new Guard(i, m_spriteManager.Load("maleGuardWalking.txt")));
-	}
 
 	mp_view = new sf::View();
 
@@ -167,7 +162,9 @@ void GameState::Enter() {
 	mp_grid = new Grid2D();
 	mp_grid->Init(&m_level, cl);
 
-
+	for(unsigned int i = 0; i < Settings::ms_guards.size(); i++) {
+		m_guards.push_back(new Guard(i, m_spriteManager.Load("maleGuardWalking.txt"), mp_grid));
+	}
 
 	m_music.play();
 }
@@ -185,6 +182,7 @@ bool GameState::Update() {
 	}
 
 	mp_player->Update();
+
 	int tries = 0;
 	while(cl->Circle_WallCollision(mp_player->GetPosition(), 46)) {
 		if(mp_player->CollisionDetected(tries)) {
@@ -197,9 +195,13 @@ bool GameState::Update() {
 		m_guards.at(i)->Update(mp_player->GetPosition(), cl);
 		if(m_timer > 0.5f) {
 			m_soundRippleManager.CreateSoundRipple(m_guards.at(i)->GetPosition(), 2, false, m_spriteManager.Load("ripple.txt"));
-			
 		}
-/*
+		sf::Vector2f pos(m_soundRippleManager.GuardNotice(m_guards.at(i)->GetPosition()));
+		if(pos.x > 0.1f && pos.y > 0.1f) {
+			m_guards.at(i)->AddWaypointToFront(pos);
+		}
+		
+		/*
 		Vec2f vecG(m_guards.at(i)->GetPosition().x, -m_guards.at(i)->GetPosition().y + mp_view->getSize().y);
 		float angle = (m_guards.at(i)->GetSprite()->getSprite()->getRotation() - 90) * (3.141592 / 180);
 		lm2->GetLight(m_guards.at(i))->m_directionAngle = -angle;
@@ -217,8 +219,6 @@ bool GameState::Update() {
 	//lm->GetLight(mp_player)->CalculateAABB();
 	/*lm->GetLight(mp_player)->SetCenter(vec);
 	lm2->GetLight(mp_player)->SetCenter(vec);*/
-
-	
 
 	if(Settings::ms_gameOver || 
 		(	mp_player->GetPosition().x > Settings::ms_exit.x && mp_player->GetPosition().x < Settings::ms_exit.x + 100 &&
@@ -255,9 +255,9 @@ void GameState::Draw() {
 	//km->Draw(Settings::ms_window);
 	
 
-	//m_soundRippleManager.Draw();
+	m_soundRippleManager.Draw();
 
-	mp_grid->Draw();
+//	mp_grid->Draw();
 	Settings::ms_window->display();
 }
 
@@ -334,19 +334,19 @@ bool GameState::UpdateEvents() {
 	if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 		m_soundRippleManager.CreateSoundRipple(mp_player->GetPosition(), 2, true, m_spriteManager.Load("ripple.txt"));
 		for(int i = 0; i < m_guards.size(); i++) {
-			sf::Vector2f pos(m_soundRippleManager.GuardNotice(m_guards.at(i)->GetPosition()));
+			/*sf::Vector2f pos(m_soundRippleManager.GuardNotice(m_guards.at(i)->GetPosition()));
 			if(pos.x > 0.1f && pos.y > 0.1f) {
 				m_guards.at(i)->AddWaypointToFront(pos);
-			}
+			}*/
 		}
 	}
 	else if(sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
 		m_soundRippleManager.CreateSoundRipple(mp_player->GetPosition(), 4, true, m_spriteManager.Load("ripple.txt"));
 		for(int i = 0; i < m_guards.size(); i++) {
-			sf::Vector2f pos(m_soundRippleManager.GuardNotice(m_guards.at(i)->GetPosition()));
+			/*sf::Vector2f pos(m_soundRippleManager.GuardNotice(m_guards.at(i)->GetPosition()));
 			if(pos.x > 0.1f && pos.y > 0.1f) {
 				m_guards.at(i)->AddWaypointToFront(pos);
-			}
+			}*/
 		}
 	}
 

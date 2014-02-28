@@ -1,0 +1,15 @@
+Checkbox X = 95
+         Y = 82
+
+Slider   X =
+         Y = 
+
+Pointer  X = 
+         Y = 
+
+Music    X =
+         Y = 
+
+Sound    X = 
+         Y =
+

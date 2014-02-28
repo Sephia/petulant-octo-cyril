@@ -13,7 +13,7 @@ public:
 
 	void Enter();
 	void Exit();
-	void Init(int number, sf::Vector2f* p_position, AnimatedSprite* sprite);
+	void Init(int number, sf::Vector2f* p_position, AnimatedSprite* sprite, Grid2D* p_grid);
 	bool Update();
 	std::string Next();
 	bool IsType(const std::string &c_type);
