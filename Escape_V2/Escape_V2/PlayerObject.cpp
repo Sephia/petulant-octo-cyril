@@ -153,3 +153,7 @@ bool PlayerObject::CollisionDetected(int tries) {
 bool PlayerObject::ChangeAnimation(const std::string& name) {
 	return mp_sprite->ChangeAnimation(name);
 }
+
+sf::Sprite* PlayerObject::GetSprite() {
+	return mp_sprite->getSprite();
+}

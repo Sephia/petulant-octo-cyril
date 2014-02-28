@@ -58,12 +58,19 @@ void GameState::Enter() {
     km = new KeyManager(lm, ls);
     dm = new DoorManager(hl, ls);
     fm = new FurnitureManager(hl);
-    cl = new CollisionManager(wl);
+    cl = new CollisionManager(wl, km, dm);
 
 	lm2 = new LightManager(ls2);
     hl2 = new HullManager(ls2);
     wl2 = new WallManager(hl2);
-    cl2 = new CollisionManager(wl2);
+    cl2 = new CollisionManager(wl2, km, dm);
+
+	mp_grid = new Grid2D();
+	mp_grid->Init(&m_level, cl);
+
+	for(unsigned int i = 0; i < Settings::ms_guards.size(); i++) {
+		m_guards.push_back(new Guard(i, m_spriteManager.Load("maleGuardWalking.txt"), mp_grid));
+	}
 
 	ltbl::Light_Point* testLight = new ltbl::Light_Point();
 	testLight->m_intensity = 1.0f;
@@ -159,12 +166,7 @@ void GameState::Enter() {
 		std::cout << "Failed loading music for GameState!\n";
 	}
 
-	mp_grid = new Grid2D();
-	mp_grid->Init(&m_level, cl);
-
-	for(unsigned int i = 0; i < Settings::ms_guards.size(); i++) {
-		m_guards.push_back(new Guard(i, m_spriteManager.Load("maleGuardWalking.txt"), mp_grid));
-	}
+	
 
 	m_music.play();
 }
@@ -184,7 +186,7 @@ bool GameState::Update() {
 	mp_player->Update();
 
 	int tries = 0;
-	while(cl->Circle_WallCollision(mp_player->GetPosition(), 46)) {
+	while(cl->Circle_WallCollision(*(mp_player->GetSprite()))) {
 		if(mp_player->CollisionDetected(tries)) {
 			break;
 		}
@@ -201,12 +203,12 @@ bool GameState::Update() {
 			m_guards.at(i)->AddWaypointToFront(pos);
 		}
 		
-		/*
+		
 		Vec2f vecG(m_guards.at(i)->GetPosition().x, -m_guards.at(i)->GetPosition().y + mp_view->getSize().y);
-		float angle = (m_guards.at(i)->GetSprite()->getSprite()->getRotation() - 90) * (3.141592 / 180);
+		int angle = static_cast<int>((m_guards.at(i)->GetSprite()->getSprite()->getRotation() - 90) * (3.141592 / 180)) % 360;
 		lm2->GetLight(m_guards.at(i))->m_directionAngle = -angle;
 		lm2->GetLight(m_guards.at(i))->SetCenter(vecG);
-		lm2->GetLight(m_guards.at(i))->CalculateAABB();*/
+		lm2->GetLight(m_guards.at(i))->CalculateAABB();
 	}
 
 	if(m_timer > 0.5f) {
@@ -217,8 +219,8 @@ bool GameState::Update() {
 
 	Vec2f vec(mp_player->GetPosition().x, -mp_view->getCenter().y + mp_view->getSize().y);
 	//lm->GetLight(mp_player)->CalculateAABB();
-	/*lm->GetLight(mp_player)->SetCenter(vec);
-	lm2->GetLight(mp_player)->SetCenter(vec);*/
+	lm->GetLight(mp_player)->SetCenter(vec);
+	lm2->GetLight(mp_player)->SetCenter(vec);
 
 	if(Settings::ms_gameOver || 
 		(	mp_player->GetPosition().x > Settings::ms_exit.x && mp_player->GetPosition().x < Settings::ms_exit.x + 100 &&
@@ -240,25 +242,26 @@ void GameState::Draw() {
 	
 	mp_view->setCenter(mp_player->GetPosition());
 	Settings::ms_window->setView(*mp_view);
-	//dm->Draw(Settings::ms_window);
-	//fm->Draw(Settings::ms_window);
+	dm->Draw(Settings::ms_window);
+	fm->Draw(Settings::ms_window);
 
-	//ls->SetView(*mp_view);
-	//ls2->SetView(*mp_view);
+	ls->SetView(*mp_view);
+	ls2->SetView(*mp_view);
 
-	//ls2->RenderLights();
-	//ls2->RenderLightTexture();
+	ls2->RenderLights();
+	ls2->RenderLightTexture();
 
-	//ls->RenderLights();
-	//ls->RenderLightTexture();
+	ls->RenderLights();
+	ls->RenderLightTexture();
 
-	//km->Draw(Settings::ms_window);
+	km->Draw(Settings::ms_window);
 	
 
 	m_soundRippleManager.Draw();
 
-//	mp_grid->Draw();
+	//mp_grid->Draw();
 	Settings::ms_window->display();
+	//Settings::ms_window->clear(sf::Color(0, 0, 0, 255));
 }
 
 std::string GameState::Next() {

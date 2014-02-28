@@ -110,13 +110,14 @@ void GuardInvestigateState::Movement() {
 			*mp_position = *mp_position - distance * speed * Settings::ms_deltatime;
 		}
 	}
+	//mp_pathfinding->Draw(Settings::ms_window);
 }
 
 bool GuardInvestigateState::Detected(sf::Vector2f playerPosition, CollisionManager* p_collisionManager) {
 	sf::Vector2f direction(*mp_position - playerPosition);
 	float distance = sqrtf(direction.x * direction.x + direction.y * direction.y);
 	while(distance > 20) {
-		if(p_collisionManager->Circle_WallCollision(*mp_position, 46)) {
+		if(p_collisionManager->Circle_WallCollision(*(mp_sprite->getSprite()))) {
 			return false;
 		}
 		if(direction.x > 11) {

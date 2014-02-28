@@ -28,8 +28,8 @@ void Grid2D::Init(Level* p_level, CollisionManager* cm) {
 }
 
 bool Grid2D::Walkable(int x, int y) {
-	if(x < 0 || y < 0 || x > 9 || y > 9) {
-		return true;
+	if(x < 0 || y < 0 || x > 92 || y > 142) {
+		return false;
 	}
 	return m_grid.at(y).at(x);
 }

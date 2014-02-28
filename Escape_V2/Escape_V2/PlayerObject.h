@@ -5,6 +5,9 @@
 #include "stdafx.h"
 
 class AnimatedSprite;
+namespace sf{
+	class Sprite;
+}
 
 class PlayerObject {
 public:
@@ -20,6 +23,8 @@ public:
 	void UpdateSprite();
 	bool CollisionDetected(int tries);
 	bool ChangeAnimation(const std::string& name);
+
+	sf::Sprite* GetSprite();
 
 	void Draw();
 

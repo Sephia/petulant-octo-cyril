@@ -96,6 +96,7 @@
     <ClCompile Include="Door.cpp" />
     <ClCompile Include="DoorManager.cpp" />
     <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="Furniture.cpp" />
     <ClCompile Include="FurnitureManager.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="Grid2D.cpp" />
@@ -152,6 +153,7 @@
     <ClInclude Include="Door.h" />
     <ClInclude Include="DoorManager.h" />
     <ClInclude Include="Engine.h" />
+    <ClInclude Include="Furniture.h" />
     <ClInclude Include="FurnitureManager.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="Grid2D.h" />

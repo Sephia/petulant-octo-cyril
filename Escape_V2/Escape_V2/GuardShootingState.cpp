@@ -73,7 +73,7 @@ bool GuardShootingState::Detected(sf::Vector2f playerPosition, CollisionManager*
 	sf::Vector2f direction(sf::Vector2f(fabs(mp_position->x - playerPosition.x), fabs(mp_position->y - playerPosition.y)));
 	float distance = sqrtf(direction.x * direction.x + direction.y * direction.y);
 	while(distance > 20) {
-		if(p_collisionManager->Circle_WallCollision(*mp_position, 46)) {
+		if(p_collisionManager->Circle_WallCollision(*(mp_sprite->getSprite()))) {
 			return false;
 		}
 		if(direction.x > 11) {

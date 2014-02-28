@@ -2,12 +2,12 @@
 //  FurnitureManager.cpp
 
 #include "FurnitureManager.h"
+#include "Furniture.h"
 #include <LTBL/Light/ConvexHull.h>
 #include <LTBL/Light/LightSystem.h>
 #include "HullManager.h"
 #include <fstream>
 #include <sstream>
-#include <cmath>
 
 const float M_PI = 3.14159265359;
 
@@ -21,7 +21,7 @@ FurnitureManager::~FurnitureManager()
     Clear();
 }
 
-sf::RectangleShape* FurnitureManager::GetFurniture(int index)
+Furniture* FurnitureManager::GetFurniture(int index)
 {
     if (!(index < 0) && index < GetCount())
     {
@@ -56,10 +56,10 @@ bool FurnitureManager::LoadFromFile(std::string filename, ltbl::LightSystem* lm)
     }
     std::string row;
     std::getline(stream, row, '\n');
-    /*if (*(row.end()-1) == '\r')
+    if (*(row.end()-1) == '\r')
     {
         row.erase(row.end()-1);
-    }*/
+    }
     if (*(row.begin()) == '\xef')
     {
         for(int i =0; i<3; i++)
@@ -75,7 +75,7 @@ bool FurnitureManager::LoadFromFile(std::string filename, ltbl::LightSystem* lm)
             int x, y;
             std::stringstream ss(row);
             ss >> x >> y;
-            sf::RectangleShape* shape;
+            Furniture* shape;
             std::string textureName;
             ss >> textureName;
             if(m_textures.find(textureName)== m_textures.end())
@@ -87,17 +87,17 @@ bool FurnitureManager::LoadFromFile(std::string filename, ltbl::LightSystem* lm)
                 {
                     delete texture;
                     std::getline(stream, row, '\n');
-                    /*if (*(row.end()-1) == '\r')
+                    if (*(row.end()-1) == '\r')
                     {
                         row.erase(row.end()-1);
-                    }*/
+                    }
                     continue;
                 }
                 image.close();
                 texture->loadFromFile(textureName);
                 m_textures.insert(std::make_pair(textureName, texture));
                 sf::Vector2f size = static_cast<sf::Vector2f>(texture->getSize());
-                shape = new sf::RectangleShape(size);
+                shape = new Furniture(size);
                 shape->setTexture(texture);
                 //shape->setTextureRect(sf::Rect<int>(0,0,texture->getSize().x, texture->getSize().y));
             }
@@ -105,7 +105,7 @@ bool FurnitureManager::LoadFromFile(std::string filename, ltbl::LightSystem* lm)
             {
                 sf::Texture* texture = m_textures.find(textureName)->second;
                 sf::Vector2f size = static_cast<sf::Vector2f>(texture->getSize());
-                shape = new sf::RectangleShape(size);
+                shape = new Furniture(size);
                 shape->setTexture(texture);
                 //shape->setTextureRect(sf::Rect<int>(0,0,texture->getSize().x, texture->getSize().y));
             }
@@ -120,9 +120,15 @@ bool FurnitureManager::LoadFromFile(std::string filename, ltbl::LightSystem* lm)
             //0 = see-through, 1 = semi-transparent, 2+ = solid
             int lightProperty;
             ss >> lightProperty;
+            
+            float noise;
+            ss >> noise;
+            shape->SetNoise(noise);
+            
             if (lightProperty > 0)
             {
                 ltbl::ConvexHull* hull = new ltbl::ConvexHull();
+                
                 
                 for (int i = 0; i < shape->getPointCount(); i++)
                 {
@@ -144,11 +150,12 @@ bool FurnitureManager::LoadFromFile(std::string filename, ltbl::LightSystem* lm)
                 m_furniture.push_back(shape);
                 mp_hullManager->AddHull(hull, shape);
             }
+            
             std::getline(stream, row, '\n');
-           /* if (*(row.end()-1) == '\r')
+            if (*(row.end()-1) == '\r')
             {
                 row.erase(row.end()-1);
-            }*/
+            }
         }
         std::getline(stream, row, '\n');
         if (row == "")

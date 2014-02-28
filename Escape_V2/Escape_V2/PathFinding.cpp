@@ -146,7 +146,7 @@ void PathFinding::ContinuePath() {
 		PathOpened(currentCell->m_xcoord, currentCell->m_ycoord + 1, currentCell->m_g + 10, currentCell);
 		//up
 		PathOpened(currentCell->m_xcoord, currentCell->m_ycoord - 1, currentCell->m_g + 10, currentCell);
-		/*//left_down diagonal
+		//left_down diagonal
 		PathOpened(currentCell->m_xcoord - 1, currentCell->m_ycoord + 1, currentCell->m_g + 14, currentCell);
 		//right_down diagonal
 		PathOpened(currentCell->m_xcoord + 1, currentCell->m_ycoord + 1, currentCell->m_g + 14, currentCell);
@@ -154,7 +154,7 @@ void PathFinding::ContinuePath() {
 		PathOpened(currentCell->m_xcoord - 1, currentCell->m_ycoord - 1, currentCell->m_g + 14, currentCell);
 		//right_up diagonal
 		PathOpened(currentCell->m_xcoord + 1, currentCell->m_ycoord - 1, currentCell->m_g + 14, currentCell);
-		*/
+		
 		for(int i = 0; i < m_openList.size(); i++) {
 			if(currentCell->m_id == m_openList.at(i)->m_id) {
 				m_openList.erase(m_openList.begin() + i);
@@ -165,7 +165,7 @@ void PathFinding::ContinuePath() {
 
 sf::Vector2f PathFinding::NextPathPos(sf::Vector2f pos, float radius) {
 	int index = 1;
-
+	
 	sf::Vector2f nextPos;
 	nextPos.x = m_pathToGoal.at(m_pathToGoal.size() - index)->x;
 	nextPos.y = m_pathToGoal.at(m_pathToGoal.size() - index)->y;
@@ -177,7 +177,7 @@ sf::Vector2f PathFinding::NextPathPos(sf::Vector2f pos, float radius) {
 			m_pathToGoal.erase(m_pathToGoal.end() - index);
 		}
 	}
-
+	
 	return nextPos;
 }
 
@@ -186,7 +186,7 @@ void PathFinding::Draw(sf::RenderWindow* window) {
 	sf::RectangleShape rec(sf::Vector2f(50, 50));
 	rec.setFillColor(sf::Color(150, 150, 150));
 	for(int i = 0; i < this->m_pathToGoal.size(); i++) {
-		rec.setPosition((*this->m_pathToGoal.at(i)).x * 50, (*this->m_pathToGoal.at(i)).y * 50);
+		rec.setPosition((*this->m_pathToGoal.at(i)).x * 40, (*this->m_pathToGoal.at(i)).y * 40);
 		window->draw(rec);
 	}
 }

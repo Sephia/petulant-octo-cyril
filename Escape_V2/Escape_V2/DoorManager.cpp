@@ -35,6 +35,15 @@ sf::CircleShape* DoorManager::GetUseRadius(int index)
     }
     return it->first;
 }
+Door* DoorManager::GetDoor(sf::CircleShape *useRadius)
+{
+    auto it = m_doors.find(useRadius);
+    if (it != m_doors.end())
+    {
+        return it->second;
+    }
+    return nullptr;
+}
 bool DoorManager::OpenDoor(sf::CircleShape* useRadius, sf::Color key)
 {
     auto it = m_doors.find(useRadius);
@@ -129,10 +138,10 @@ bool DoorManager::LoadFromFile(std::string filename)
     }
     std::string row;
     std::getline(stream, row, '\n');
-    /*if (*(row.end()-1) == '\r')
+    if (*(row.end()-1) == '\r')
     {
         row.erase(row.end()-1);
-    }*/
+    }
     if (*(row.begin()) == '\xef')
     {
         for(int i =0; i<3; i++)
@@ -226,10 +235,10 @@ bool DoorManager::LoadFromFile(std::string filename)
             mp_hullManager->AddHull(hull, door);
             
             std::getline(stream, row, '\n');
-            /*if (*(row.end()-1) == '\r')
+            if (*(row.end()-1) == '\r')
             {
                 row.erase(row.end()-1);
-            }*/
+            }
         }
         std::getline(stream, row, '\n');
         if (row == "")

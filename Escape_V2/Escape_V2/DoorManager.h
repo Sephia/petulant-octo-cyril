@@ -17,6 +17,8 @@ public:
     
     //hämta dörren att kolla
     sf::CircleShape* GetUseRadius(int index);
+    //hämta dörren
+    Door* GetDoor(sf::CircleShape* useRadius);
     //försök öppna dörren
     bool OpenDoor(sf::CircleShape* useRadius, sf::Color key = sf::Color(255,255,255,50));
     //hämta plakat

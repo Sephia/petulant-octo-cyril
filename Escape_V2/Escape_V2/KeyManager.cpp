@@ -99,10 +99,10 @@ bool KeyManager::LoadFromFile(std::string filename){
     }
     std::string row;
     std::getline(stream, row, '\n');
-    /*if (*(row.end()-1) == '\r')
+    if (*(row.end()-1) == '\r')
     {
         row.erase(row.end()-1);
-    }*/
+    }
     if (*(row.begin()) == '\xef')
     {
         for(int i =0; i<3; i++)
@@ -148,10 +148,10 @@ bool KeyManager::LoadFromFile(std::string filename){
             //glow->SetAlwaysUpdate(false);
             
             std::getline(stream, row, '\n');
-            /*if (*(row.end()-1) == '\r')
+            if (*(row.end()-1) == '\r')
             {
                 row.erase(row.end()-1);
-            }*/
+            }
         }
         std::getline(stream, row, '\n');
         if (row == "")
