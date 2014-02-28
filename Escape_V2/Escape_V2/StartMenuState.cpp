@@ -377,7 +377,7 @@ bool StartMenuState::Update() {
 			else {
 				fade += 0.30f;
 			}
-			opacity.a = fade;
+			opacity.a = static_cast<sf::Uint8>(fade);
 				mp_creditsRoll->setColor(opacity);
 				if (fade <= 1){
 					checkFade = true;
@@ -388,7 +388,7 @@ bool StartMenuState::Update() {
 		}
 		if (creditsChangeSprite > fadeTimer){
 			creditsNumber++;
-			fadeTimer += 5.98;
+			fadeTimer += 5.98f;
 			if (creditsNumber == Credits.size()){
 				creditsNumber = 0;
 			}
@@ -630,7 +630,7 @@ void StartMenuState::UpdateEvents() {
 						musicActivation = false;
 					}
 					else {
-						for (int i = 0; i < soundManager->Songs.size(); i++){
+						for (unsigned int i = 0; i < soundManager->Songs.size(); i++){
 							soundManager->Songs.at(i)->play();
 						}
 						musicActivation = true;
@@ -651,7 +651,7 @@ void StartMenuState::UpdateEvents() {
 
 		if (musicActivation == false){
 		//	toggleMusic = false;
-			for (int i = 0; i < soundManager->Songs.size(); i++){
+			for (unsigned int i = 0; i < soundManager->Songs.size(); i++){
 				soundManager->Songs.at(i)->pause();
 			}
 			mp_checkboxMusic->setTexture(*checkboxOff);
@@ -679,7 +679,7 @@ void StartMenuState::UpdateEvents() {
 		}
 
 		if (soundActivation == true){
-			for (int i = 0; i < soundManager->Sounds.size(); i++){
+			for (unsigned int i = 0; i < soundManager->Sounds.size(); i++){
 				soundManager->Sounds.at(i)->toggleSound = true;
 			}
 			buzzing.setVolume((mp_pointerSound->getPosition().x - mp_sliderSound->getPosition().x) / ((mp_sliderSound->getLocalBounds().width - mp_pointerSound->getLocalBounds().width) / 100));
@@ -690,7 +690,7 @@ void StartMenuState::UpdateEvents() {
 		}
 
 		if (soundActivation == false){
-			for (int i = 0; i < soundManager->Sounds.size(); i++){
+			for (unsigned int i = 0; i < soundManager->Sounds.size(); i++){
 				soundManager->Sounds.at(i)->toggleSound = false;
 			}
 			buzzing.setVolume(0);
@@ -712,7 +712,7 @@ void StartMenuState::UpdateEvents() {
 					if (mp_pointerMusic->getLocalBounds().width + mp_pointerMusic->getPosition().x > mp_sliderMusic->getLocalBounds().width + mp_sliderMusic->getPosition().x){
 						mp_pointerMusic->setPosition(mp_sliderMusic->getPosition().x + mp_sliderMusic->getLocalBounds().width - mp_pointerMusic->getLocalBounds().width, mp_pointerMusic->getPosition().y);
 					}
-					for (int i = 0; i < soundManager->Songs.size(); i++){
+					for (unsigned int i = 0; i < soundManager->Songs.size(); i++){
 						soundManager->Songs.at(i)->setVolume((mp_pointerMusic->getPosition().x - mp_sliderMusic->getPosition().x) / ((mp_sliderMusic->getLocalBounds().width - mp_pointerMusic->getLocalBounds().width) / 100));
 					}
 				}
@@ -730,7 +730,7 @@ void StartMenuState::UpdateEvents() {
 				if (mp_pointerSound->getLocalBounds().width + mp_pointerSound->getPosition().x > mp_sliderSound->getLocalBounds().width + mp_sliderSound->getPosition().x){
 					mp_pointerSound->setPosition(mp_sliderSound->getPosition().x + mp_sliderSound->getLocalBounds().width - mp_pointerSound->getLocalBounds().width, mp_pointerSound->getPosition().y);
 				}
-				for (int i = 0; i < soundManager->Sounds.size(); i++){
+				for (unsigned int i = 0; i < soundManager->Sounds.size(); i++){
 					soundManager->Sounds.at(i)->Sound.setVolume((mp_pointerSound->getPosition().x - mp_sliderSound->getPosition().x) / ((mp_sliderSound->getLocalBounds().width - mp_pointerSound->getLocalBounds().width) / 100));
 				}				
 			}

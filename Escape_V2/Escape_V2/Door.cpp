@@ -4,7 +4,7 @@
 #include "Door.h"
 #include <cmath>
 
-const float M_PI = 3.14159265359;
+const float M_PI = 3.14159265359f;
 
 Door::Door(int x, int y, sf::Texture* texture, int degree, sf::Color* key, bool open/*, Plaque* plaque*/)
 :sf::RectangleShape(static_cast<sf::Vector2f>(texture->getSize()))
@@ -16,8 +16,8 @@ Door::Door(int x, int y, sf::Texture* texture, int degree, sf::Color* key, bool 
     this->setTexture(texture);
     sf::Vector2i size = static_cast<sf::Vector2i>(texture->getSize());
     this->setTextureRect(sf::Rect<int>(0, 0, size.x, size.y));
-    this->setPosition(x, y);
-    this->setRotation(degree);
+    this->setPosition(static_cast<float>(x), static_cast<float>(y));
+    this->setRotation(static_cast<float>(degree));
     if (*mp_key != sf::Color(255, 255, 255, 50))
     {
         m_locked = true;
@@ -63,8 +63,8 @@ bool Door::Open(sf::Color key)
     {
         if(Unlock(key))
         {
-            this->setRotation(static_cast<int>(this->getRotation()-90)%360);
-            m_degree = this->getRotation();
+            this->setRotation(static_cast<float>(static_cast<int>(this->getRotation()-90)%360));
+            m_degree = static_cast<int>(this->getRotation());
             sf::Vector2f circlePosition = sf::Vector2f(this->getLocalBounds().width / 2, this->getLocalBounds().height / 2);
             sf::Vector2f newCirclePosition;
             newCirclePosition.x = circlePosition.x * cosf(m_degree * (M_PI / 180)) - circlePosition.y * sinf(m_degree * (M_PI / 180));
@@ -78,19 +78,19 @@ bool Door::Open(sf::Color key)
     }
     if(!m_open)
     {
-        int rotation = this->getRotation();
+        int rotation = static_cast<int>(this->getRotation());
         if(this->getRotation() < 90)
         {
             rotation +=360;
         }
             
-        this->setRotation((rotation-90)%360);
-        m_degree = this->getRotation();
+        this->setRotation(static_cast<float>((rotation-90)%360));
+        m_degree = static_cast<int>(this->getRotation());
     }
     else
     {
-        this->setRotation(static_cast<int>(this->getRotation()+90)%360);
-        m_degree = this->getRotation();
+        this->setRotation(static_cast<float>(static_cast<int>(this->getRotation()+90)%360));
+        m_degree = static_cast<int>(this->getRotation());
     }
     
     sf::Vector2f circlePosition = sf::Vector2f(this->getLocalBounds().width / 2, this->getLocalBounds().height / 2);

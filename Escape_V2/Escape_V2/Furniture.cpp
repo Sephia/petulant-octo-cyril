@@ -3,10 +3,6 @@
 
 #include "Furniture.h"
 
-Furniture::Furniture()
-{
-    
-}
 Furniture::Furniture(const sf::Vector2f& size)
 :sf::RectangleShape(size)
 {

@@ -25,7 +25,7 @@ KeyManager::~KeyManager()
 
 sf::CircleShape* KeyManager::GetPickUpRadius(int index)
 {
-    if(index >= m_keys.size() || index < 0)
+    if(static_cast<unsigned int>(index) >= m_keys.size() || index < 0)
     {
         return nullptr;
     }

@@ -62,8 +62,8 @@ void Settings::Load() {
 					std::istream_iterator<std::string>(),
 					std::back_inserter<std::vector<std::string> >(tokens));
 
-					vect.x = atof(tokens.at(1).c_str());
-					vect.y = atof(tokens.at(2).c_str());
+					vect.x = static_cast<float>(atof(tokens.at(1).c_str()));
+					vect.y = static_cast<float>(atof(tokens.at(2).c_str()));
 					waypoints.push_back(vect);
 
 				
@@ -92,8 +92,8 @@ void Settings::Load() {
 					std::istream_iterator<std::string>(),
 					std::back_inserter<std::vector<std::string> >(tokens));
 
-					vect.x = atof(tokens.at(0).c_str());
-					vect.y = atof(tokens.at(1).c_str());
+					vect.x = static_cast<float>(atof(tokens.at(0).c_str()));
+					vect.y = static_cast<float>(atof(tokens.at(1).c_str()));
 					ms_enter = vect;
 				}
 				std::getline(stream, row);
@@ -105,8 +105,8 @@ void Settings::Load() {
 					std::istream_iterator<std::string>(),
 					std::back_inserter<std::vector<std::string> >(tokens));
 
-					vect.x = atof(tokens.at(0).c_str());
-					vect.y = atof(tokens.at(1).c_str());
+					vect.x = static_cast<float>(atof(tokens.at(0).c_str()));
+					vect.y = static_cast<float>(atof(tokens.at(1).c_str()));
 					ms_exit = vect;
 				}
 			}
@@ -144,6 +144,7 @@ void Settings::SetFullscreen() {
 	setting.antialiasingLevel = 8;
 	ms_window->close();
 	ms_window->create(*it, "SFML shapes", sf::Style::Fullscreen, setting);
+	Settings::ms_window->setFramerateLimit(60);
 }
 
 void Settings::SetWindowed() {
@@ -166,4 +167,5 @@ void Settings::SetWindowed() {
 	setting.antialiasingLevel = 8;
 	ms_window->close();
 	ms_window->create(video, "SFML shapes", sf::Style::Default, setting);
+	Settings::ms_window->setFramerateLimit(60);
 }

@@ -11,7 +11,7 @@ Key::Key(int x, int y, sf::Texture* texture, sf::Color* keyColor)
     this->setTexture(*texture);
     sf::Vector2i size = static_cast<sf::Vector2i>(texture->getSize());
     this->setTextureRect(sf::Rect<int>(0, 0, size.x, size.y));
-    this->setPosition(x, y);
+    this->setPosition(static_cast<float>(x), static_cast<float>(y));
     this->setOrigin(this->getLocalBounds().width / 2, this->getLocalBounds().height / 2);
     
     sf::Vector2f circlePosition = sf::Vector2f(this->getOrigin());

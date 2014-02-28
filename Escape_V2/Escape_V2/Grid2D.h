@@ -19,6 +19,6 @@ public:
 private:
 	std::vector<std::vector<bool>> m_grid;
 
-	int squareSize;
+	unsigned int squareSize;
 };
 

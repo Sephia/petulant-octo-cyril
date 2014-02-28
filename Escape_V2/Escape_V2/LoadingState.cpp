@@ -31,6 +31,7 @@ void LoadingState::Enter() {
 	sf::ContextSettings setting;
 	setting.antialiasingLevel = 8;
 	Settings::ms_window = new sf::RenderWindow(video, "SFML shapes", sf::Style::Default, setting);
+	Settings::ms_window->setFramerateLimit(60);
 	Settings::Load();
 }
 

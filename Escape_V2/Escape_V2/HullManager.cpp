@@ -117,9 +117,9 @@ std::vector<sf::ConvexShape*> HullManager::LoadFromFile(std::string filename)
         }*/
         sf::ConvexShape* shape = new sf::ConvexShape();
         shape->setPointCount(sx.size()-1);
-        shape->setPosition(sx[0], sy[0]);
+        shape->setPosition(static_cast<float>(sx[0]), static_cast<float>(sy[0]));
         
-        for(int i =1; i < sx.size(); i++)
+        for(unsigned int i =1; i < sx.size(); i++)
         {
             shape->setPoint(i-1, sf::Vector2f((float)sx[i]-(float)sx[0], (float)sy[i]-(float)sy[0]));
         }
@@ -155,7 +155,7 @@ std::vector<sf::ConvexShape*> HullManager::LoadFromFile(std::string filename)
             {
                 ltbl::ConvexHull* hull = new ltbl::ConvexHull();
                 
-                for(int i =1; i < x.size(); i++)
+                for(unsigned int i =1; i < x.size(); i++)
                 {
                     hull->m_vertices.push_back(Vec2f((float)x[i]-(float)x[0], - ((float)y[i]-(float)y[0])));
                 }
