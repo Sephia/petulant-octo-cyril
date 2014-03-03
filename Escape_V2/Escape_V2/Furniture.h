@@ -6,7 +6,6 @@
 class Furniture : public sf::RectangleShape
 {
 public:
-    Furniture();
     Furniture(const sf::Vector2f& size = sf::Vector2f(0, 0));
     float GetNoise();
     void SetNoise(float noise);

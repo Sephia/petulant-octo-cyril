@@ -9,7 +9,7 @@
 #include "fstream"
 #include "sstream"
 
-const float M_PI = 3.14159265359;
+const float M_PI = 3.14159265359f;
 
 DoorManager::DoorManager(HullManager* hullManager, ltbl::LightSystem* lightsystem)
 :mp_hullManager(hullManager)
@@ -24,12 +24,12 @@ DoorManager::~DoorManager()
 
 sf::CircleShape* DoorManager::GetUseRadius(int index)
 {
-    if(index >= m_doors.size() || index < 0)
+    if(static_cast<unsigned int>(index) >= m_doors.size() || index < 0)
     {
         return nullptr;
     }
     auto it = m_doors.begin();
-    for (int i =0; i<index; i++)
+    for (int i = 0; i < index; i++)
     {
         it++;
     }
@@ -58,7 +58,7 @@ bool DoorManager::OpenDoor(sf::CircleShape* useRadius, sf::Color key)
         if(door->IsOpen())
         {
             int rotation = -90;
-            for (int i = 0; i < door->getPointCount(); i++)
+            for (unsigned int i = 0; i < door->getPointCount(); i++)
             {
                 sf::Vector2f vector = door->getPoint(i);
                 vector.x = (hull->m_vertices[i].x*cosf(-rotation * (M_PI/180)) - hull->m_vertices[i].y * sinf(-rotation * (M_PI/180)));
@@ -75,7 +75,7 @@ bool DoorManager::OpenDoor(sf::CircleShape* useRadius, sf::Color key)
             Door* door = it->second;
             ltbl::ConvexHull* hull = mp_hullManager->GetHull(door);
             int rotation = 90;
-            for (int i = 0; i < door->getPointCount(); i++)
+            for (unsigned int i = 0; i < door->getPointCount(); i++)
             {
                 sf::Vector2f vector = door->getPoint(i);
                 vector.x = (hull->m_vertices[i].x*cosf(-rotation * (M_PI/180)) - hull->m_vertices[i].y * sinf(-rotation * (M_PI/180)));
@@ -216,7 +216,7 @@ bool DoorManager::LoadFromFile(std::string filename)
             ltbl::ConvexHull* hull = new ltbl::ConvexHull();
             
             
-            for (int i = 0; i < door->getPointCount(); i++)
+            for (unsigned int i = 0; i < door->getPointCount(); i++)
             {
                 hull->m_vertices.push_back(Vec2f(door->getPoint(i).x, door->getPoint(i).y - door->getSize().y));
                 sf::Vector2f vector = door->getPoint(i);

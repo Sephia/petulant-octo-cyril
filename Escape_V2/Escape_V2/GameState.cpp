@@ -43,14 +43,14 @@ void GameState::Enter() {
 	mp_view = new sf::View();
 
 	mp_view->setCenter(mp_player->GetPosition());
-	mp_view->setSize(Settings::ms_window->getSize().x, Settings::ms_window->getSize().y);
+	mp_view->setSize(static_cast<float>(Settings::ms_window->getSize().x), static_cast<float>(Settings::ms_window->getSize().y));
 
 	
 	ls = new ltbl::LightSystem(AABB(Vec2f(0, 0), Vec2f(static_cast<float>(3657), static_cast<float>(5651))), Settings::ms_window, "../data/lightFin.png", "../data/shaders/lightAttenuationShader.frag");
     ls->SetView(*mp_view);
 
-	ls2 = new ltbl::LightSystem(AABB(Vec2f(0, 0), Vec2f(static_cast<float>(3657), static_cast<float>(5651))), Settings::ms_window, "../data/lightFin.png", "../data/shaders/lightAttenuationShader.frag");
-    ls2->SetView(*mp_view);
+	//ls2 = new ltbl::LightSystem(AABB(Vec2f(0, 0), Vec2f(static_cast<float>(3657), static_cast<float>(5651))), Settings::ms_window, "../data/lightFin.png", "../data/shaders/lightAttenuationShader.frag");
+    //ls2->SetView(*mp_view);
     
     lm = new LightManager(ls);
     hl = new HullManager(ls);
@@ -60,10 +60,10 @@ void GameState::Enter() {
     fm = new FurnitureManager(hl);
     cl = new CollisionManager(wl, km, dm);
 
-	lm2 = new LightManager(ls2);
+	/*lm2 = new LightManager(ls2);
     hl2 = new HullManager(ls2);
     wl2 = new WallManager(hl2);
-    cl2 = new CollisionManager(wl2, km, dm);
+    cl2 = new CollisionManager(wl2, km, dm);*/
 
 	mp_grid = new Grid2D();
 	mp_grid->Init(&m_level, cl);
@@ -87,10 +87,10 @@ void GameState::Enter() {
 	testLight->CalculateAABB();
     
 	lm->AddLight(testLight, mp_player);
-	lm2->AddLight(testLight, mp_player);
+	//lm2->AddLight(testLight, mp_player);
 	testLight->SetAlwaysUpdate(true);
 	
-	for( int i = 0; i < m_guards.size(); i++) {
+	for(unsigned int i = 0; i < m_guards.size(); i++) {
 		ltbl::Light_Point* guardLight = new ltbl::Light_Point();
 		guardLight->m_intensity = 1.5f;
 		guardLight->m_center = Vec2f(100.0f, 100.0f);
@@ -106,7 +106,7 @@ void GameState::Enter() {
 		guardLight->CalculateAABB();
 		
 		
-		lm2->AddLight(guardLight, m_guards.at(i));
+		lm->AddLight(guardLight, m_guards.at(i));
 		guardLight->SetAlwaysUpdate(true);
 	}
 
@@ -127,7 +127,7 @@ void GameState::Enter() {
 	lm->AddLight(testLight2, lm);
 	
 	testLight2->SetAlwaysUpdate(false);
-	
+	/*
 	testLight3 = new ltbl::Light_Point();
 	testLight3->m_center = Vec2f(Settings::ms_enter.x, -4000);
 	testLight3->m_radius = 1000.0f;
@@ -144,14 +144,14 @@ void GameState::Enter() {
 	lm2->AddLight(testLight3, lm2);
 
 	testLight3->SetAlwaysUpdate(false);
-	
+	*/
 	if(!wl->LoadFromFile("../data/Walls.txt")) {
 		abort();
 	}
 
-	if(!wl2->LoadFromFile("../data/Walls.txt")) {
+	/*if(!wl2->LoadFromFile("../data/Walls.txt")) {
 		abort();
-	}
+	}*/
     if(!fm->LoadFromFile("../data/Furniture.txt",ls)) {
 		abort();
 	}
@@ -193,7 +193,7 @@ bool GameState::Update() {
 		tries++;
 	}
 
-	for(int i = 0; i < m_guards.size(); i++) {
+	for(unsigned int i = 0; i < m_guards.size(); i++) {
 		m_guards.at(i)->Update(mp_player->GetPosition(), cl);
 		if(m_timer > 0.5f) {
 			m_soundRippleManager.CreateSoundRipple(m_guards.at(i)->GetPosition(), 2, false, m_spriteManager.Load("ripple.txt"));
@@ -206,9 +206,9 @@ bool GameState::Update() {
 		
 		Vec2f vecG(m_guards.at(i)->GetPosition().x, -m_guards.at(i)->GetPosition().y + mp_view->getSize().y);
 		int angle = static_cast<int>((m_guards.at(i)->GetSprite()->getSprite()->getRotation() - 90) * (3.141592 / 180)) % 360;
-		lm2->GetLight(m_guards.at(i))->m_directionAngle = -angle;
-		lm2->GetLight(m_guards.at(i))->SetCenter(vecG);
-		lm2->GetLight(m_guards.at(i))->CalculateAABB();
+		lm->GetLight(m_guards.at(i))->m_directionAngle = static_cast<float>(-angle);
+		lm->GetLight(m_guards.at(i))->SetCenter(vecG);
+		lm->GetLight(m_guards.at(i))->CalculateAABB();
 	}
 
 	if(m_timer > 0.5f) {
@@ -220,7 +220,7 @@ bool GameState::Update() {
 	Vec2f vec(mp_player->GetPosition().x, -mp_view->getCenter().y + mp_view->getSize().y);
 	//lm->GetLight(mp_player)->CalculateAABB();
 	lm->GetLight(mp_player)->SetCenter(vec);
-	lm2->GetLight(mp_player)->SetCenter(vec);
+	//lm2->GetLight(mp_player)->SetCenter(vec);
 
 	if(Settings::ms_gameOver || 
 		(	mp_player->GetPosition().x > Settings::ms_exit.x && mp_player->GetPosition().x < Settings::ms_exit.x + 100 &&
@@ -246,10 +246,10 @@ void GameState::Draw() {
 	fm->Draw(Settings::ms_window);
 
 	ls->SetView(*mp_view);
-	ls2->SetView(*mp_view);
+	//ls2->SetView(*mp_view);
 
-	ls2->RenderLights();
-	ls2->RenderLightTexture();
+	//ls2->RenderLights();
+	//ls2->RenderLightTexture();
 
 	ls->RenderLights();
 	ls->RenderLightTexture();
@@ -336,7 +336,7 @@ bool GameState::UpdateEvents() {
 
 	if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 		m_soundRippleManager.CreateSoundRipple(mp_player->GetPosition(), 2, true, m_spriteManager.Load("ripple.txt"));
-		for(int i = 0; i < m_guards.size(); i++) {
+		for(unsigned int i = 0; i < m_guards.size(); i++) {
 			/*sf::Vector2f pos(m_soundRippleManager.GuardNotice(m_guards.at(i)->GetPosition()));
 			if(pos.x > 0.1f && pos.y > 0.1f) {
 				m_guards.at(i)->AddWaypointToFront(pos);
@@ -345,7 +345,7 @@ bool GameState::UpdateEvents() {
 	}
 	else if(sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
 		m_soundRippleManager.CreateSoundRipple(mp_player->GetPosition(), 4, true, m_spriteManager.Load("ripple.txt"));
-		for(int i = 0; i < m_guards.size(); i++) {
+		for(unsigned int i = 0; i < m_guards.size(); i++) {
 			/*sf::Vector2f pos(m_soundRippleManager.GuardNotice(m_guards.at(i)->GetPosition()));
 			if(pos.x > 0.1f && pos.y > 0.1f) {
 				m_guards.at(i)->AddWaypointToFront(pos);

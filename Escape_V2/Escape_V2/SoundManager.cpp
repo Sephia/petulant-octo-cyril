@@ -119,7 +119,7 @@ int SoundManager::newSong(std::string filename, bool Looping)
 
 void SoundManager::Update()
 {
-	for (int i = 0; i < Sounds.size(); i++)
+	for (unsigned int i = 0; i < Sounds.size(); i++)
 	{
 		Sounds[i]->Update();
 	}

@@ -35,7 +35,7 @@ bool WallManager::AddWall(sf::ConvexShape* wall)
 }
 sf::ConvexShape* WallManager::GetWall(int index)
 {
-    if(!(index < 0) && !(index >= m_walls.size()))
+    if(!(index < 0) && !(static_cast<unsigned int>(index) >= m_walls.size()))
     {
         return m_walls[index];
     }
@@ -50,7 +50,7 @@ int WallManager::GetCount()
 }
 void WallManager::RemoveWall(int index)
 {
-    if(!(index < 0) && !(index >= m_walls.size()))
+    if(!(index < 0) && !(static_cast<unsigned int>(index) >= m_walls.size()))
     {
         mp_hullManager->RemoveHull(m_walls[index]);
         delete m_walls[index];

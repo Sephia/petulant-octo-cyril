@@ -20,28 +20,28 @@ void PathFinding::Init(Grid2D* grid) {
 
 void PathFinding::FindPath(sf::Vector2f currentPos, sf::Vector2f targetPos) {
 	if(!m_initializedStartGoal) {
-		for(int i = 0; i < m_openList.size(); i++) {
+		for(unsigned int i = 0; i < m_openList.size(); i++) {
 			delete m_openList.at(i);
 		}
 		m_openList.clear();
 		
-		for(int i = 0; i < m_visitedList.size(); i++) {
+		for(unsigned int i = 0; i < m_visitedList.size(); i++) {
 			delete m_visitedList.at(i);
 		}
 		m_visitedList.clear();
 
-		for(int i = 0; i < m_pathToGoal.size(); i++) {
+		for(unsigned int i = 0; i < m_pathToGoal.size(); i++) {
 			delete m_pathToGoal.at(i);
 		}
 		m_pathToGoal.clear();
 
 		SearchCell start;
-		start.m_xcoord = currentPos.x;
-		start.m_ycoord = currentPos.y;
+		start.m_xcoord = static_cast<int>(currentPos.x);
+		start.m_ycoord = static_cast<int>(currentPos.y);
 
 		SearchCell goal;
-		goal.m_xcoord = targetPos.x;
-		goal.m_ycoord = targetPos.y;
+		goal.m_xcoord = static_cast<int>(targetPos.x);
+		goal.m_ycoord = static_cast<int>(targetPos.y);
 
 		SetStartAndGoal(start, goal);
 		m_initializedStartGoal = true;
@@ -68,7 +68,7 @@ SearchCell* PathFinding::GetNextCell() {
 	int cellIndex = -1;
 	SearchCell* nextCell = NULL;
 
-	for(int i = 0; i < m_openList.size(); i++) {
+	for(unsigned int i = 0; i < m_openList.size(); i++) {
 		if(m_openList.at(i)->GetF() < bestF) {
 			bestF = m_openList.at(i)->GetF();
 			cellIndex = i;
@@ -90,7 +90,7 @@ void PathFinding::PathOpened(int x, int y, float newCost, SearchCell* p_parent) 
 	}
 
 	int id = y * WORLD_SIZE + x;
-	for(int i = 0; i < m_visitedList.size(); i++) {
+	for(unsigned int i = 0; i < m_visitedList.size(); i++) {
 		if(id == m_visitedList.at(i)->m_id) {
 			return;
 		}
@@ -100,7 +100,7 @@ void PathFinding::PathOpened(int x, int y, float newCost, SearchCell* p_parent) 
 	newChild->m_g = newCost;
 	newChild->m_h = p_parent->ManHattanDistance(m_goalCell);
 
-	for(int i = 0; i < m_openList.size(); i++) {
+	for(unsigned int i = 0; i < m_openList.size(); i++) {
 		if(id == m_openList.at(i)->m_id) {
 			float newF = newChild->m_g + newCost + m_openList.at(i)->m_h;
 
@@ -131,7 +131,7 @@ void PathFinding::ContinuePath() {
 		SearchCell* getPath;
 
 		for(getPath = m_goalCell; getPath != NULL; getPath = getPath->mp_parent) {
-			m_pathToGoal.push_back(new sf::Vector2f(getPath->m_xcoord, getPath->m_ycoord));
+			m_pathToGoal.push_back(new sf::Vector2f(static_cast<float>(getPath->m_xcoord), static_cast<float>(getPath->m_ycoord)));
 		}
 
 		m_foundGoal = true;
@@ -155,7 +155,7 @@ void PathFinding::ContinuePath() {
 		//right_up diagonal
 		PathOpened(currentCell->m_xcoord + 1, currentCell->m_ycoord - 1, currentCell->m_g + 14, currentCell);
 		
-		for(int i = 0; i < m_openList.size(); i++) {
+		for(unsigned int i = 0; i < m_openList.size(); i++) {
 			if(currentCell->m_id == m_openList.at(i)->m_id) {
 				m_openList.erase(m_openList.begin() + i);
 			}
@@ -164,7 +164,7 @@ void PathFinding::ContinuePath() {
 }
 
 sf::Vector2f PathFinding::NextPathPos(sf::Vector2f pos, float radius) {
-	int index = 1;
+	unsigned int index = 1;
 	
 	sf::Vector2f nextPos;
 	nextPos.x = m_pathToGoal.at(m_pathToGoal.size() - index)->x;
@@ -185,7 +185,7 @@ sf::Vector2f PathFinding::NextPathPos(sf::Vector2f pos, float radius) {
 void PathFinding::Draw(sf::RenderWindow* window) {
 	sf::RectangleShape rec(sf::Vector2f(50, 50));
 	rec.setFillColor(sf::Color(150, 150, 150));
-	for(int i = 0; i < this->m_pathToGoal.size(); i++) {
+	for(unsigned int i = 0; i < this->m_pathToGoal.size(); i++) {
 		rec.setPosition((*this->m_pathToGoal.at(i)).x * 40, (*this->m_pathToGoal.at(i)).y * 40);
 		window->draw(rec);
 	}

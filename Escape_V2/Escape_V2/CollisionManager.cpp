@@ -27,7 +27,7 @@ bool CollisionManager::Circle_WallCollision(const sf::Vector2f coordinates, floa
     for (int i = 0; i < m_wallManager->GetCount(); i++)
     {
         //hämta antalet punkter i en convex form
-        for (int j = 0; j < m_wallManager->GetWall(i)->getPointCount(); j++)
+        for (unsigned int j = 0; j < m_wallManager->GetWall(i)->getPointCount(); j++)
         {
             //hämta startpunkten
             sf::Vector2f A = m_wallManager->GetWall(i)->getPosition() + m_wallManager->GetWall(i)->getPoint(j);
@@ -94,7 +94,7 @@ bool CollisionManager::Circle_WallCollision(const sf::Sprite& sprite)
     for (int i = 0; i < m_wallManager->GetCount(); i++)
     {
         //hämta antalet punkter i en convex form
-        for (int j = 0; j < m_wallManager->GetWall(i)->getPointCount(); j++)
+        for (unsigned int j = 0; j < m_wallManager->GetWall(i)->getPointCount(); j++)
         {
             //hämta startpunkten
             sf::Vector2f A = m_wallManager->GetWall(i)->getPosition() + m_wallManager->GetWall(i)->getPoint(j);
@@ -239,7 +239,7 @@ Door* CollisionManager::Circle_DoorCollision(const sf::Sprite& sprite)
     {
         sf::CircleShape* door = m_doorManager->GetUseRadius(i);
         //hämta antalet punkter i en convex form
-        for (int j = 0; j < m_doorManager->GetDoor(door)->getPointCount(); j++)
+        for (unsigned int j = 0; j < m_doorManager->GetDoor(door)->getPointCount(); j++)
         {
             //hämta startpunkten
             sf::Vector2f A = m_doorManager->GetDoor(door)->getPosition() + m_doorManager->GetDoor(door)->getPoint(j);
@@ -305,7 +305,7 @@ bool CollisionManager::Circle_FurnitureCollision(const sf::Sprite& player, const
                                             player.getGlobalBounds().top + player.getGlobalBounds().height / 2.0f);
     
         //hämta antalet punkter i en convex form
-        for (int j = 0; j < furniture.getPointCount(); j++)
+        for (unsigned int j = 0; j < furniture.getPointCount(); j++)
         {
             //hämta startpunkten
             sf::Vector2f A = furniture.getPosition() + furniture.getPoint(j);

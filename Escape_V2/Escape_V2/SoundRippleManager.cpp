@@ -32,7 +32,7 @@ void SoundRippleManager::CreateSoundRipple(sf::Vector2f soundOriginPosition, int
 }
 
 void SoundRippleManager::UpdateSounds() {
-	for(int i = 0; i < m_soundOrigins.size(); i++) {
+	for(unsigned int i = 0; i < m_soundOrigins.size(); i++) {
 		if(m_soundOrigins.at(i)->Update()) {
 			auto it = m_soundOrigins.begin() + i;
 			delete *it;
@@ -43,7 +43,7 @@ void SoundRippleManager::UpdateSounds() {
 }
 
 void SoundRippleManager::Draw() {
-	for(int i = 0; i < m_soundOrigins.size(); i++) {
+	for(unsigned int i = 0; i < m_soundOrigins.size(); i++) {
 		m_soundOrigins.at(i)->Draw();
 	}
 }

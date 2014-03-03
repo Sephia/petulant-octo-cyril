@@ -90,7 +90,7 @@ void PlayerObject::Movement() {
 		else {
 			m_position = m_position + m_direction * m_speed * 3.0f * Settings::ms_deltatime;
 		}
-		mp_sprite->getSprite()->setRotation(atan2(m_direction.y, m_direction.x) * 180 / 3.141592 + 90);
+		mp_sprite->getSprite()->setRotation(atan2(m_direction.y, m_direction.x) * 180 / 3.141592f + 90);
 	}
 }
 
@@ -100,7 +100,7 @@ void PlayerObject::NormalizeDirection() {
 		distance *= -1;
 	}
 	else if(distance == 0) {
-		distance = 0.0001;
+		distance = 0.0001f;
 	}
 	
 	m_direction /= distance;

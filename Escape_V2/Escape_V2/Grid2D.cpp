@@ -14,14 +14,14 @@ Grid2D::~Grid2D() {
 
 void Grid2D::Init(Level* p_level, CollisionManager* cm) {
 
-	int width = p_level->GetSpriteSize().x / squareSize;
-	int height = p_level->GetSpriteSize().y / squareSize;
+	int width = static_cast<int>(p_level->GetSpriteSize().x) / squareSize;
+	int height = static_cast<int>(p_level->GetSpriteSize().y) / squareSize;
 
 
 	m_grid.resize(height);
-	for(int i = 0; i < m_grid.size(); i++) {
+	for(unsigned int i = 0; i < m_grid.size(); i++) {
 		m_grid.at(i).resize(width);
-		for(int j = 0; j < m_grid.at(i).size(); j++) {
+		for(unsigned int j = 0; j < m_grid.at(i).size(); j++) {
 			m_grid.at(i).at(j) = !cm->Circle_WallCollision(sf::Vector2f(j * squareSize + squareSize / 2.0f, i * squareSize + squareSize / 2.0f), squareSize / 2.0f);
 		}
 	}	
@@ -35,8 +35,8 @@ bool Grid2D::Walkable(int x, int y) {
 }
 
 bool Grid2D::SetWalkable(int x, int y, bool walkable) {
-	if(y < m_grid.size()) {
-		if(x < m_grid.at(y).size()) {
+	if(static_cast<unsigned int>(y) < m_grid.size()) {
+		if(static_cast<unsigned int>(x) < m_grid.at(y).size()) {
 			m_grid.at(y).at(x) = walkable;
 			return true;
 		}
@@ -48,18 +48,19 @@ void Grid2D::Draw() {
 	
 	sf::RectangleShape *circ = new sf::RectangleShape(sf::Vector2f(30.0f, 30.0f));
 	circ->setOutlineThickness(-2);
-	circ->setFillColor(sf::Color(0.0f, 0.0f, 0.0f, 0));
+	circ->setFillColor(sf::Color(0, 0, 0, 0));
 
-	for(int i = 0; i < m_grid.size(); i++) {
-		for(int j = 0; j < m_grid.at(i).size(); j++) {
+	for(unsigned int i = 0; i < m_grid.size(); i++) {
+		for(unsigned int j = 0; j < m_grid.at(i).size(); j++) {
 			if(m_grid.at(i).at(j)) {
-				circ->setOutlineColor(sf::Color(255.0f, 0.0f, 0.0f));
+				circ->setOutlineColor(sf::Color(255, 0, 0));
 			}
 			else {
-				circ->setOutlineColor(sf::Color(0.0f, 255.0f, 255.0f));
+				circ->setOutlineColor(sf::Color(0, 255, 255));
 			}
-			circ->setPosition(j * squareSize, i * squareSize);
+			circ->setPosition(static_cast<float>(j * squareSize), static_cast<float>(i * squareSize));
 			Settings::ms_window->draw(*circ);
 		}
 	}
+	
 }

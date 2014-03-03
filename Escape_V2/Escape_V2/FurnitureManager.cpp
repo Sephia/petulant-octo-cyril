@@ -9,7 +9,7 @@
 #include <fstream>
 #include <sstream>
 
-const float M_PI = 3.14159265359;
+const float M_PI = 3.14159265359f;
 
 FurnitureManager::FurnitureManager(HullManager* hullManager)
 :mp_hullManager(hullManager)
@@ -109,13 +109,13 @@ bool FurnitureManager::LoadFromFile(std::string filename, ltbl::LightSystem* lm)
                 shape->setTexture(texture);
                 //shape->setTextureRect(sf::Rect<int>(0,0,texture->getSize().x, texture->getSize().y));
             }
-            shape->setPosition(x, y);
-            shape->setOrigin(shape->getTextureRect().width / 2, shape->getTextureRect().height / 2);
+            shape->setPosition(static_cast<float>(x), static_cast<float>(y));
+            shape->setOrigin(static_cast<float>(shape->getTextureRect().width / 2), static_cast<float>(shape->getTextureRect().height / 2));
             
             //rotation of the image
             int rotation;
             ss >> rotation;
-            shape->setRotation(rotation);
+            shape->setRotation(static_cast<float>(rotation));
             
             //0 = see-through, 1 = semi-transparent, 2+ = solid
             int lightProperty;
@@ -130,7 +130,7 @@ bool FurnitureManager::LoadFromFile(std::string filename, ltbl::LightSystem* lm)
                 ltbl::ConvexHull* hull = new ltbl::ConvexHull();
                 
                 
-                for (int i = 0; i < shape->getPointCount(); i++)
+                for (unsigned int i = 0; i < shape->getPointCount(); i++)
                 {
                     hull->m_vertices.push_back(Vec2f(shape->getPoint(i).x - shape->getSize().x/2, shape->getPoint(i).y - shape->getSize().y/2));
                     sf::Vector2f vector = shape->getPoint(i);

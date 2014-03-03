@@ -16,7 +16,7 @@ CreditState::~CreditState() {
 
 void CreditState::Enter() {
 	m_nextState = "";
-	mp_view = new sf::View(sf::FloatRect(0, 0, Settings::ms_window->getSize().x, Settings::ms_window->getSize().y));
+	mp_view = new sf::View(sf::FloatRect(0, 0, static_cast<float>(Settings::ms_window->getSize().x), static_cast<float>(Settings::ms_window->getSize().y)));
 
 	Settings::ms_window->setView(*mp_view);
 	

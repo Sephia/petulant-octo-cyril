@@ -36,7 +36,7 @@ void GuardInvestigateState::Init(int number, sf::Vector2f* p_position, AnimatedS
 
 	mp_position = &Settings::ms_guards.at(m_number);
 
-	for(int i = 0; i < Settings::m_allGuardWaypoints[m_number].size(); i++) {
+	for(unsigned int i = 0; i < Settings::m_allGuardWaypoints[m_number].size(); i++) {
 	
 		m_waypoints.push_back(Settings::m_allGuardWaypoints[m_number].at(i));
 
@@ -76,7 +76,7 @@ void GuardInvestigateState::Cleanup() {
 void GuardInvestigateState::UpdateAnimation() {
 	mp_sprite->Update();
 	mp_sprite->getSprite()->setPosition(*mp_position);
-	m_rotation = atan2(mp_position->y - m_waypoints.at(0).y, mp_position->x - m_waypoints.at(0).x) * 180 / M_PI - 90;
+	m_rotation = atan2(mp_position->y - m_waypoints.at(0).y, mp_position->x - m_waypoints.at(0).x) * 180 / static_cast<float>(M_PI) - 90;
 	mp_sprite->getSprite()->setRotation(m_rotation);
 }
 
