@@ -1,86 +1,7 @@
-﻿Build started 2014-02-28 19:08:22.
+﻿Build started 2014-03-03 13:56:08.
      1>Project "D:\petulant-octo-cyril\Escape_V2\Escape_V2\Escape_V2.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"..\Deps\let-there-be-light" /I"..\Deps\SFML-2.1\include\\" /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt CollisionManager.cpp Door.cpp DoorManager.cpp Furniture.cpp FurnitureManager.cpp GameState.cpp Grid2D.cpp GuardInvestigateState.cpp GuardPatrolState.cpp GuardSearchState.cpp GuardShootingState.cpp Key.cpp KeyManager.cpp PathFinding.cpp PlayerObject.cpp
-         CollisionManager.cpp
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\Furniture.h(20): warning C4520: 'Furniture' : multiple default constructors specified
-     1>CollisionManager.cpp(30): warning C4018: '<' : signed/unsigned mismatch
-     1>CollisionManager.cpp(97): warning C4018: '<' : signed/unsigned mismatch
-     1>CollisionManager.cpp(242): warning C4018: '<' : signed/unsigned mismatch
-     1>CollisionManager.cpp(308): warning C4018: '<' : signed/unsigned mismatch
-         Door.cpp
-     1>Door.cpp(7): warning C4305: 'initializing' : truncation from 'double' to 'const float'
-     1>Door.cpp(19): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>Door.cpp(20): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>Door.cpp(66): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>Door.cpp(67): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
-     1>Door.cpp(81): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
-     1>Door.cpp(87): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>Door.cpp(88): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
-     1>Door.cpp(92): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>Door.cpp(93): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
-         DoorManager.cpp
-     1>DoorManager.cpp(12): warning C4305: 'initializing' : truncation from 'double' to 'const float'
-     1>DoorManager.cpp(27): warning C4018: '>=' : signed/unsigned mismatch
-     1>DoorManager.cpp(61): warning C4018: '<' : signed/unsigned mismatch
-     1>DoorManager.cpp(78): warning C4018: '<' : signed/unsigned mismatch
-     1>DoorManager.cpp(219): warning C4018: '<' : signed/unsigned mismatch
-         Furniture.cpp
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\Furniture.h(20): warning C4520: 'Furniture' : multiple default constructors specified
-         FurnitureManager.cpp
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\Furniture.h(20): warning C4520: 'Furniture' : multiple default constructors specified
-     1>FurnitureManager.cpp(12): warning C4305: 'initializing' : truncation from 'double' to 'const float'
-     1>FurnitureManager.cpp(112): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>FurnitureManager.cpp(113): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>FurnitureManager.cpp(118): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>FurnitureManager.cpp(133): warning C4018: '<' : signed/unsigned mismatch
-         GameState.cpp
-     1>GameState.cpp(46): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
-     1>GameState.cpp(93): warning C4018: '<' : signed/unsigned mismatch
-     1>GameState.cpp(196): warning C4018: '<' : signed/unsigned mismatch
-     1>GameState.cpp(209): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
-     1>GameState.cpp(339): warning C4018: '<' : signed/unsigned mismatch
-     1>GameState.cpp(348): warning C4018: '<' : signed/unsigned mismatch
-         Grid2D.cpp
-     1>Grid2D.cpp(17): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
-     1>Grid2D.cpp(18): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
-     1>Grid2D.cpp(22): warning C4018: '<' : signed/unsigned mismatch
-     1>Grid2D.cpp(24): warning C4018: '<' : signed/unsigned mismatch
-     1>Grid2D.cpp(38): warning C4018: '<' : signed/unsigned mismatch
-     1>Grid2D.cpp(39): warning C4018: '<' : signed/unsigned mismatch
-     1>Grid2D.cpp(51): warning C4244: 'argument' : conversion from 'float' to 'sf::Uint8', possible loss of data
-     1>Grid2D.cpp(53): warning C4018: '<' : signed/unsigned mismatch
-     1>Grid2D.cpp(54): warning C4018: '<' : signed/unsigned mismatch
-     1>Grid2D.cpp(56): warning C4244: 'argument' : conversion from 'float' to 'sf::Uint8', possible loss of data
-     1>Grid2D.cpp(59): warning C4244: 'argument' : conversion from 'float' to 'sf::Uint8', possible loss of data
-     1>Grid2D.cpp(61): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-         GuardInvestigateState.cpp
-     1>GuardInvestigateState.cpp(39): warning C4018: '<' : signed/unsigned mismatch
-     1>GuardInvestigateState.cpp(79): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-         GuardPatrolState.cpp
-     1>GuardPatrolState.cpp(39): warning C4018: '<' : signed/unsigned mismatch
-     1>GuardPatrolState.cpp(76): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-         GuardSearchState.cpp
-         GuardShootingState.cpp
-         Key.cpp
-     1>Key.cpp(14): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-         KeyManager.cpp
-     1>KeyManager.cpp(28): warning C4018: '>=' : signed/unsigned mismatch
-         PathFinding.cpp
-     1>PathFinding.cpp(23): warning C4018: '<' : signed/unsigned mismatch
-     1>PathFinding.cpp(28): warning C4018: '<' : signed/unsigned mismatch
-     1>PathFinding.cpp(33): warning C4018: '<' : signed/unsigned mismatch
-     1>PathFinding.cpp(39): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
-     1>PathFinding.cpp(40): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
-     1>PathFinding.cpp(43): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
-     1>PathFinding.cpp(44): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
-     1>PathFinding.cpp(71): warning C4018: '<' : signed/unsigned mismatch
-     1>PathFinding.cpp(93): warning C4018: '<' : signed/unsigned mismatch
-     1>PathFinding.cpp(103): warning C4018: '<' : signed/unsigned mismatch
-     1>PathFinding.cpp(134): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>PathFinding.cpp(158): warning C4018: '<' : signed/unsigned mismatch
-     1>PathFinding.cpp(175): warning C4018: '<' : signed/unsigned mismatch
-     1>PathFinding.cpp(188): warning C4018: '<' : signed/unsigned mismatch
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"..\Deps\let-there-be-light" /I"..\Deps\SFML-2.1\include\\" /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt PlayerObject.cpp
          PlayerObject.cpp
      1>PlayerObject.cpp(94): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
      1>PlayerObject.cpp(104): warning C4305: '=' : truncation from 'double' to 'float'
@@ -146,4 +67,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:16.55
+Time Elapsed 00:00:05.01

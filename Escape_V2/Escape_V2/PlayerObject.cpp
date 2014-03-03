@@ -74,7 +74,6 @@ void PlayerObject::SetSneak(bool sneak) {
 }
 
 void PlayerObject::Draw() {
-	
 	Settings::ms_window->draw(*mp_sprite->getSprite());
 }
 
