@@ -2,7 +2,7 @@
 //  Key.cpp
 
 #include "Key.h"
-#include <cmath>
+#include "stdafx.h"
 
 
 Key::Key(int x, int y, sf::Texture* texture, sf::Color* keyColor)

@@ -4,10 +4,10 @@
 #include "OptionsState.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
-#include <iostream>
 #include <memory>
 #include <stdlib.h>
 #include "Settings.h"
+#include "stdafx.h"
 
 
 StartMenuState::StartMenuState() {

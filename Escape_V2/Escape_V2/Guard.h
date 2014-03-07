@@ -14,7 +14,7 @@ public:
 	Guard(int number, AnimatedSprite* p_sprite, Grid2D* mp_grid);
 	~Guard();
 	
-	void UpdateAnimation();
+	void UpdateAnimation(sf::Vector2f playerPosition);
 	void Update(sf::Vector2f playerPosition, CollisionManager* p_collisionManager);
 	void Draw();
 	sf::Vector2f GetPosition();

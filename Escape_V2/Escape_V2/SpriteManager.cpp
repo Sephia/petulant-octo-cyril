@@ -2,6 +2,7 @@
 
 #include "SpriteManager.h"
 #include "AnimatedSprite.h"
+#include "stdafx.h"
 
 SpriteManager::SpriteManager() {
 
@@ -61,9 +62,9 @@ AnimatedSprite* SpriteManager::Load(const std::string& c_filename) {
 				if(!LoadTexture(row)) {
 					return nullptr;
 				}
-			it = m_textures.find(row);
-			texture = it->second;
+				it = m_textures.find(row);
 			}
+			texture = it->second;
 			continue;
 		}
 

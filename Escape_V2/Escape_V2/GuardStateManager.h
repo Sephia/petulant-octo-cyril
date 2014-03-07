@@ -16,12 +16,12 @@ public:
 	~GuardStateManager();
 
 	void Attach(GuardState *p_state);
-	bool Update();
+	bool Update(sf::Vector2f player_position, CollisionManager* p_collisionManager);
 	void SetState(const std::string &c_type);
 	void ChangeState();
 	void Init(int number, sf::Vector2f* p_position, AnimatedSprite* sprite, Grid2D* p_grid);
 	void Cleanup();
-	void UpdateAnimation();
+	void UpdateAnimation(sf::Vector2f playerPosition);
 	void AddWaypointToFront(sf::Vector2f waypoint);
 	bool Detected(sf::Vector2f player_position, CollisionManager* p_collisionManager);
 	bool IsCurrent(std::string& type);

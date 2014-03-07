@@ -5,15 +5,18 @@
 #include "Door.h"
 #include <LTBL/Light/ConvexHull.h>
 #include <LTBL/Light/LightSystem.h>
+#include <LTBL/Light/Light_Point.h>
+#include <LTBL/Utils.h>
 #include "HullManager.h"
+#include "LightManager.h"
 #include "fstream"
 #include "sstream"
+#include "stdafx.h"
 
-const float M_PI = 3.14159265359f;
-
-DoorManager::DoorManager(HullManager* hullManager, ltbl::LightSystem* lightsystem)
+DoorManager::DoorManager(HullManager* hullManager, LightManager* lightManager, ltbl::LightSystem* lightsystem)
 :mp_hullManager(hullManager)
 ,mp_lightSystem(lightsystem)
+,mp_lightManager(lightManager)
 {
     
 }
@@ -24,12 +27,12 @@ DoorManager::~DoorManager()
 
 sf::CircleShape* DoorManager::GetUseRadius(int index)
 {
-    if(static_cast<unsigned int>(index) >= m_doors.size() || index < 0)
+    if(index >= m_doors.size() || index < 0)
     {
         return nullptr;
     }
     auto it = m_doors.begin();
-    for (int i = 0; i < index; i++)
+    for (int i =0; i<index; i++)
     {
         it++;
     }
@@ -58,7 +61,7 @@ bool DoorManager::OpenDoor(sf::CircleShape* useRadius, sf::Color key)
         if(door->IsOpen())
         {
             int rotation = -90;
-            for (unsigned int i = 0; i < door->getPointCount(); i++)
+            for (int i = 0; i < door->getPointCount(); i++)
             {
                 sf::Vector2f vector = door->getPoint(i);
                 vector.x = (hull->m_vertices[i].x*cosf(-rotation * (M_PI/180)) - hull->m_vertices[i].y * sinf(-rotation * (M_PI/180)));
@@ -69,13 +72,16 @@ bool DoorManager::OpenDoor(sf::CircleShape* useRadius, sf::Color key)
             hull->CalculateNormals();
             hull->CalculateAABB();
             hull->SetWorldCenter(Vec2f(door->getPosition().x, (mp_lightSystem->m_viewAABB.GetDims().y - door->getPosition().y)));
+            ltbl::Light_Point* glow = mp_lightManager->GetLight(door);
+            glow->SetCenter(hull->GetWorldCenter());
+            
         }
         else
         {
             Door* door = it->second;
             ltbl::ConvexHull* hull = mp_hullManager->GetHull(door);
             int rotation = 90;
-            for (unsigned int i = 0; i < door->getPointCount(); i++)
+            for (int i = 0; i < door->getPointCount(); i++)
             {
                 sf::Vector2f vector = door->getPoint(i);
                 vector.x = (hull->m_vertices[i].x*cosf(-rotation * (M_PI/180)) - hull->m_vertices[i].y * sinf(-rotation * (M_PI/180)));
@@ -86,6 +92,9 @@ bool DoorManager::OpenDoor(sf::CircleShape* useRadius, sf::Color key)
             hull->CalculateNormals();
             hull->CalculateAABB();
             hull->SetWorldCenter(Vec2f(door->getPosition().x, (mp_lightSystem->m_viewAABB.GetDims().y - door->getPosition().y)));
+            ltbl::Light_Point* glow = mp_lightManager->GetLight(door);
+            glow->SetCenter(hull->GetWorldCenter());
+            
         }
         return true;
     }
@@ -216,9 +225,9 @@ bool DoorManager::LoadFromFile(std::string filename)
             ltbl::ConvexHull* hull = new ltbl::ConvexHull();
             
             
-            for (unsigned int i = 0; i < door->getPointCount(); i++)
+            for (int i = 0; i < door->getPointCount(); i++)
             {
-                hull->m_vertices.push_back(Vec2f(door->getPoint(i).x, door->getPoint(i).y - door->getSize().y));
+                hull->m_vertices.push_back(Vec2f(door->getPoint(i).x - door->getSize().x/2, door->getPoint(i).y - door->getSize().y/2));
                 sf::Vector2f vector = door->getPoint(i);
                 vector.x = (hull->m_vertices[i].x*cosf(-rotation * (M_PI/180)) - hull->m_vertices[i].y * sinf(-rotation * (M_PI/180)));
                 vector.y = (hull->m_vertices[i].x*sinf(-rotation * (M_PI/180)) + hull->m_vertices[i].y * cosf(-rotation * (M_PI/180)));
@@ -227,12 +236,29 @@ bool DoorManager::LoadFromFile(std::string filename)
             }
             hull->CalculateNormals();
             hull->CalculateAABB();
-            hull->SetWorldCenter(Vec2f(door->getPosition().x, (mp_lightSystem->m_viewAABB.GetDims().y - door->getPosition().y)));
+            hull->SetWorldCenter(Vec2f(door->GetUseRadius()->getPosition().x, (mp_lightSystem->m_viewAABB.GetDims().y - door->GetUseRadius()->getPosition().y)));
             hull->m_renderLightOverHull = true;
             hull->m_transparency = 0.5f;
             
             m_doors.insert(std::make_pair(door->GetUseRadius(), door));
             mp_hullManager->AddHull(hull, door);
+            
+            ltbl::Light_Point* glow = new ltbl::Light_Point();
+            glow->m_center = Vec2f(door->GetUseRadius()->getPosition().x, mp_lightSystem->m_viewAABB.GetDims().y - door->GetUseRadius()->getPosition().y);
+            glow->m_radius = door->GetUseRadius()->getRadius();
+            glow->m_size = 1.0f;
+            glow->m_color.r = static_cast<float>(color->r) / 255.0f;
+            glow->m_color.g = static_cast<float>(color->g) / 255.0f;
+            glow->m_color.b = static_cast<float>(color->b) / 255.0f;
+            glow->m_intensity = 2.0f;
+            glow->m_bleed = 0.0f;
+            glow->m_spreadAngle = ltbl::pifTimes2;
+            glow->m_softSpreadAngle = 0.0f;
+            glow->CalculateAABB();
+            
+            mp_lightManager->AddLight(glow, door);
+            
+            glow->SetAlwaysUpdate(false);
             
             std::getline(stream, row, '\n');
             if (*(row.end()-1) == '\r')

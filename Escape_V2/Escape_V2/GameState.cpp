@@ -16,12 +16,15 @@
 #include "SpriteManager.h"
 #include "Grid2D.h"
 #include "PathFinding.h"
+#include "Key.h"
+#include "GUI.h"
 
 GameState::GameState() {
 	m_nextState = "";
 	mp_player = nullptr;
 	m_timer = 0.0f;
 	mp_grid = nullptr;
+	mp_gui = nullptr;
 }
 
 GameState::~GameState() {
@@ -38,13 +41,14 @@ void GameState::Enter() {
 
 	m_spriteManager.Init("../data/");
 	
-	mp_player = new PlayerObject(m_spriteManager.Load("male.txt"));
+	mp_player = new PlayerObject(m_spriteManager.Load("Player.txt"));
 
 	mp_view = new sf::View();
 
 	mp_view->setCenter(mp_player->GetPosition());
 	mp_view->setSize(static_cast<float>(Settings::ms_window->getSize().x), static_cast<float>(Settings::ms_window->getSize().y));
 
+	mp_gui = new GUI();
 	
 	ls = new ltbl::LightSystem(AABB(Vec2f(0, 0), Vec2f(static_cast<float>(3657), static_cast<float>(5651))), Settings::ms_window, "../data/lightFin.png", "../data/shaders/lightAttenuationShader.frag");
     ls->SetView(*mp_view);
@@ -56,7 +60,7 @@ void GameState::Enter() {
     hl = new HullManager(ls);
     wl = new WallManager(hl);
     km = new KeyManager(lm, ls);
-    dm = new DoorManager(hl, ls);
+    dm = new DoorManager(hl, lm, ls);
     fm = new FurnitureManager(hl);
     cl = new CollisionManager(wl, km, dm);
 
@@ -69,7 +73,7 @@ void GameState::Enter() {
 	mp_grid->Init(&m_level, cl);
 
 	for(unsigned int i = 0; i < Settings::ms_guards.size(); i++) {
-		m_guards.push_back(new Guard(i, m_spriteManager.Load("maleGuardWalking.txt"), mp_grid));
+		m_guards.push_back(new Guard(i, m_spriteManager.Load("Guard1.txt"), mp_grid));
 	}
 
 	ltbl::Light_Point* testLight = new ltbl::Light_Point();
@@ -199,14 +203,13 @@ bool GameState::Update() {
 			m_soundRippleManager.CreateSoundRipple(m_guards.at(i)->GetPosition(), 2, false, m_spriteManager.Load("ripple.txt"));
 		}
 		sf::Vector2f pos(m_soundRippleManager.GuardNotice(m_guards.at(i)->GetPosition()));
-		if(pos.x > 0.1f && pos.y > 0.1f) {
+		if(pos.x > 1.0f && pos.y > 1.0f) {
 			m_guards.at(i)->AddWaypointToFront(pos);
 		}
 		
-		
 		Vec2f vecG(m_guards.at(i)->GetPosition().x, -m_guards.at(i)->GetPosition().y + mp_view->getSize().y);
-		int angle = static_cast<int>((m_guards.at(i)->GetSprite()->getSprite()->getRotation() - 90) * (3.141592 / 180)) % 360;
-		lm->GetLight(m_guards.at(i))->m_directionAngle = static_cast<float>(-angle);
+		float angle = (static_cast<int>(m_guards.at(i)->GetSprite()->getSprite()->getRotation() - 90) % 360)  * (3.141592 / 180);
+		lm->GetLight(m_guards.at(i))->m_directionAngle = -angle;
 		lm->GetLight(m_guards.at(i))->SetCenter(vecG);
 		lm->GetLight(m_guards.at(i))->CalculateAABB();
 	}
@@ -234,14 +237,16 @@ bool GameState::Update() {
 
 void GameState::Draw() {
 	Settings::ms_window->clear(sf::Color(0, 0, 0, 255));
+
+	mp_view->setCenter(mp_player->GetPosition());
+	Settings::ms_window->setView(*mp_view);
+
 	m_level.Draw();
 	mp_player->Draw();
 	for(unsigned int i = 0; i < m_guards.size(); i++) {
 		m_guards.at(i)->Draw();
 	}
 	
-	mp_view->setCenter(mp_player->GetPosition());
-	Settings::ms_window->setView(*mp_view);
 	dm->Draw(Settings::ms_window);
 	fm->Draw(Settings::ms_window);
 
@@ -255,13 +260,13 @@ void GameState::Draw() {
 	ls->RenderLightTexture();
 
 	km->Draw(Settings::ms_window);
-	
 
 	m_soundRippleManager.Draw();
 
+	mp_gui->Draw(Settings::ms_window);
 	//mp_grid->Draw();
 	Settings::ms_window->display();
-	//Settings::ms_window->clear(sf::Color(0, 0, 0, 255));
+//	Settings::ms_window->clear(sf::Color(0, 0, 0, 255));
 }
 
 std::string GameState::Next() {
@@ -301,6 +306,17 @@ bool GameState::UpdateEvents() {
 			if(event.key.code == sf::Keyboard::LShift) {
 				Settings::ms_inputManager.m_keyboard_current[sf::Keyboard::LShift] = true;
 			}
+			if(event.key.code == sf::Keyboard::Space) {
+				Settings::ms_inputManager.m_keyboard_current[sf::Keyboard::Space] = true;
+				sf::CircleShape* circle_key = cl->Circle_KeyPickup(*mp_player->GetSprite());
+				if(circle_key != nullptr) {
+                    Key* key = km->PickUpKey(circle_key);
+                    sf::Color color = key->GetPickUpRadius()->getFillColor();
+                    color.a = 255;
+                    key->setColor(color);
+					mp_gui->AddItem(key);
+				}
+			}
 		}
 
 		else if(event.type == sf::Event::KeyReleased) {
@@ -319,14 +335,10 @@ bool GameState::UpdateEvents() {
 			if(event.key.code == sf::Keyboard::LShift) {
 				Settings::ms_inputManager.m_keyboard_current[sf::Keyboard::LShift] = false;
 			}
+			if(event.key.code == sf::Keyboard::Space) {
+				Settings::ms_inputManager.m_keyboard_current[sf::Keyboard::Space] = false;
+			}
 		}
-	}
-	
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-		Settings::SetFullscreen();
-	}
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::BackSpace)) {
-		Settings::SetWindowed();
 	}
 
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
@@ -334,26 +346,26 @@ bool GameState::UpdateEvents() {
 		quit = true;
 	}
 
-	if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-		m_soundRippleManager.CreateSoundRipple(mp_player->GetPosition(), 2, true, m_spriteManager.Load("ripple.txt"));
-		for(unsigned int i = 0; i < m_guards.size(); i++) {
-			/*sf::Vector2f pos(m_soundRippleManager.GuardNotice(m_guards.at(i)->GetPosition()));
-			if(pos.x > 0.1f && pos.y > 0.1f) {
-				m_guards.at(i)->AddWaypointToFront(pos);
-			}*/
-		}
-	}
-	else if(sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
-		m_soundRippleManager.CreateSoundRipple(mp_player->GetPosition(), 4, true, m_spriteManager.Load("ripple.txt"));
-		for(unsigned int i = 0; i < m_guards.size(); i++) {
-			/*sf::Vector2f pos(m_soundRippleManager.GuardNotice(m_guards.at(i)->GetPosition()));
-			if(pos.x > 0.1f && pos.y > 0.1f) {
-				m_guards.at(i)->AddWaypointToFront(pos);
-			}*/
-		}
-	}
+	//if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+	//	m_soundRippleManager.CreateSoundRipple(mp_player->GetPosition(), 2, true, m_spriteManager.Load("ripple.txt"));
+	//	for(unsigned int i = 0; i < m_guards.size(); i++) {
+	//		/*sf::Vector2f pos(m_soundRippleManager.GuardNotice(m_guards.at(i)->GetPosition()));
+	//		if(pos.x > 0.1f && pos.y > 0.1f) {
+	//			m_guards.at(i)->AddWaypointToFront(pos);
+	//		}*/
+	//	}
+	//}
+	//else if(sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
+	//	m_soundRippleManager.CreateSoundRipple(mp_player->GetPosition(), 4, true, m_spriteManager.Load("ripple.txt"));
+	//	for(unsigned int i = 0; i < m_guards.size(); i++) {
+	//		/*sf::Vector2f pos(m_soundRippleManager.GuardNotice(m_guards.at(i)->GetPosition()));
+	//		if(pos.x > 0.1f && pos.y > 0.1f) {
+	//			m_guards.at(i)->AddWaypointToFront(pos);
+	//		}*/
+	//	}
+	//}
 
-	
+	Settings::ms_inputManager.PostUpdate();
 
 	return quit;
 }

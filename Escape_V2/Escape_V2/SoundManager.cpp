@@ -45,8 +45,8 @@ SoundManager::~SoundManager(){
 }
 */
 
-#include <iostream>
 #include "SoundManager.h"
+#include "stdafx.h"
 
 bool SoundEntity::toggleSound = true;
 

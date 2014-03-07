@@ -6,6 +6,7 @@
 #include "Settings.h"
 #include "PathFinding.h"
 #include "Grid2D.h"
+#include "stdafx.h"
 
 GuardShootingState::GuardShootingState() {
 	m_nextState = "GuardSearchState";
@@ -22,6 +23,7 @@ void GuardShootingState::Enter() {
 	std::cout << "Entering GuardShootingState\n";
 	m_done = false;
 	m_timer = 0.0f;
+	mp_sprite->ChangeAnimation("Guard1Shooting.png");
 }
 
 void GuardShootingState::Exit() {
@@ -43,7 +45,11 @@ void GuardShootingState::Init(int number, sf::Vector2f* p_position, AnimatedSpri
 	mp_pathfinding->Init(mp_grid);
 }
 
-bool GuardShootingState::Update() {
+bool GuardShootingState::Update(sf::Vector2f player_position, CollisionManager* p_collisionManager) {
+	if(!Detected(player_position, p_collisionManager)) {
+		m_nextState = "GuardChaseState";
+		m_done = true;
+	}
 	
 	return m_done;
 }
@@ -61,8 +67,10 @@ void GuardShootingState::Cleanup() {
 
 }
 
-void GuardShootingState::UpdateAnimation() {
+void GuardShootingState::UpdateAnimation(sf::Vector2f playerPosition) {
 	mp_sprite->Update();
+	m_rotation = atan2(mp_position->y - playerPosition.y, mp_position->x - playerPosition.x) * 180 / static_cast<float>(M_PI) - 90;
+	mp_sprite->getSprite()->setRotation(m_rotation);
 }
 
 void GuardShootingState::AddWaypointToFront(sf::Vector2f waypoint) {
@@ -70,30 +78,49 @@ void GuardShootingState::AddWaypointToFront(sf::Vector2f waypoint) {
 }
 
 bool GuardShootingState::Detected(sf::Vector2f playerPosition, CollisionManager* p_collisionManager) {
-	sf::Vector2f direction(sf::Vector2f(fabs(mp_position->x - playerPosition.x), fabs(mp_position->y - playerPosition.y)));
-	float distance = sqrtf(direction.x * direction.x + direction.y * direction.y);
-	while(distance > 20) {
-		if(p_collisionManager->Circle_WallCollision(*(mp_sprite->getSprite()))) {
+	sf::Vector2f vectorBetween(playerPosition - *mp_position);
+	float distance = sqrtf(vectorBetween.x * vectorBetween.x + vectorBetween.y * vectorBetween.y);
+
+	if(distance > 600) {
+		return false;
+	}
+
+	float angleToPlayer = static_cast<int>(atan2f(vectorBetween.y, -vectorBetween.x) * 180 / static_cast<float>(M_PI) + 180.0f) % 360;
+	float directionLooking = -m_rotation + 90;
+	int diffAngle = static_cast<int>(angleToPlayer - directionLooking + 360) % 360;
+
+	if(diffAngle < 300 && diffAngle > 60) {
+		return false;
+	}
+	sf::Vector2f direction;
+	if(distance != 0) {
+		direction = vectorBetween / distance;
+	}
+
+	while(distance > 8) {
+		if(p_collisionManager->Circle_WallCollision(playerPosition - vectorBetween, 15)) {
 			return false;
 		}
-		if(direction.x > 11) {
-			direction.x -= 5;
-		}
-		else if(direction.x < -11) {
-			direction.x += 5;
-		}
 
-		if(direction.y > -11) {
-			direction.y -= 5;
+		vectorBetween.x -= direction.x * 10;
+		vectorBetween.y -= direction.y * 10;
+
+		/*sf::CircleShape circ(15);
+		circ.setPosition(playerPosition - vectorBetween);
+		circ.setFillColor(sf::Color(100, 100, 100));
+		circ.setOrigin(15.0f, 15.0f);
+		Settings::ms_window->draw(circ);
+		Settings::ms_window->display();*/
+
+		float sqr = sqrtf(vectorBetween.x * vectorBetween.x - vectorBetween.y * vectorBetween.y);
+		
+		if(sqr > 0) {
+			distance = sqrtf(vectorBetween.x * vectorBetween.x - vectorBetween.y * vectorBetween.y);
 		}
-		else if(direction.y < -15) {
-			direction.y += 5;
+		else {
+			return false;
 		}
-		distance = sqrtf(direction.x * direction.x + direction.y * direction.y);
 	}
-	m_timer += Settings::ms_deltatime;
-	if(m_timer > 30) {
-		Settings::ms_gameOver = true;
-	}
-	return false;
+
+	return true;
 }

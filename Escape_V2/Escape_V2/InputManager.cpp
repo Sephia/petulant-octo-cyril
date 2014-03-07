@@ -1,6 +1,7 @@
 // InputManager.cpp
 
 #include "InputManager.h"
+#include "stdafx.h"
 
 InputManager::InputManager() {
 	for(int i = 0; i < 256; i++) {

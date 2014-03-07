@@ -1,6 +1,7 @@
 // OptionsState.cpp
 
 #include "OptionsState.h"
+#include "stdafx.h"
 
 OptionsState::OptionsState() {
 	m_nextState = "";

@@ -8,14 +8,14 @@
 #include "HullManager.h"
 #include <fstream>
 #include <sstream>
-
-const float M_PI = 3.14159265359f;
+#include "stdafx.h"
 
 FurnitureManager::FurnitureManager(HullManager* hullManager)
 :mp_hullManager(hullManager)
 {
     
 }
+
 FurnitureManager::~FurnitureManager()
 {
     Clear();
@@ -29,10 +29,12 @@ Furniture* FurnitureManager::GetFurniture(int index)
     }
     return nullptr;
 }
+
 int FurnitureManager::GetCount()
 {
     return m_furniture.size();
 }
+
 void FurnitureManager::Draw(sf::RenderWindow* win)
 {
     if(win != nullptr && m_furniture.size() !=0)

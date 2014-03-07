@@ -7,6 +7,7 @@
 #include "GuardSearchState.h"
 #include "GuardShootingState.h"
 #include "Grid2D.h"
+#include "stdafx.h"
 
 
 GuardStateManager::GuardStateManager() {
@@ -29,12 +30,12 @@ void GuardStateManager::Attach(GuardState *p_state) {
 	m_states.push_back(p_state);
 }
 
-bool GuardStateManager::Update() {
+bool GuardStateManager::Update(sf::Vector2f player_position, CollisionManager* p_collisionManager) {
 	if(mp_currentState == nullptr) {
 		return true;
 	}
 
-	if(mp_currentState->Update()) {
+	if(mp_currentState->Update(player_position, p_collisionManager)) {
 		ChangeState();
 		return false;
 	}
@@ -80,8 +81,8 @@ void GuardStateManager::Cleanup() {
 	}
 }
 
-void GuardStateManager::UpdateAnimation() {
-	mp_currentState->UpdateAnimation();
+void GuardStateManager::UpdateAnimation(sf::Vector2f playerPosition) {
+	mp_currentState->UpdateAnimation(playerPosition);
 }
 
 void GuardStateManager::AddWaypointToFront(sf::Vector2f waypoint) {

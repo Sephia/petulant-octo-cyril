@@ -7,12 +7,13 @@
 
 class Door;
 class HullManager;
+class LightManager;
 namespace ltbl { class LightSystem;}
 
 class DoorManager
 {
 public:
-    DoorManager(HullManager* hullManager, ltbl::LightSystem* lightsystem);
+    DoorManager(HullManager* hullManager, LightManager* lightManager, ltbl::LightSystem* lightsystem);
     ~DoorManager();
     
     //hämta dörren att kolla
@@ -41,6 +42,7 @@ public:
     
 private:
     HullManager* mp_hullManager;
+    LightManager* mp_lightManager;
     ltbl::LightSystem* mp_lightSystem;
     std::map<sf::CircleShape*, Door*> m_doors;
     std::map<std::string, sf::Texture*> m_textures;

@@ -1,6 +1,7 @@
 #include "Background.h"
 #include "AnimatedSprite.h"
 #include "Settings.h"
+#include "stdafx.h"
 
 Background::Background(AnimatedSprite* sprite)
 {

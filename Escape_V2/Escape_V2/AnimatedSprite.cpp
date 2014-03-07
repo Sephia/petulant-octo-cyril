@@ -2,10 +2,12 @@
 
 #include "AnimatedSprite.h"
 #include "Settings.h"
+#include "stdafx.h"
 
 AnimatedSprite::AnimatedSprite() {
 	m_time = 0.0f;
 	m_currentFrame = 0;
+	m_currentAnimationName = "";
 }
 
 
@@ -67,6 +69,7 @@ bool AnimatedSprite::Init(const std::string& name) {
 
 		mp_frame = &m_currentAnimation[0];
 		mp_currentSprite->setTextureRect(mp_frame->iRect);
+		m_currentAnimationName = name;
 		return true;
 	}
 
@@ -74,6 +77,13 @@ bool AnimatedSprite::Init(const std::string& name) {
 }
 
 bool AnimatedSprite::ChangeAnimation(const std::string& name) {
+
+	if(m_currentAnimationName == name) {
+		return false;
+	}
+
+	std::cout << name << std::endl;
+
 	auto itFrame = m_allFrames.find(name);
 	auto itSprite = m_allSprites.find(name);
 	
@@ -87,6 +97,8 @@ bool AnimatedSprite::ChangeAnimation(const std::string& name) {
 	mp_frame = &m_currentAnimation[0];
 	mp_currentSprite->setTextureRect(mp_frame->iRect);
 	mp_currentSprite->setOrigin(mp_currentSprite->getLocalBounds().width / 2, mp_currentSprite->getLocalBounds().height / 2);
+
+	m_currentAnimationName = name;
 	
 	return true;
 }

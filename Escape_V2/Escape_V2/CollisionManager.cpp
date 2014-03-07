@@ -8,7 +8,7 @@
 #include "Door.h"
 #include "Key.h"
 #include "Furniture.h"
-#include <cmath>
+#include "stdafx.h"
 
 CollisionManager::CollisionManager(WallManager* wm, KeyManager* km, DoorManager* dm)
 :m_wallManager(wm)
@@ -27,7 +27,7 @@ bool CollisionManager::Circle_WallCollision(const sf::Vector2f coordinates, floa
     for (int i = 0; i < m_wallManager->GetCount(); i++)
     {
         //hämta antalet punkter i en convex form
-        for (unsigned int j = 0; j < m_wallManager->GetWall(i)->getPointCount(); j++)
+        for (int j = 0; j < m_wallManager->GetWall(i)->getPointCount(); j++)
         {
             //hämta startpunkten
             sf::Vector2f A = m_wallManager->GetWall(i)->getPosition() + m_wallManager->GetWall(i)->getPoint(j);
@@ -94,7 +94,7 @@ bool CollisionManager::Circle_WallCollision(const sf::Sprite& sprite)
     for (int i = 0; i < m_wallManager->GetCount(); i++)
     {
         //hämta antalet punkter i en convex form
-        for (unsigned int j = 0; j < m_wallManager->GetWall(i)->getPointCount(); j++)
+        for (int j = 0; j < m_wallManager->GetWall(i)->getPointCount(); j++)
         {
             //hämta startpunkten
             sf::Vector2f A = m_wallManager->GetWall(i)->getPosition() + m_wallManager->GetWall(i)->getPoint(j);
@@ -239,20 +239,33 @@ Door* CollisionManager::Circle_DoorCollision(const sf::Sprite& sprite)
     {
         sf::CircleShape* door = m_doorManager->GetUseRadius(i);
         //hämta antalet punkter i en convex form
-        for (unsigned int j = 0; j < m_doorManager->GetDoor(door)->getPointCount(); j++)
+        for (int j = 0; j < m_doorManager->GetDoor(door)->getPointCount(); j++)
         {
+            float m_degree = m_doorManager->GetDoor(door)->getRotation();
+            
             //hämta startpunkten
-            sf::Vector2f A = m_doorManager->GetDoor(door)->getPosition() + m_doorManager->GetDoor(door)->getPoint(j);
+            sf::Vector2f A_point = m_doorManager->GetDoor(door)->getPoint(j);
             //hämta slutpunkten
-            sf::Vector2f B;
+            sf::Vector2f B_point;
             if (j==0)
             {
-                B = m_doorManager->GetDoor(door)->getPosition() + m_doorManager->GetDoor(door)->getPoint(m_doorManager->GetDoor(door)->getPointCount()-1);
+                B_point =m_doorManager->GetDoor(door)->getPoint(m_doorManager->GetDoor(door)->getPointCount()-1);
             }
             else
             {
-                B = m_doorManager->GetDoor(door)->getPosition() + m_doorManager->GetDoor(door)->getPoint(j-1);
+                B_point =m_doorManager->GetDoor(door)->getPoint(j-1);
             }
+            
+            sf::Vector2f newCirclePosition;
+            newCirclePosition.x = B_point.x * cosf(m_degree * (M_PI / 180)) - B_point.y * sinf(m_degree * (M_PI / 180));
+            newCirclePosition.y = B_point.x * sinf(m_degree * (M_PI / 180)) + B_point.y * cosf(m_degree * (M_PI / 180));
+            B_point = newCirclePosition;
+            newCirclePosition.x = A_point.x * cosf(m_degree * (M_PI / 180)) - A_point.y * sinf(m_degree * (M_PI / 180));
+            newCirclePosition.y = A_point.x * sinf(m_degree * (M_PI / 180)) + A_point.y * cosf(m_degree * (M_PI / 180));
+            A_point = newCirclePosition;
+            
+            sf::Vector2f A = m_doorManager->GetDoor(door)->getPosition() + A_point;
+            sf::Vector2f B = m_doorManager->GetDoor(door)->getPosition() + B_point;
             sf::Vector2f C = coordinates;
             
             //räkna ut avstånden mellan punkterna
@@ -299,26 +312,43 @@ Door* CollisionManager::Circle_DoorCollision(const sf::Sprite& sprite)
 }
 bool CollisionManager::Circle_FurnitureCollision(const sf::Sprite& player, const Furniture& furniture)
 {
+    if(furniture.GetNoise() == 0)
+    {
+        return false;
+    }
     float radius = (player.getTextureRect().width * player.getScale().x +
                     player.getTextureRect().height * player.getScale().y)/4;
     sf::Vector2f coordinates = sf::Vector2f(player.getGlobalBounds().left + player.getGlobalBounds().width / 2.0f,
                                             player.getGlobalBounds().top + player.getGlobalBounds().height / 2.0f);
     
         //hämta antalet punkter i en convex form
-        for (unsigned int j = 0; j < furniture.getPointCount(); j++)
+        for (int j = 0; j < furniture.getPointCount(); j++)
         {
+            float m_degree = furniture.getRotation();
+            
             //hämta startpunkten
-            sf::Vector2f A = furniture.getPosition() + furniture.getPoint(j);
+            sf::Vector2f A_point = furniture.getPoint(j);
             //hämta slutpunkten
-            sf::Vector2f B;
+            sf::Vector2f B_point;
             if (j==0)
             {
-                B = furniture.getPosition() + furniture.getPoint(furniture.getPointCount()-1);
+                B_point = furniture.getPoint(furniture.getPointCount()-1);
             }
             else
             {
-                B = furniture.getPosition() + furniture.getPoint(j-1);
+                B_point = furniture.getPoint(j-1);
             }
+            
+            sf::Vector2f newCirclePosition;
+            newCirclePosition.x = B_point.x * cosf(m_degree * (M_PI / 180)) - B_point.y * sinf(m_degree * (M_PI / 180));
+            newCirclePosition.y = B_point.x * sinf(m_degree * (M_PI / 180)) + B_point.y * cosf(m_degree * (M_PI / 180));
+            B_point = newCirclePosition;
+            newCirclePosition.x = A_point.x * cosf(m_degree * (M_PI / 180)) - A_point.y * sinf(m_degree * (M_PI / 180));
+            newCirclePosition.y = A_point.x * sinf(m_degree * (M_PI / 180)) + A_point.y * cosf(m_degree * (M_PI / 180));
+            A_point = newCirclePosition;
+            
+            sf::Vector2f A = furniture.getPosition() + A_point;
+            sf::Vector2f B = furniture.getPosition() + B_point;
             sf::Vector2f C = coordinates;
             
             //räkna ut avstånden mellan punkterna

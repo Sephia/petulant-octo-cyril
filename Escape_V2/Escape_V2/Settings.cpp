@@ -1,6 +1,7 @@
 // Settings.cpp
 
 #include "Settings.h"
+#include "stdafx.h"
 
 std::map<int, std::vector<sf::Vector2f>> Settings::m_allGuardWaypoints;
 std::vector<sf::Vector2f> Settings::ms_guards;

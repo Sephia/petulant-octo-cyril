@@ -3,7 +3,7 @@
 #include "LightManager.h"
 #include <LTBL/Light/Light_Point.h>
 #include <LTBL/Light/LightSystem.h>
-#include <map>
+#include "stdafx.h"
 
 
 LightManager::LightManager(ltbl::LightSystem* lightSystem)

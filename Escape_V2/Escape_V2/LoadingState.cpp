@@ -2,6 +2,7 @@
 
 #include "LoadingState.h"
 #include "Settings.h"
+#include "stdafx.h"
 
 LoadingState::LoadingState() {
 	Settings::ms_window = nullptr;
@@ -40,7 +41,7 @@ void LoadingState::Exit() {
 }
 
 bool LoadingState::Update() {
-	m_nextState = "GameState";
+	m_nextState = "StartMenuState";
 	return false;
 }
 

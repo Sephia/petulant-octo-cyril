@@ -31,6 +31,8 @@ private:
 	float m_time;
 	Frame* mp_frame;
 
+	std::string m_currentAnimationName;
+
 	std::map<std::string, sf::Sprite*> m_allSprites;
 	std::map<std::string, std::vector<Frame>> m_allFrames;
 };

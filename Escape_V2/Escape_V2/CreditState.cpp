@@ -3,6 +3,7 @@
 #include "CreditState.h"
 #include "Settings.h"
 #include "Background.h"
+#include "stdafx.h"
 
 CreditState::CreditState() {
 	m_nextState = "";

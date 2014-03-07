@@ -3,14 +3,14 @@
 #include "stdafx.h"
 
 
-PathFinding::PathFinding(void)
+PathFinding::PathFinding()
 {
 	m_initializedStartGoal = false;
 	m_foundGoal = false;
 }
 
 
-PathFinding::~PathFinding(void)
+PathFinding::~PathFinding()
 {
 }
 
@@ -134,6 +134,8 @@ void PathFinding::ContinuePath() {
 			m_pathToGoal.push_back(new sf::Vector2f(static_cast<float>(getPath->m_xcoord), static_cast<float>(getPath->m_ycoord)));
 		}
 
+		FixGoalPath();
+
 		m_foundGoal = true;
 		return;
 	}
@@ -147,13 +149,21 @@ void PathFinding::ContinuePath() {
 		//up
 		PathOpened(currentCell->m_xcoord, currentCell->m_ycoord - 1, currentCell->m_g + 10, currentCell);
 		//left_down diagonal
-		PathOpened(currentCell->m_xcoord - 1, currentCell->m_ycoord + 1, currentCell->m_g + 14, currentCell);
+		if(m_grid->Walkable(currentCell->m_xcoord - 1, currentCell->m_ycoord) && m_grid->Walkable(currentCell->m_xcoord, currentCell->m_ycoord + 1)) {
+			PathOpened(currentCell->m_xcoord - 1, currentCell->m_ycoord + 1, currentCell->m_g + 14, currentCell);
+		}
 		//right_down diagonal
-		PathOpened(currentCell->m_xcoord + 1, currentCell->m_ycoord + 1, currentCell->m_g + 14, currentCell);
+		if(m_grid->Walkable(currentCell->m_xcoord + 1, currentCell->m_ycoord) && m_grid->Walkable(currentCell->m_xcoord, currentCell->m_ycoord + 1)) {
+			PathOpened(currentCell->m_xcoord + 1, currentCell->m_ycoord + 1, currentCell->m_g + 14, currentCell);
+		}
 		//left_up diagonal
-		PathOpened(currentCell->m_xcoord - 1, currentCell->m_ycoord - 1, currentCell->m_g + 14, currentCell);
+		if(m_grid->Walkable(currentCell->m_xcoord - 1, currentCell->m_ycoord) && m_grid->Walkable(currentCell->m_xcoord, currentCell->m_ycoord - 1)) {
+			PathOpened(currentCell->m_xcoord - 1, currentCell->m_ycoord - 1, currentCell->m_g + 14, currentCell);
+		}
 		//right_up diagonal
-		PathOpened(currentCell->m_xcoord + 1, currentCell->m_ycoord - 1, currentCell->m_g + 14, currentCell);
+		if(m_grid->Walkable(currentCell->m_xcoord + 1, currentCell->m_ycoord) && m_grid->Walkable(currentCell->m_xcoord, currentCell->m_ycoord - 1)) {
+			PathOpened(currentCell->m_xcoord + 1, currentCell->m_ycoord - 1, currentCell->m_g + 14, currentCell);
+		}
 		
 		for(unsigned int i = 0; i < m_openList.size(); i++) {
 			if(currentCell->m_id == m_openList.at(i)->m_id) {
@@ -188,5 +198,34 @@ void PathFinding::Draw(sf::RenderWindow* window) {
 	for(unsigned int i = 0; i < this->m_pathToGoal.size(); i++) {
 		rec.setPosition((*this->m_pathToGoal.at(i)).x * 40, (*this->m_pathToGoal.at(i)).y * 40);
 		window->draw(rec);
+	}
+	window->display();
+}
+
+void PathFinding::FixGoalPath() {
+	unsigned int currentPosition = 0;
+	unsigned int middlePosition = 1;
+	unsigned int nextPosition = 2;
+
+	while(true) {
+		if( (( m_pathToGoal.at(currentPosition)->x == m_pathToGoal.at(nextPosition)->x ) || (m_pathToGoal.at(currentPosition)->y == m_pathToGoal.at(nextPosition)->y )) 
+			&& ((m_pathToGoal.at(currentPosition)->x == m_pathToGoal.at(middlePosition)->x ) || (m_pathToGoal.at(currentPosition)->y == m_pathToGoal.at(middlePosition)->y ))) {
+				delete m_pathToGoal.at(middlePosition);
+				m_pathToGoal.erase(m_pathToGoal.begin() + middlePosition);
+		}
+		else {
+			currentPosition = nextPosition;
+			middlePosition = currentPosition + 1;
+			nextPosition = currentPosition + 2;
+		}
+
+		if(nextPosition >= m_pathToGoal.size()) {
+			break;
+		}
+	}
+
+	if(m_pathToGoal.size() > 1) {
+		delete m_pathToGoal.at(0);
+		m_pathToGoal.erase(m_pathToGoal.begin());
 	}
 }

@@ -14,8 +14,8 @@ Grid2D::~Grid2D() {
 
 void Grid2D::Init(Level* p_level, CollisionManager* cm) {
 
-	int width = static_cast<int>(p_level->GetSpriteSize().x) / squareSize;
-	int height = static_cast<int>(p_level->GetSpriteSize().y) / squareSize;
+	width = static_cast<int>(p_level->GetSpriteSize().x) / squareSize;
+	height = static_cast<int>(p_level->GetSpriteSize().y) / squareSize;
 
 
 	m_grid.resize(height);
@@ -28,9 +28,11 @@ void Grid2D::Init(Level* p_level, CollisionManager* cm) {
 }
 
 bool Grid2D::Walkable(int x, int y) {
-	if(x < 0 || y < 0 || x > 92 || y > 142) {
+	
+	if(x < 0 || y < 0 || x > width || y > height) {
 		return false;
 	}
+
 	return m_grid.at(y).at(x);
 }
 

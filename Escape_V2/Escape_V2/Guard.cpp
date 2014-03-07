@@ -6,6 +6,7 @@
 #include "GuardPatrolState.h"
 #include "GuardSearchState.h"
 #include "GuardShootingState.h"
+#include "GuardChaseState.h"
 #include "Settings.h"
 #include "AnimatedSprite.h"
 #include "stdafx.h"
@@ -15,7 +16,7 @@ Guard::Guard(int number, AnimatedSprite* p_sprite, Grid2D* p_grid) {
 	m_number = number;
 
 	mp_sprite = p_sprite;
-	mp_sprite->Init("male_Guard_Walking.png");
+	mp_sprite->Init("Guard1Walking.png");
 	mp_sprite->getSprite()->setOrigin(mp_sprite->getSprite()->getLocalBounds().width / 2, mp_sprite->getSprite()->getLocalBounds().height / 2);
 
 	m_position = Settings::ms_guards.at(number);
@@ -25,6 +26,7 @@ Guard::Guard(int number, AnimatedSprite* p_sprite, Grid2D* p_grid) {
 	mp_guardStateManager->Attach(new GuardSearchState());
 	mp_guardStateManager->Attach(new GuardShootingState());
 	mp_guardStateManager->Attach(new GuardInvestigateState());
+	mp_guardStateManager->Attach(new GuardChaseState());
 	mp_guardStateManager->SetState("GuardPatrolState");
 	mp_guardStateManager->Init(m_number, &m_position, mp_sprite, p_grid);
 
@@ -41,7 +43,7 @@ Guard::~Guard() {
 
 void Guard::Update(sf::Vector2f playerPosition, CollisionManager* p_collisionManager) {
 
-	mp_guardStateManager->Update();
+	mp_guardStateManager->Update(playerPosition, p_collisionManager);
 	/*sf::Vector2f distancev = m_position - playerPosition;
 	float distance = sqrtf(distancev.x * distancev.x + distancev.y * distancev.y);
 	std::string type = "GuardShootingState";
@@ -54,12 +56,12 @@ void Guard::Update(sf::Vector2f playerPosition, CollisionManager* p_collisionMan
 		mp_guardStateManager->SetState("GuardPatrolState");
 	}*/
 
-	UpdateAnimation();
+	UpdateAnimation(playerPosition);
 }
 
-void Guard::UpdateAnimation() {
+void Guard::UpdateAnimation(sf::Vector2f playerPosition) {
 	mp_sprite->getSprite()->setPosition(m_position);
-	mp_guardStateManager->UpdateAnimation();
+	mp_guardStateManager->UpdateAnimation(playerPosition);
 }
 
 void Guard::Draw() {

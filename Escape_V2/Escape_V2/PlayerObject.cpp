@@ -3,10 +3,11 @@
 #include "PlayerObject.h"
 #include "AnimatedSprite.h"
 #include "Settings.h"
+#include "stdafx.h"
 
 PlayerObject::PlayerObject(AnimatedSprite* sprite) {
 	mp_sprite = sprite;
-	mp_sprite->Init("maleSneak.png");
+	mp_sprite->Init("PlayerIdle.png");
 	mp_sprite->getSprite()->setOrigin(mp_sprite->getSprite()->getLocalBounds().width / 2, mp_sprite->getSprite()->getLocalBounds().height / 2);
 	m_position = Settings::ms_enter;
 	m_sneak = true;
@@ -109,18 +110,18 @@ void PlayerObject::NormalizeDirection() {
 
 void PlayerObject::UpdateSprite() {
 
-	if(Settings::ms_inputManager.IsDownOnceKeyboard(sf::Keyboard::LShift)) {
-		mp_sprite->ChangeAnimation("maleRunning.png");
+	if(Settings::ms_inputManager.IsDownKeyboard(sf::Keyboard::LShift) && (Settings::ms_inputManager.IsDownKeyboard(sf::Keyboard::W) || Settings::ms_inputManager.IsDownKeyboard(sf::Keyboard::A) || Settings::ms_inputManager.IsDownKeyboard(sf::Keyboard::S) || Settings::ms_inputManager.IsDownKeyboard(sf::Keyboard::D))) {
+		mp_sprite->ChangeAnimation("PlayerRunning.png");
 	}
-
-	if(Settings::ms_inputManager.m_keyboard_previous[sf::Keyboard::LShift] && !Settings::ms_inputManager.m_keyboard_current[sf::Keyboard::LShift]) {
-		mp_sprite->ChangeAnimation("maleSneak.png");
+	else if(Settings::ms_inputManager.IsDownKeyboard(sf::Keyboard::W) || Settings::ms_inputManager.IsDownKeyboard(sf::Keyboard::A) || Settings::ms_inputManager.IsDownKeyboard(sf::Keyboard::S) || Settings::ms_inputManager.IsDownKeyboard(sf::Keyboard::D)) {
+		mp_sprite->ChangeAnimation("PlayerSneaking.png");
+	}
+	else {
+		mp_sprite->ChangeAnimation("PlayerIdle.png");
 	}
 
 	mp_sprite->Update();
 	mp_sprite->getSprite()->setPosition(m_position);
-
-	
 }
 
 bool PlayerObject::CollisionDetected(int tries) {

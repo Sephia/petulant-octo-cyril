@@ -3,6 +3,7 @@
 
 #include "WallManager.h"
 #include "HullManager.h"
+#include "stdafx.h"
 
 
 WallManager::WallManager(HullManager* hullManager)

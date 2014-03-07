@@ -24,6 +24,8 @@ private:
 	void PathOpened(int x, int y, float newCost, SearchCell* p_parent);
 	SearchCell* GetNextCell();
 	void ContinuePath();
+	void FixGoalPath();
+
 	SearchCell* m_startCell;
 	SearchCell* m_goalCell;
 	std::vector<SearchCell*> m_openList;

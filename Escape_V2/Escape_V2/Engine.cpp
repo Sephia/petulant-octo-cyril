@@ -8,6 +8,7 @@
 #include "StateManager.h"
 #include "CreditState.h"
 #include "Settings.h"
+#include "stdafx.h"
 
 
 Engine::Engine()
@@ -55,7 +56,6 @@ void Engine::Run()
         if(mp_stateManager->Update()) {
 			mp_stateManager->Draw();
 		}
-		Settings::ms_inputManager.PostUpdate();
 		sf::Time time = sf::milliseconds(10);
 		sf::sleep(time);
     }

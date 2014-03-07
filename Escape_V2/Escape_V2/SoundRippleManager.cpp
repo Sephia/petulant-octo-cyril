@@ -2,6 +2,7 @@
 
 #include "SoundRippleManager.h"
 #include "SoundRipple.h"
+#include "stdafx.h"
 
 SoundRippleManager::SoundRippleManager() {
 

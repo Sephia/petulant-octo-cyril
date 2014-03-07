@@ -3,6 +3,7 @@
 #include "SoundRipple.h"
 #include "Settings.h"
 #include "AnimatedSprite.h"
+#include "stdafx.h"
 
 SoundRipple::SoundRipple(sf::Vector2f position, int volume, bool isPlayer, AnimatedSprite* sprite) {
 	m_position = position;
@@ -55,7 +56,7 @@ void SoundRipple::Draw() {
 		m_scales.at(i).x *= 1.015f;
 		m_scales.at(i).y *= 1.015f;
 		sf::Color color = mp_sprite->getSprite()->getColor();
-		color.a *= static_cast<sf::Uint8>(0.992);
+		color.a *= 0.992;
 		mp_sprite->getSprite()->setColor(color);
 		Settings::ms_window->draw(*mp_sprite->getSprite());
 	}

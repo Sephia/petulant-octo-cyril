@@ -2,6 +2,7 @@
 
 #include "Level.h"
 #include "Settings.h"
+#include "stdafx.h"
 
 Level::Level() {
 	mp_levelTexture = new sf::Texture;

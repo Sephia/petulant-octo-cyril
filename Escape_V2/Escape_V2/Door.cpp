@@ -2,9 +2,7 @@
 //  Door.cpp
 
 #include "Door.h"
-#include <cmath>
-
-const float M_PI = 3.14159265359f;
+#include "stdafx.h"
 
 Door::Door(int x, int y, sf::Texture* texture, int degree, sf::Color* key, bool open/*, Plaque* plaque*/)
 :sf::RectangleShape(static_cast<sf::Vector2f>(texture->getSize()))
@@ -16,8 +14,8 @@ Door::Door(int x, int y, sf::Texture* texture, int degree, sf::Color* key, bool 
     this->setTexture(texture);
     sf::Vector2i size = static_cast<sf::Vector2i>(texture->getSize());
     this->setTextureRect(sf::Rect<int>(0, 0, size.x, size.y));
-    this->setPosition(static_cast<float>(x), static_cast<float>(y));
-    this->setRotation(static_cast<float>(degree));
+    this->setPosition(x, y);
+    this->setRotation(degree);
     if (*mp_key != sf::Color(255, 255, 255, 50))
     {
         m_locked = true;
@@ -36,6 +34,7 @@ Door::Door(int x, int y, sf::Texture* texture, int degree, sf::Color* key, bool 
     mp_useRadius->setPosition(this->getPosition() + newCirclePosition);
     mp_useRadius->setFillColor(*mp_key);
 }
+
 Door::~Door()
 {
     delete mp_key;
@@ -52,19 +51,21 @@ void Door::Update(float deltatime)
     mp_key->a = static_cast<int>(m_transparency);
     mp_useRadius->setFillColor(*mp_key);
 }
+
 void Door::Draw(sf::RenderWindow* win)
 {
-    win->draw(*mp_useRadius);
+    //win->draw(*mp_useRadius);
     win->draw(*this);
 }
+
 bool Door::Open(sf::Color key)
 {
     if (m_locked)
     {
         if(Unlock(key))
         {
-            this->setRotation(static_cast<float>(static_cast<int>(this->getRotation()-90)%360));
-            m_degree = static_cast<int>(this->getRotation());
+            this->setRotation(static_cast<int>(this->getRotation()-90)%360);
+            m_degree = this->getRotation();
             sf::Vector2f circlePosition = sf::Vector2f(this->getLocalBounds().width / 2, this->getLocalBounds().height / 2);
             sf::Vector2f newCirclePosition;
             newCirclePosition.x = circlePosition.x * cosf(m_degree * (M_PI / 180)) - circlePosition.y * sinf(m_degree * (M_PI / 180));
@@ -78,19 +79,19 @@ bool Door::Open(sf::Color key)
     }
     if(!m_open)
     {
-        int rotation = static_cast<int>(this->getRotation());
+        int rotation = this->getRotation();
         if(this->getRotation() < 90)
         {
             rotation +=360;
         }
             
-        this->setRotation(static_cast<float>((rotation-90)%360));
-        m_degree = static_cast<int>(this->getRotation());
+        this->setRotation((rotation-90)%360);
+        m_degree = this->getRotation();
     }
     else
     {
-        this->setRotation(static_cast<float>(static_cast<int>(this->getRotation()+90)%360));
-        m_degree = static_cast<int>(this->getRotation());
+        this->setRotation(static_cast<int>(this->getRotation()+90)%360);
+        m_degree = this->getRotation();
     }
     
     sf::Vector2f circlePosition = sf::Vector2f(this->getLocalBounds().width / 2, this->getLocalBounds().height / 2);
@@ -101,10 +102,12 @@ bool Door::Open(sf::Color key)
     m_open = !m_open;
     return true;
 }
+
 bool Door::IsOpen()
 {
     return m_open;
 }
+
 bool Door::Unlock(sf::Color key)
 {
     if(mp_key->r == key.r && mp_key->g == key.g && mp_key->g == key.g)
@@ -115,6 +118,7 @@ bool Door::Unlock(sf::Color key)
     }
     return false;
 }
+
 sf::CircleShape* Door::GetUseRadius()
 {
     return mp_useRadius;

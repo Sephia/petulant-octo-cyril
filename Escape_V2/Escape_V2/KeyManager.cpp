@@ -7,8 +7,7 @@
 #include <LTBL/Utils.h>
 #include "LightManager.h"
 #include "Key.h"
-#include <sstream>
-#include <fstream>
+#include "stdafx.h"
 
 KeyManager::KeyManager(LightManager* lightManager, ltbl::LightSystem* lightSystem)
 :mp_lightManager(lightManager)
