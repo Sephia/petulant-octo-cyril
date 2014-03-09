@@ -1,7 +1,7 @@
-﻿Build started 2014-03-05 14:49:04.
+﻿Build started 2014-03-07 17:29:03.
      1>Project "D:\petulant-octo-cyril\Escape_V2\Escape_V2\Escape_V2.vcxproj" on node 2 (Rebuild target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"..\Deps\let-there-be-light" /I"..\Deps\SFML-2.1\include\\" /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt "..\Deps\let-there-be-light\LTBL\Constructs\AABB.cpp" "..\Deps\let-there-be-light\LTBL\Constructs\Color3f.cpp" "..\Deps\let-there-be-light\LTBL\Constructs\Point2i.cpp" "..\Deps\let-there-be-light\LTBL\Constructs\Vec2f.cpp" "..\Deps\let-there-be-light\LTBL\Light\ConvexHull.cpp" "..\Deps\let-there-be-light\LTBL\Light\EmissiveLight.cpp" "..\Deps\let-there-be-light\LTBL\Light\Light.cpp" "..\Deps\let-there-be-light\LTBL\Light\LightSystem.cpp" "..\Deps\let-there-be-light\LTBL\Light\Light_Point.cpp" "..\Deps\let-there-be-light\LTBL\Light\ShadowFin.cpp" "..\Deps\let-there-be-light\LTBL\QuadTree\QuadTree.cpp" "..\Deps\let-there-be-light\LTBL\QuadTree\QuadTreeNode.cpp" "..\Deps\let-there-be-light\LTBL\QuadTree\QuadTreeOccupant.cpp" "..\Deps\let-there-be-light\LTBL\QuadTree\StaticQuadTree.cpp" "..\Deps\let-there-be-light\LTBL\Utils.cpp" AnimatedSprite.cpp Background.cpp CollisionManager.cpp CreditState.cpp Door.cpp DoorManager.cpp Engine.cpp Furniture.cpp FurnitureManager.cpp GameState.cpp Grid2D.cpp Guard.cpp GuardInvestigateState.cpp GuardPatrolState.cpp GuardSearchState.cpp GuardShootingState.cpp GuardStateManager.cpp HullManager.cpp InputManager.cpp Key.cpp KeyManager.cpp Level.cpp LightManager.cpp LoadingState.cpp main.cpp OptionsState.cpp PathFinding.cpp PlayerObject.cpp SearchCell.cpp Settings.cpp SoundManager.cpp SoundRipple.cpp SoundRippleManager.cpp SpriteManager.cpp StartMenuState.cpp State.cpp StateManager.cpp stdafx.cpp WallManager.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"..\Deps\let-there-be-light" /I"..\Deps\SFML-2.1\include\\" /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt "..\Deps\let-there-be-light\LTBL\Constructs\AABB.cpp" "..\Deps\let-there-be-light\LTBL\Constructs\Color3f.cpp" "..\Deps\let-there-be-light\LTBL\Constructs\Point2i.cpp" "..\Deps\let-there-be-light\LTBL\Constructs\Vec2f.cpp" "..\Deps\let-there-be-light\LTBL\Light\ConvexHull.cpp" "..\Deps\let-there-be-light\LTBL\Light\EmissiveLight.cpp" "..\Deps\let-there-be-light\LTBL\Light\Light.cpp" "..\Deps\let-there-be-light\LTBL\Light\LightSystem.cpp" "..\Deps\let-there-be-light\LTBL\Light\Light_Point.cpp" "..\Deps\let-there-be-light\LTBL\Light\ShadowFin.cpp" "..\Deps\let-there-be-light\LTBL\QuadTree\QuadTree.cpp" "..\Deps\let-there-be-light\LTBL\QuadTree\QuadTreeNode.cpp" "..\Deps\let-there-be-light\LTBL\QuadTree\QuadTreeOccupant.cpp" "..\Deps\let-there-be-light\LTBL\QuadTree\StaticQuadTree.cpp" "..\Deps\let-there-be-light\LTBL\Utils.cpp" AnimatedSprite.cpp Background.cpp CollisionManager.cpp CreditState.cpp Door.cpp DoorManager.cpp Engine.cpp Furniture.cpp FurnitureManager.cpp GameState.cpp Grid2D.cpp Guard.cpp GuardChaseState.cpp GuardInvestigateState.cpp GuardPatrolState.cpp GuardSearchState.cpp GuardShootingState.cpp GuardStateManager.cpp GUI.cpp HullManager.cpp InputManager.cpp Key.cpp KeyManager.cpp Level.cpp LightManager.cpp LoadingState.cpp main.cpp OptionsState.cpp PathFinding.cpp PlayerObject.cpp SearchCell.cpp Settings.cpp SoundManager.cpp SoundRipple.cpp SoundRippleManager.cpp SpriteManager.cpp StartMenuState.cpp State.cpp StateManager.cpp stdafx.cpp WallManager.cpp
          AABB.cpp
          Color3f.cpp
          Point2i.cpp
@@ -70,24 +70,36 @@
      1>FurnitureManager.cpp(139): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
      1>FurnitureManager.cpp(140): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
          GameState.cpp
+     1>GameState.cpp(211): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
          Grid2D.cpp
      1>Grid2D.cpp(32): warning C4018: '>' : signed/unsigned mismatch
          Guard.cpp
+         GuardChaseState.cpp
+     1>GuardChaseState.cpp(101): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
          GuardInvestigateState.cpp
+     1>GuardInvestigateState.cpp(125): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
          GuardPatrolState.cpp
      1>GuardPatrolState.cpp(119): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
          GuardSearchState.cpp
+     1>GuardSearchState.cpp(83): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
          GuardShootingState.cpp
+     1>GuardShootingState.cpp(88): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
          GuardStateManager.cpp
+         GUI.cpp
+     1>GUI.cpp(43): warning C4244: '=' : conversion from 'const float' to 'int', possible loss of data
+     1>GUI.cpp(44): warning C4244: '=' : conversion from 'const float' to 'int', possible loss of data
+     1>GUI.cpp(49): warning C4018: '<' : signed/unsigned mismatch
+     1>GUI.cpp(51): warning C4244: '-=' : conversion from 'float' to 'int', possible loss of data
+     1>GUI.cpp(52): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
          HullManager.cpp
          InputManager.cpp
          Key.cpp
          KeyManager.cpp
          Level.cpp
          LightManager.cpp
+         Compiling...
          LoadingState.cpp
          main.cpp
-         Compiling...
          OptionsState.cpp
          PathFinding.cpp
          PlayerObject.cpp
@@ -95,6 +107,7 @@
          Settings.cpp
          SoundManager.cpp
          SoundRipple.cpp
+     1>SoundRipple.cpp(59): warning C4244: '*=' : conversion from 'double' to 'sf::Uint8', possible loss of data
          SoundRippleManager.cpp
          SpriteManager.cpp
          StartMenuState.cpp
@@ -130,11 +143,13 @@
          Release\GameState.obj
          Release\Grid2D.obj
          Release\Guard.obj
+         Release\GuardChaseState.obj
          Release\GuardInvestigateState.obj
          Release\GuardPatrolState.obj
          Release\GuardSearchState.obj
          Release\GuardShootingState.obj
          Release\GuardStateManager.obj
+         Release\GUI.obj
          Release\HullManager.obj
          Release\InputManager.obj
          Release\Key.obj
@@ -164,4 +179,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:50.07
+Time Elapsed 00:00:51.85

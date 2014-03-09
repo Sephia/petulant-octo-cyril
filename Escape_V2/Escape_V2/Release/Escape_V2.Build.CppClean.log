@@ -18,7 +18,6 @@ d:\petulant-octo-cyril\escape_v2\escape_v2\release\vec2f.obj
 d:\petulant-octo-cyril\escape_v2\escape_v2\release\point2i.obj
 d:\petulant-octo-cyril\escape_v2\escape_v2\release\color3f.obj
 d:\petulant-octo-cyril\escape_v2\escape_v2\release\aabb.obj
-d:\petulant-octo-cyril\escape_v2\escape_v2\release\optionsstate.obj
 d:\petulant-octo-cyril\escape_v2\escape_v2\release\main.obj
 d:\petulant-octo-cyril\escape_v2\escape_v2\release\loadingstate.obj
 d:\petulant-octo-cyril\escape_v2\escape_v2\release\lightmanager.obj
@@ -36,6 +35,7 @@ d:\petulant-octo-cyril\escape_v2\escape_v2\release\guard.obj
 d:\petulant-octo-cyril\escape_v2\escape_v2\release\grid2d.obj
 d:\petulant-octo-cyril\escape_v2\escape_v2\release\gamestate.obj
 d:\petulant-octo-cyril\escape_v2\escape_v2\release\furnituremanager.obj
+d:\petulant-octo-cyril\escape_v2\escape_v2\release\furniture.obj
 d:\petulant-octo-cyril\escape_v2\escape_v2\release\engine.obj
 d:\petulant-octo-cyril\escape_v2\escape_v2\release\doormanager.obj
 d:\petulant-octo-cyril\escape_v2\escape_v2\release\wallmanager.obj
@@ -51,8 +51,8 @@ d:\petulant-octo-cyril\escape_v2\escape_v2\release\settings.obj
 d:\petulant-octo-cyril\escape_v2\escape_v2\release\searchcell.obj
 d:\petulant-octo-cyril\escape_v2\escape_v2\release\playerobject.obj
 d:\petulant-octo-cyril\escape_v2\escape_v2\release\pathfinding.obj
+d:\petulant-octo-cyril\escape_v2\escape_v2\release\optionsstate.obj
 d:\petulant-octo-cyril\escape_v2\escape_v2\release\vc110.pdb
-d:\petulant-octo-cyril\escape_v2\escape_v2\release\furniture.obj
 d:\petulant-octo-cyril\escape_v2\release\escape_v2.exe
 d:\petulant-octo-cyril\escape_v2\release\escape_v2.pdb
 d:\petulant-octo-cyril\escape_v2\escape_v2\release\cl.command.1.tlog
@@ -65,4 +65,3 @@ d:\petulant-octo-cyril\escape_v2\escape_v2\release\link-rc.write.1.tlog
 d:\petulant-octo-cyril\escape_v2\escape_v2\release\link.command.1.tlog
 d:\petulant-octo-cyril\escape_v2\escape_v2\release\link.read.1.tlog
 d:\petulant-octo-cyril\escape_v2\escape_v2\release\link.write.1.tlog
-d:\petulant-octo-cyril\escape_v2\escape_v2\release\escape_v2.pch
