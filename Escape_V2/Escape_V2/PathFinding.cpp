@@ -1,7 +1,7 @@
+// PathFinding.cpp
 
 #include "PathFinding.h"
 #include "stdafx.h"
-
 
 PathFinding::PathFinding()
 {
@@ -19,12 +19,17 @@ void PathFinding::Init(Grid2D* grid) {
 }
 
 void PathFinding::FindPath(sf::Vector2f currentPos, sf::Vector2f targetPos) {
+	currentPos.x /= m_grid->GetSquareSize();
+	currentPos.y /= m_grid->GetSquareSize();
+	targetPos.x /= m_grid->GetSquareSize();
+	targetPos.y /= m_grid->GetSquareSize();
+
 	if(!m_initializedStartGoal) {
 		for(unsigned int i = 0; i < m_openList.size(); i++) {
 			delete m_openList.at(i);
 		}
 		m_openList.clear();
-		
+
 		for(unsigned int i = 0; i < m_visitedList.size(); i++) {
 			delete m_visitedList.at(i);
 		}
@@ -164,7 +169,7 @@ void PathFinding::ContinuePath() {
 		if(m_grid->Walkable(currentCell->m_xcoord + 1, currentCell->m_ycoord) && m_grid->Walkable(currentCell->m_xcoord, currentCell->m_ycoord - 1)) {
 			PathOpened(currentCell->m_xcoord + 1, currentCell->m_ycoord - 1, currentCell->m_g + 14, currentCell);
 		}
-		
+
 		for(unsigned int i = 0; i < m_openList.size(); i++) {
 			if(currentCell->m_id == m_openList.at(i)->m_id) {
 				m_openList.erase(m_openList.begin() + i);
@@ -174,20 +179,33 @@ void PathFinding::ContinuePath() {
 }
 
 sf::Vector2f PathFinding::NextPathPos(sf::Vector2f pos, float radius) {
-	unsigned int index = 1;
-	
-	sf::Vector2f nextPos;
-	nextPos.x = m_pathToGoal.at(m_pathToGoal.size() - index)->x;
-	nextPos.y = m_pathToGoal.at(m_pathToGoal.size() - index)->y;
+	sf::Vector2f nextPos = pos;
+	if(m_pathToGoal.size() > 0) {
+		pos.x -= m_grid->GetSquareSize() / 2;
+		pos.y -= m_grid->GetSquareSize() / 2;
 
-	sf::Vector2f distance = nextPos - pos;
+		pos.x /= m_grid->GetSquareSize();
+		pos.y /= m_grid->GetSquareSize();
+		radius /= m_grid->GetSquareSize();
 
-	if(index < m_pathToGoal.size()) {
-		if(sqrtf(distance.x * distance.x + distance.y * distance.y) < radius) {
-			m_pathToGoal.erase(m_pathToGoal.end() - index);
+
+		unsigned int index = 1;
+
+		nextPos = *m_pathToGoal.at(m_pathToGoal.size() - index);
+
+
+		sf::Vector2f distance = nextPos - pos;
+
+		if(m_pathToGoal.size() > 0) {
+			if(sqrtf(distance.x * distance.x + distance.y * distance.y) < radius) {
+				m_pathToGoal.erase(m_pathToGoal.end() - index);
+			}
 		}
+
+		nextPos.x = nextPos.x * m_grid->GetSquareSize() + m_grid->GetSquareSize() / 2;
+		nextPos.y = nextPos.y * m_grid->GetSquareSize() + m_grid->GetSquareSize() / 2;
+
 	}
-	
 	return nextPos;
 }
 
@@ -196,7 +214,7 @@ void PathFinding::Draw(sf::RenderWindow* window) {
 	sf::RectangleShape rec(sf::Vector2f(50, 50));
 	rec.setFillColor(sf::Color(150, 150, 150));
 	for(unsigned int i = 0; i < this->m_pathToGoal.size(); i++) {
-		rec.setPosition((*this->m_pathToGoal.at(i)).x * 40, (*this->m_pathToGoal.at(i)).y * 40);
+		rec.setPosition((*this->m_pathToGoal.at(i)).x * m_grid->GetSquareSize(), (*this->m_pathToGoal.at(i)).y * m_grid->GetSquareSize());
 		window->draw(rec);
 	}
 	window->display();
@@ -207,25 +225,27 @@ void PathFinding::FixGoalPath() {
 	unsigned int middlePosition = 1;
 	unsigned int nextPosition = 2;
 
-	while(true) {
-		if( (( m_pathToGoal.at(currentPosition)->x == m_pathToGoal.at(nextPosition)->x ) || (m_pathToGoal.at(currentPosition)->y == m_pathToGoal.at(nextPosition)->y )) 
-			&& ((m_pathToGoal.at(currentPosition)->x == m_pathToGoal.at(middlePosition)->x ) || (m_pathToGoal.at(currentPosition)->y == m_pathToGoal.at(middlePosition)->y ))) {
-				delete m_pathToGoal.at(middlePosition);
-				m_pathToGoal.erase(m_pathToGoal.begin() + middlePosition);
-		}
-		else {
-			currentPosition = nextPosition;
-			middlePosition = currentPosition + 1;
-			nextPosition = currentPosition + 2;
-		}
+	if(m_pathToGoal.size() > 2) {
+		while(true) {
+			if( (( m_pathToGoal.at(currentPosition)->x == m_pathToGoal.at(nextPosition)->x ) || (m_pathToGoal.at(currentPosition)->y == m_pathToGoal.at(nextPosition)->y )) 
+				&& ((m_pathToGoal.at(currentPosition)->x == m_pathToGoal.at(middlePosition)->x ) || (m_pathToGoal.at(currentPosition)->y == m_pathToGoal.at(middlePosition)->y ))) {
+					delete m_pathToGoal.at(middlePosition);
+					m_pathToGoal.erase(m_pathToGoal.begin() + middlePosition);
+			}
+			else {
+				currentPosition = nextPosition;
+				middlePosition = currentPosition + 1;
+				nextPosition = currentPosition + 2;
+			}
 
-		if(nextPosition >= m_pathToGoal.size()) {
-			break;
+			if(nextPosition >= m_pathToGoal.size()) {
+				break;
+			}
 		}
 	}
 
 	if(m_pathToGoal.size() > 1) {
-		delete m_pathToGoal.at(0);
-		m_pathToGoal.erase(m_pathToGoal.begin());
+		delete m_pathToGoal.at(m_pathToGoal.size() - 1);
+		m_pathToGoal.erase(m_pathToGoal.begin() + m_pathToGoal.size() - 1);
 	}
 }

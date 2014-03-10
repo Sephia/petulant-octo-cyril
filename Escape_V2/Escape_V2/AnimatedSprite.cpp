@@ -82,8 +82,6 @@ bool AnimatedSprite::ChangeAnimation(const std::string& name) {
 		return false;
 	}
 
-	std::cout << name << std::endl;
-
 	auto itFrame = m_allFrames.find(name);
 	auto itSprite = m_allSprites.find(name);
 	

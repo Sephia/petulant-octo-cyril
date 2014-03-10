@@ -55,6 +55,10 @@ void GuardStateManager::SetState(const std::string &c_type) {
 void GuardStateManager::ChangeState() {
 	std::string next = mp_currentState->Next();
 
+	if(mp_currentState->IsType("GuardPatrolState") || mp_currentState->IsType("GuardSearchState")) {
+		std::cout << "Guard Detected Player\n";
+	}
+
 	if(mp_currentState != nullptr) {
 		mp_currentState->Exit();
 		mp_currentState = nullptr;
@@ -69,9 +73,9 @@ void GuardStateManager::ChangeState() {
 	}
 }
 
-void GuardStateManager::Init(int number, sf::Vector2f* p_position, AnimatedSprite* sprite, Grid2D* p_grid) {
+void GuardStateManager::Init(int number, sf::Vector2f* p_position, float* p_rotation, AnimatedSprite* sprite, Grid2D* p_grid) {
 	for(unsigned int i = 0; i < m_states.size(); i++) {
-        m_states.at(i)->Init(number, p_position, sprite, p_grid);
+        m_states.at(i)->Init(number, p_position, p_rotation, sprite, p_grid);
 	}
 }
 

@@ -9,7 +9,7 @@
 #include "stdafx.h"
 
 GuardInvestigateState::GuardInvestigateState() {
-
+	m_speed = 120.0f;
 }
 
 GuardInvestigateState::~GuardInvestigateState() {
@@ -25,9 +25,9 @@ void GuardInvestigateState::Exit() {
 
 }
 
-void GuardInvestigateState::Init(int number, sf::Vector2f* p_position, AnimatedSprite* sprite, Grid2D* p_grid) {
+void GuardInvestigateState::Init(int number, sf::Vector2f* p_position, float* p_rotation, AnimatedSprite* sprite, Grid2D* p_grid) {
 	m_waypoints.clear();
-	
+
 	m_done = false;
 	m_nextState = "";
 
@@ -36,9 +36,10 @@ void GuardInvestigateState::Init(int number, sf::Vector2f* p_position, AnimatedS
 	m_number = number;
 
 	mp_position = &Settings::ms_guards.at(m_number);
+	mp_rotation = p_rotation;
 
 	for(unsigned int i = 0; i < Settings::m_allGuardWaypoints[m_number].size(); i++) {
-	
+
 		m_waypoints.push_back(Settings::m_allGuardWaypoints[m_number].at(i));
 
 	}
@@ -57,7 +58,7 @@ bool GuardInvestigateState::Update(sf::Vector2f player_position, CollisionManage
 		//mp_pathfinding->FindPath()
 	}
 	Movement();
-	
+
 	return m_done;
 }
 
@@ -77,8 +78,7 @@ void GuardInvestigateState::Cleanup() {
 void GuardInvestigateState::UpdateAnimation(sf::Vector2f playerPosition) {
 	mp_sprite->Update();
 	mp_sprite->getSprite()->setPosition(*mp_position);
-	m_rotation = atan2(mp_position->y - m_waypoints.at(0).y, mp_position->x - m_waypoints.at(0).x) * 180 / static_cast<float>(M_PI) - 90;
-	mp_sprite->getSprite()->setRotation(m_rotation);
+	mp_sprite->getSprite()->setRotation(*mp_rotation);
 }
 
 void GuardInvestigateState::AddWaypointToFront(sf::Vector2f waypoint) {
@@ -89,29 +89,47 @@ void GuardInvestigateState::AddWaypointToFront(sf::Vector2f waypoint) {
 void GuardInvestigateState::Movement() {
 	if(!mp_pathfinding->m_foundGoal) {
 		while(!mp_pathfinding->m_foundGoal) {
-			mp_pathfinding->FindPath(sf::Vector2f((*mp_position).x / 40.0f, (*mp_position).y / 40.0f), sf::Vector2f(m_waypoints.at(0).x / 40.0f, m_waypoints.at(0).y / 40.0f));
+			mp_pathfinding->FindPath(sf::Vector2f((*mp_position).x, (*mp_position).y), sf::Vector2f(m_waypoints.at(0).x, m_waypoints.at(0).y));
 		}
 	}
 	if(mp_pathfinding->m_foundGoal) {
-		sf::Vector2f vec = mp_pathfinding->NextPathPos(sf::Vector2f((*mp_position).x / 40.0f, (*mp_position).y / 40.0f), 5.0f / 40.0f);
-		vec.x *= 40;
-		vec.y *= 40;
-		
-		m_waypoints.at(0) = vec;
+		m_nextPosition = mp_pathfinding->NextPathPos(sf::Vector2f((*mp_position).x, (*mp_position).y), 5.0f);
 	}
-	
-	if(m_waypoints.size() > 0) {
-		sf::Vector2f distance = *mp_position - m_waypoints.at(0);
-		float speed = 100;
-		float dist = sqrtf(distance.x * distance.x + distance.y * distance.y);
-		if(dist > 0.01) {
-			distance.x /= dist;
-			distance.y /= dist;
 
-			*mp_position = *mp_position - distance * speed * Settings::ms_deltatime;
+	if(m_waypoints.size() > 0) {
+		if(m_timer > 0.0f) {
+			if(m_timer < 1.0f) {
+				Rotate(-1);
+			}
+			else if(m_timer < 3.0f) {
+				Rotate(1);
+			}
+			else {
+				//ToDo: Change from Patrol to Search when Search is ready
+				m_nextState = "GuardPatrolState";
+				m_done = true;
+			}
+
+			m_timer += Settings::ms_deltatime;
+			mp_sprite->ChangeAnimation("Guard1Turning.png");
 		}
+		else if(Rotate(0)) {
+			mp_sprite->ChangeAnimation("Guard1Walking.png");
+			sf::Vector2f distance = *mp_position - m_nextPosition;
+			float dist = sqrtf(distance.x * distance.x + distance.y * distance.y);
+			if(dist > 1.0f) {
+				distance.x /= dist;
+				distance.y /= dist;
+
+				*mp_position = *mp_position - distance * m_speed * Settings::ms_deltatime;
+				m_timer = 0.0f;
+			}
+			else {
+				m_timer += Settings::ms_deltatime;
+			}
+		}
+		else mp_sprite->ChangeAnimation("Guard1Turning.png");
 	}
-	//mp_pathfinding->Draw(Settings::ms_window);
 }
 
 bool GuardInvestigateState::Detected(sf::Vector2f playerPosition, CollisionManager* p_collisionManager) {
@@ -123,7 +141,7 @@ bool GuardInvestigateState::Detected(sf::Vector2f playerPosition, CollisionManag
 	}
 
 	float angleToPlayer = static_cast<int>(atan2f(vectorBetween.y, -vectorBetween.x) * 180 / static_cast<float>(M_PI) + 180.0f) % 360;
-	float directionLooking = -m_rotation + 90;
+	float directionLooking = -(*mp_rotation) + 90;
 	int diffAngle = static_cast<int>(angleToPlayer - directionLooking + 360) % 360;
 
 	if(diffAngle < 300 && diffAngle > 60) {
@@ -150,7 +168,7 @@ bool GuardInvestigateState::Detected(sf::Vector2f playerPosition, CollisionManag
 		Settings::ms_window->display();*/
 
 		float sqr = sqrtf(vectorBetween.x * vectorBetween.x - vectorBetween.y * vectorBetween.y);
-		
+
 		if(sqr > 0) {
 			distance = sqrtf(vectorBetween.x * vectorBetween.x - vectorBetween.y * vectorBetween.y);
 		}
@@ -160,4 +178,37 @@ bool GuardInvestigateState::Detected(sf::Vector2f playerPosition, CollisionManag
 	}
 
 	return true;
+}
+
+bool GuardInvestigateState::Rotate(int rotationWay) {
+	float rotationToGetTo;
+	int diffDegrees;
+	float rotationSpeed = 5.0f;
+
+	if(rotationWay < 0) {
+		diffDegrees = 10;
+	}
+	else if(rotationWay > 0) {
+		diffDegrees = 350;
+	}
+	else {
+		rotationToGetTo = ( static_cast<int>(atan2(mp_position->y - m_nextPosition.y, mp_position->x - m_nextPosition.x) * 180 / static_cast<float>(M_PI) - 90) + 360 ) % 360;
+		diffDegrees = ( static_cast<int>(*mp_rotation - rotationToGetTo) + 720 ) % 360;
+	}
+
+
+	if(diffDegrees < 5 || diffDegrees > 355) {
+		*mp_rotation = rotationToGetTo;
+		return true;
+	}
+	else if(diffDegrees >= 185) {
+		*mp_rotation += rotationSpeed;
+	}
+	else if(diffDegrees < 185) {
+		*mp_rotation -= rotationSpeed;
+	}
+
+	*mp_rotation = static_cast<int>(*mp_rotation) % 360;
+
+	return false;
 }

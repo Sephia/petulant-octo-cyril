@@ -20,6 +20,7 @@ Guard::Guard(int number, AnimatedSprite* p_sprite, Grid2D* p_grid) {
 	mp_sprite->getSprite()->setOrigin(mp_sprite->getSprite()->getLocalBounds().width / 2, mp_sprite->getSprite()->getLocalBounds().height / 2);
 
 	m_position = Settings::ms_guards.at(number);
+	m_prevPosition = m_position;
 	
 	mp_guardStateManager = new GuardStateManager();
 	mp_guardStateManager->Attach(new GuardPatrolState());
@@ -28,9 +29,11 @@ Guard::Guard(int number, AnimatedSprite* p_sprite, Grid2D* p_grid) {
 	mp_guardStateManager->Attach(new GuardInvestigateState());
 	mp_guardStateManager->Attach(new GuardChaseState());
 	mp_guardStateManager->SetState("GuardPatrolState");
-	mp_guardStateManager->Init(m_number, &m_position, mp_sprite, p_grid);
+	mp_guardStateManager->Init(m_number, &m_position, &m_rotation, mp_sprite, p_grid);
 
 	m_speed = 10;
+
+	m_foot = 0;
 }
 
 
@@ -42,19 +45,9 @@ Guard::~Guard() {
 }
 
 void Guard::Update(sf::Vector2f playerPosition, CollisionManager* p_collisionManager) {
+	m_prevPosition = m_position;
 
 	mp_guardStateManager->Update(playerPosition, p_collisionManager);
-	/*sf::Vector2f distancev = m_position - playerPosition;
-	float distance = sqrtf(distancev.x * distancev.x + distancev.y * distancev.y);
-	std::string type = "GuardShootingState";
-	if(distance < 250) {
-		if(mp_guardStateManager->Detected(playerPosition, p_collisionManager) && !mp_guardStateManager->IsCurrent(type)) {
-			mp_guardStateManager->SetState("GuardShootingState");
-		}
-	}
-	else if(mp_guardStateManager->IsCurrent(type)) {
-		mp_guardStateManager->SetState("GuardPatrolState");
-	}*/
 
 	UpdateAnimation(playerPosition);
 }
@@ -78,4 +71,18 @@ void Guard::AddWaypointToFront(sf::Vector2f waypoint) {
 
 AnimatedSprite* Guard::GetSprite() {
 	return mp_sprite;
+}
+
+bool Guard::IsWalking() {
+	if(m_position == m_prevPosition) {
+		return false;
+	}
+
+	return true;
+}
+
+int Guard::GetFoot() {
+	m_foot++;
+	m_foot %= 2;
+	return m_foot;
 }

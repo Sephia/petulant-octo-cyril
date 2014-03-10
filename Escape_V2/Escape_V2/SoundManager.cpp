@@ -111,6 +111,7 @@ int SoundManager::newSound(std::string filename, bool Looping)
 int SoundManager::newSong(std::string filename, bool Looping)
 {
 	sf::Music* newSoundEntity = new sf::Music;
+	newSoundEntity->setLoop(true);
 	Songs.push_back(newSoundEntity);
 	Songs[Songs.size() - 1]->openFromFile(filename);
 	Songs[Songs.size() - 1]->setLoop(Looping);

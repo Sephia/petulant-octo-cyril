@@ -36,6 +36,7 @@ StartMenuState::~StartMenuState() {
 
 void StartMenuState::Enter() {
 	m_nextState = "";
+	m_done = false;
 
 	//Header Timer
 	turnOnHeader = new sf::Clock;
@@ -351,12 +352,35 @@ void StartMenuState::Enter() {
 	*/
 	menuMusic = soundManager->newSong("../Data/Music/Dances_and_Dames.wav", true);
 	soundManager->Songs.at(menuMusic)->play();
+
+	mp_view = new sf::View(sf::FloatRect(0, 0, static_cast<float>(Settings::ms_window->getSize().x), static_cast<float>(Settings::ms_window->getSize().y)));
+
+	Settings::ms_window->setView(*mp_view);
 }
 
 void StartMenuState::Exit() {
 	//har du något new vid enter måste du ha delete i exit
 	buzzing.stop();
 	soundManager->Songs.at(menuMusic)->stop();
+
+	if(mp_view != nullptr) {
+		delete mp_view;
+		mp_view = nullptr;
+	}
+
+	optionsTab = false;
+	creditsTab = false;
+	
+	//Buttons selected
+	playSelected = false;
+	optionsSelected = false;
+	creditsSelected = false;
+
+	soundActivation = true;
+	musicActivation = true;
+
+	checkFade = false;
+	fade = 255;
 }
 
 bool StartMenuState::Update() {
@@ -410,7 +434,7 @@ bool StartMenuState::Update() {
 
 void StartMenuState::Draw() {
 
-	Settings::ms_window->clear();
+	Settings::ms_window->clear(sf::Color(255, 255, 255, 255));
 	Settings::ms_window->draw(*mp_bg1);
 	Settings::ms_window->draw(*mp_header);
 	Settings::ms_window->draw(*mp_play);
@@ -460,7 +484,6 @@ void StartMenuState::UpdateEvents() {
 			m_done = true;
 		}
 	}
-	
 
 	//Header blinking
 	float restartHeader = turnOnHeader->getElapsedTime().asSeconds();

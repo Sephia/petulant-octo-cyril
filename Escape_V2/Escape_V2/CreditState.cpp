@@ -26,7 +26,10 @@ void CreditState::Enter() {
 }
 
 void CreditState::Exit() {
-
+	if(mp_view != nullptr) {
+		delete mp_view;
+		mp_view = nullptr;
+	}
 }
 
 bool CreditState::Update() {

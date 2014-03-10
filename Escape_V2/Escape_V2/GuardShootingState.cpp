@@ -10,6 +10,7 @@
 
 GuardShootingState::GuardShootingState() {
 	m_nextState = "GuardSearchState";
+	m_timer = 0.0f;
 }
 
 GuardShootingState::~GuardShootingState() {
@@ -23,17 +24,18 @@ void GuardShootingState::Enter() {
 	std::cout << "Entering GuardShootingState\n";
 	m_done = false;
 	m_timer = 0.0f;
-	mp_sprite->ChangeAnimation("Guard1Shooting.png");
+	mp_sprite->ChangeAnimation("Guard1DrawWeapon.png");
 }
 
 void GuardShootingState::Exit() {
 
 }
 
-void GuardShootingState::Init(int number, sf::Vector2f* p_position, AnimatedSprite* sprite, Grid2D* p_grid) {
+void GuardShootingState::Init(int number, sf::Vector2f* p_position, float* p_rotation, AnimatedSprite* sprite, Grid2D* p_grid) {
 	m_waypoints.clear();
 
 	mp_position = p_position;
+	mp_rotation = p_rotation;
 	
 	m_done = false;
 	m_nextState = "";
@@ -51,6 +53,16 @@ bool GuardShootingState::Update(sf::Vector2f player_position, CollisionManager* 
 		m_done = true;
 	}
 	
+	
+	if(m_timer > 2.5f) {
+		Settings::ms_gameOver = true;
+	}
+	else if(m_timer > 1.0f) {
+		mp_sprite->ChangeAnimation("Guard1Shooting.png");
+	}
+
+	m_timer += Settings::ms_deltatime;
+
 	return m_done;
 }
 
@@ -69,8 +81,7 @@ void GuardShootingState::Cleanup() {
 
 void GuardShootingState::UpdateAnimation(sf::Vector2f playerPosition) {
 	mp_sprite->Update();
-	m_rotation = atan2(mp_position->y - playerPosition.y, mp_position->x - playerPosition.x) * 180 / static_cast<float>(M_PI) - 90;
-	mp_sprite->getSprite()->setRotation(m_rotation);
+	mp_sprite->getSprite()->setRotation(*mp_rotation);
 }
 
 void GuardShootingState::AddWaypointToFront(sf::Vector2f waypoint) {
@@ -81,19 +92,18 @@ bool GuardShootingState::Detected(sf::Vector2f playerPosition, CollisionManager*
 	sf::Vector2f vectorBetween(playerPosition - *mp_position);
 	float distance = sqrtf(vectorBetween.x * vectorBetween.x + vectorBetween.y * vectorBetween.y);
 
-	if(distance > 600) {
+	if(distance > 800) {
 		return false;
 	}
+
+	Rotate(playerPosition);
 
 	float angleToPlayer = static_cast<int>(atan2f(vectorBetween.y, -vectorBetween.x) * 180 / static_cast<float>(M_PI) + 180.0f) % 360;
-	float directionLooking = -m_rotation + 90;
+	float directionLooking = -(*mp_rotation) + 90;
 	int diffAngle = static_cast<int>(angleToPlayer - directionLooking + 360) % 360;
 
-	if(diffAngle < 300 && diffAngle > 60) {
-		return false;
-	}
 	sf::Vector2f direction;
-	if(distance != 0) {
+	if(distance > 0.001f) {
 		direction = vectorBetween / distance;
 	}
 
@@ -105,13 +115,6 @@ bool GuardShootingState::Detected(sf::Vector2f playerPosition, CollisionManager*
 		vectorBetween.x -= direction.x * 10;
 		vectorBetween.y -= direction.y * 10;
 
-		/*sf::CircleShape circ(15);
-		circ.setPosition(playerPosition - vectorBetween);
-		circ.setFillColor(sf::Color(100, 100, 100));
-		circ.setOrigin(15.0f, 15.0f);
-		Settings::ms_window->draw(circ);
-		Settings::ms_window->display();*/
-
 		float sqr = sqrtf(vectorBetween.x * vectorBetween.x - vectorBetween.y * vectorBetween.y);
 		
 		if(sqr > 0) {
@@ -121,6 +124,24 @@ bool GuardShootingState::Detected(sf::Vector2f playerPosition, CollisionManager*
 			return false;
 		}
 	}
-
 	return true;
+}
+
+bool GuardShootingState::Rotate(sf::Vector2f playerPosition) {
+	int rotationToGetTo = ( static_cast<int>(atan2(mp_position->y - playerPosition.y, mp_position->x - playerPosition.x) * 180 / static_cast<float>(M_PI) - 90) + 360 ) % 360;
+	int diffDegrees = ( static_cast<int>(*mp_rotation - rotationToGetTo) + 720 ) % 360;
+
+	if(diffDegrees < 5 || diffDegrees > 355) {
+		*mp_rotation = rotationToGetTo;
+		return true;
+	}
+	else if(diffDegrees >= 185) {
+		*mp_rotation += 3.0f;
+	}
+	else if(diffDegrees < 185) {
+		*mp_rotation -= 3.0f;
+	}
+	*mp_rotation = static_cast<int>(*mp_rotation) % 360;
+	
+	return false;
 }

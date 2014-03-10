@@ -117,6 +117,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
       <MultiProcessorCompilation Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</MultiProcessorCompilation>
     </ClCompile>
+    <ClCompile Include="FootStepRipples.cpp" />
     <ClCompile Include="Furniture.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
       <MultiProcessorCompilation Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</MultiProcessorCompilation>
@@ -138,6 +139,7 @@
       <MultiProcessorCompilation Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</MultiProcessorCompilation>
     </ClCompile>
     <ClCompile Include="GuardChaseState.cpp" />
+    <ClCompile Include="GuardFootSteps.cpp" />
     <ClCompile Include="GuardInvestigateState.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
       <MultiProcessorCompilation Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</MultiProcessorCompilation>
@@ -272,12 +274,14 @@
     <ClInclude Include="Door.h" />
     <ClInclude Include="DoorManager.h" />
     <ClInclude Include="Engine.h" />
+    <ClInclude Include="FootStepRipples.h" />
     <ClInclude Include="Furniture.h" />
     <ClInclude Include="FurnitureManager.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="Grid2D.h" />
     <ClInclude Include="Guard.h" />
     <ClInclude Include="GuardChaseState.h" />
+    <ClInclude Include="GuardFootSteps.h" />
     <ClInclude Include="GuardInvestigateState.h" />
     <ClInclude Include="GuardPatrolState.h" />
     <ClInclude Include="GuardSearchState.h" />

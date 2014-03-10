@@ -1,124 +1,9 @@
-﻿Build started 2014-03-07 17:29:54.
-     1>Project "D:\petulant-octo-cyril\Escape_V2\Escape_V2\Escape_V2.vcxproj" on node 2 (Rebuild target(s)).
+﻿Build started 2014-03-10 02:51:49.
+     1>Project "D:\petulant-octo-cyril\Escape_V2\Escape_V2\Escape_V2.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"..\Deps\let-there-be-light" /I"..\Deps\SFML-2.1\include\\" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt "..\Deps\let-there-be-light\LTBL\Constructs\AABB.cpp" "..\Deps\let-there-be-light\LTBL\Constructs\Color3f.cpp" "..\Deps\let-there-be-light\LTBL\Constructs\Point2i.cpp" "..\Deps\let-there-be-light\LTBL\Constructs\Vec2f.cpp" "..\Deps\let-there-be-light\LTBL\Light\ConvexHull.cpp" "..\Deps\let-there-be-light\LTBL\Light\EmissiveLight.cpp" "..\Deps\let-there-be-light\LTBL\Light\Light.cpp" "..\Deps\let-there-be-light\LTBL\Light\LightSystem.cpp" "..\Deps\let-there-be-light\LTBL\Light\Light_Point.cpp" "..\Deps\let-there-be-light\LTBL\Light\ShadowFin.cpp" "..\Deps\let-there-be-light\LTBL\QuadTree\QuadTree.cpp" "..\Deps\let-there-be-light\LTBL\QuadTree\QuadTreeNode.cpp" "..\Deps\let-there-be-light\LTBL\QuadTree\QuadTreeOccupant.cpp" "..\Deps\let-there-be-light\LTBL\QuadTree\StaticQuadTree.cpp" "..\Deps\let-there-be-light\LTBL\Utils.cpp" GuardChaseState.cpp GUI.cpp
-         GUI.cpp
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\gui.cpp(43): warning C4244: '=' : conversion from 'const float' to 'int', possible loss of data
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\gui.cpp(44): warning C4244: '=' : conversion from 'const float' to 'int', possible loss of data
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\gui.cpp(49): warning C4018: '<' : signed/unsigned mismatch
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\gui.cpp(51): warning C4244: '-=' : conversion from 'float' to 'int', possible loss of data
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\gui.cpp(52): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-         GuardChaseState.cpp
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\guardchasestate.cpp(101): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
-         Utils.cpp
-         StaticQuadTree.cpp
-         QuadTreeOccupant.cpp
-         QuadTreeNode.cpp
-         QuadTree.cpp
-         ShadowFin.cpp
-         Light_Point.cpp
-         LightSystem.cpp
-         Light.cpp
-         EmissiveLight.cpp
-         ConvexHull.cpp
-         Vec2f.cpp
-         Point2i.cpp
-         Color3f.cpp
-         AABB.cpp
-         Generating Code...
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"..\Deps\let-there-be-light" /I"..\Deps\SFML-2.1\include\\" /ZI /nologo /W3 /WX- /sdl /MP /Od /Oy- /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt AnimatedSprite.cpp Background.cpp CollisionManager.cpp CreditState.cpp Door.cpp DoorManager.cpp Engine.cpp Furniture.cpp FurnitureManager.cpp GameState.cpp Grid2D.cpp Guard.cpp GuardInvestigateState.cpp GuardPatrolState.cpp GuardSearchState.cpp GuardShootingState.cpp GuardStateManager.cpp HullManager.cpp InputManager.cpp Key.cpp KeyManager.cpp Level.cpp LightManager.cpp LoadingState.cpp main.cpp OptionsState.cpp PathFinding.cpp PlayerObject.cpp SearchCell.cpp Settings.cpp SoundManager.cpp SoundRipple.cpp SoundRippleManager.cpp SpriteManager.cpp StartMenuState.cpp State.cpp StateManager.cpp stdafx.cpp WallManager.cpp
-     1>cl : Command line warning D9030: '/Gm' is incompatible with multiprocessing; ignoring /MP switch
-         WallManager.cpp
-         stdafx.cpp
-         StateManager.cpp
-         State.cpp
-         StartMenuState.cpp
-         SpriteManager.cpp
-         SoundRippleManager.cpp
-         SoundRipple.cpp
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\soundripple.cpp(59): warning C4244: '*=' : conversion from 'double' to 'sf::Uint8', possible loss of data
-         SoundManager.cpp
-         Settings.cpp
-         SearchCell.cpp
-         PlayerObject.cpp
-         PathFinding.cpp
-         OptionsState.cpp
-         main.cpp
-         LoadingState.cpp
-         LightManager.cpp
-         Level.cpp
-         KeyManager.cpp
-         Key.cpp
-         Generating Code...
-         Compiling...
-         InputManager.cpp
-         HullManager.cpp
-         GuardStateManager.cpp
-         GuardShootingState.cpp
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\guardshootingstate.cpp(88): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
-         GuardSearchState.cpp
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\guardsearchstate.cpp(83): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
-         GuardPatrolState.cpp
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\guardpatrolstate.cpp(119): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
-         GuardInvestigateState.cpp
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\guardinvestigatestate.cpp(125): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
-         Guard.cpp
-         Grid2D.cpp
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\grid2d.cpp(32): warning C4018: '>' : signed/unsigned mismatch
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"..\Deps\let-there-be-light" /I"..\Deps\SFML-2.1\include\\" /ZI /nologo /W3 /WX- /sdl /MP /Od /Oy- /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt GameState.cpp
          GameState.cpp
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\gamestate.cpp(211): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-         FurnitureManager.cpp
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\furniture.h(20): warning C4520: 'Furniture' : multiple default constructors specified
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\furnituremanager.cpp(139): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\furnituremanager.cpp(140): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-         Furniture.cpp
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\furniture.h(20): warning C4520: 'Furniture' : multiple default constructors specified
-         Engine.cpp
-         DoorManager.cpp
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\doormanager.cpp(30): warning C4018: '>=' : signed/unsigned mismatch
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\doormanager.cpp(64): warning C4018: '<' : signed/unsigned mismatch
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\doormanager.cpp(67): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\doormanager.cpp(68): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\doormanager.cpp(84): warning C4018: '<' : signed/unsigned mismatch
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\doormanager.cpp(87): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\doormanager.cpp(88): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\doormanager.cpp(228): warning C4018: '<' : signed/unsigned mismatch
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\doormanager.cpp(232): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\doormanager.cpp(233): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-         Door.cpp
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\door.cpp(17): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\door.cpp(18): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\door.cpp(32): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\door.cpp(33): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\door.cpp(67): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\door.cpp(68): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\door.cpp(71): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\door.cpp(72): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\door.cpp(82): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\door.cpp(88): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\door.cpp(89): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\door.cpp(93): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\door.cpp(94): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\door.cpp(99): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\door.cpp(100): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-         CreditState.cpp
-         CollisionManager.cpp
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\furniture.h(20): warning C4520: 'Furniture' : multiple default constructors specified
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\collisionmanager.cpp(30): warning C4018: '<' : signed/unsigned mismatch
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\collisionmanager.cpp(97): warning C4018: '<' : signed/unsigned mismatch
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\collisionmanager.cpp(242): warning C4018: '<' : signed/unsigned mismatch
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\collisionmanager.cpp(260): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\collisionmanager.cpp(261): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\collisionmanager.cpp(263): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\collisionmanager.cpp(264): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\collisionmanager.cpp(325): warning C4018: '<' : signed/unsigned mismatch
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\collisionmanager.cpp(343): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\collisionmanager.cpp(344): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\collisionmanager.cpp(346): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\collisionmanager.cpp(347): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-         Background.cpp
-         AnimatedSprite.cpp
-         Generating Code...
+     1>d:\petulant-octo-cyril\escape_v2\escape_v2\gamestate.cpp(297): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\petulant-octo-cyril\Escape_V2\Debug\Escape_V2.exe" /INCREMENTAL /NOLOGO /LIBPATH:"..\Deps\SFML-2.1\lib" /LIBPATH:"...\Deps\let-there-be-light" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\petulant-octo-cyril\Escape_V2\Debug\Escape_V2.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\petulant-octo-cyril\Escape_V2\Debug\Escape_V2.lib" /MACHINE:X86 Debug\AABB.obj
          Debug\Color3f.obj
@@ -142,12 +27,14 @@
          Debug\Door.obj
          Debug\DoorManager.obj
          Debug\Engine.obj
+         Debug\FootStepRipples.obj
          Debug\Furniture.obj
          Debug\FurnitureManager.obj
          Debug\GameState.obj
          Debug\Grid2D.obj
          Debug\Guard.obj
          Debug\GuardChaseState.obj
+         Debug\GuardFootSteps.obj
          Debug\GuardInvestigateState.obj
          Debug\GuardPatrolState.obj
          Debug\GuardSearchState.obj
@@ -177,8 +64,8 @@
          Debug\stdafx.obj
          Debug\WallManager.obj
          Escape_V2.vcxproj -> D:\petulant-octo-cyril\Escape_V2\Debug\Escape_V2.exe
-     1>Done Building Project "D:\petulant-octo-cyril\Escape_V2\Escape_V2\Escape_V2.vcxproj" (Rebuild target(s)).
+     1>Done Building Project "D:\petulant-octo-cyril\Escape_V2\Escape_V2\Escape_V2.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:01:07.85
+Time Elapsed 00:00:02.28

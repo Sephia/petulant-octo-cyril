@@ -1,0 +1,5 @@
+Footstep_right.png
+4 0 0 96 96
+
+Footstep_left.png
+4 0 0 96 96

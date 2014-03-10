@@ -91,7 +91,9 @@ private:
 	sf::Sprite *mp_resoulutionDown;
 	sf::Sprite *mp_defaultOptions;
 	sf::Sprite *mp_creditsRoll;
-	//
+	
+	sf::View* mp_view;
+
 	bool checkFade;
 	float fade;
 

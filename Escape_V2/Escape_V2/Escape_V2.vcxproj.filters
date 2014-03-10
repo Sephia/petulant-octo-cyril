@@ -195,6 +195,12 @@
     <ClCompile Include="GUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GuardFootSteps.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FootStepRipples.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Deps\let-there-be-light\LTBL\Constructs\AABB.h">
@@ -369,6 +375,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GUI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GuardFootSteps.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FootStepRipples.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

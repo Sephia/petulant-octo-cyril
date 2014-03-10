@@ -16,6 +16,8 @@ public:
 	bool SetWalkable(int x, int y, bool walkable);
 	void Draw();
 
+	int GetSquareSize();
+
 private:
 	std::vector<std::vector<bool>> m_grid;
 

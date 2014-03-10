@@ -41,7 +41,7 @@ void LoadingState::Exit() {
 }
 
 bool LoadingState::Update() {
-	m_nextState = "StartMenuState";
+	m_nextState = "GameState";
 	return false;
 }
 

@@ -20,6 +20,7 @@ class FurnitureManager;
 class KeyManager;
 class DoorManager;
 class GUI;
+class GuardFootSteps;
 
 namespace ltbl {
 	class LightSystem;
@@ -56,6 +57,8 @@ private:
 
 	PlayerObject* mp_player;
 	std::vector<Guard*> m_guards;
+
+	GuardFootSteps* mp_guardFootSteps;
 
 	SpriteManager m_spriteManager;
 	SoundRippleManager m_soundRippleManager;

@@ -16,6 +16,7 @@ public:
 	void CreateSoundRipple(sf::Vector2f soundOriginPosition, int soundVolume, bool isPLayer, AnimatedSprite* p_sprite);
 	void UpdateSounds();
 	void Draw();
+	void Cleanup();
 
 private:
 	

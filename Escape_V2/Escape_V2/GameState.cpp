@@ -18,6 +18,7 @@
 #include "PathFinding.h"
 #include "Key.h"
 #include "GUI.h"
+#include "GuardFootSteps.h"
 
 GameState::GameState() {
 	m_nextState = "";
@@ -25,6 +26,7 @@ GameState::GameState() {
 	m_timer = 0.0f;
 	mp_grid = nullptr;
 	mp_gui = nullptr;
+	mp_guardFootSteps = nullptr;
 }
 
 GameState::~GameState() {
@@ -40,7 +42,7 @@ void GameState::Enter() {
 	m_nextState = "";
 
 	m_spriteManager.Init("../data/");
-	
+
 	mp_player = new PlayerObject(m_spriteManager.Load("Player.txt"));
 
 	mp_view = new sf::View();
@@ -49,25 +51,29 @@ void GameState::Enter() {
 	mp_view->setSize(static_cast<float>(Settings::ms_window->getSize().x), static_cast<float>(Settings::ms_window->getSize().y));
 
 	mp_gui = new GUI();
-	
+
 	ls = new ltbl::LightSystem(AABB(Vec2f(0, 0), Vec2f(static_cast<float>(3657), static_cast<float>(5651))), Settings::ms_window, "../data/lightFin.png", "../data/shaders/lightAttenuationShader.frag");
-    ls->SetView(*mp_view);
+	ls->SetView(*mp_view);
 
 	//ls2 = new ltbl::LightSystem(AABB(Vec2f(0, 0), Vec2f(static_cast<float>(3657), static_cast<float>(5651))), Settings::ms_window, "../data/lightFin.png", "../data/shaders/lightAttenuationShader.frag");
-    //ls2->SetView(*mp_view);
-    
-    lm = new LightManager(ls);
-    hl = new HullManager(ls);
-    wl = new WallManager(hl);
-    km = new KeyManager(lm, ls);
-    dm = new DoorManager(hl, lm, ls);
-    fm = new FurnitureManager(hl);
-    cl = new CollisionManager(wl, km, dm);
+	//ls2->SetView(*mp_view);
+
+	lm = new LightManager(ls);
+	hl = new HullManager(ls);
+	wl = new WallManager(hl);
+	km = new KeyManager(lm, ls);
+	dm = new DoorManager(hl, lm, ls);
+	fm = new FurnitureManager(hl);
+	cl = new CollisionManager(wl, km, dm);
+
+	if(!wl->LoadFromFile("../data/Walls.txt")) {
+		abort();
+	}
 
 	/*lm2 = new LightManager(ls2);
-    hl2 = new HullManager(ls2);
-    wl2 = new WallManager(hl2);
-    cl2 = new CollisionManager(wl2, km, dm);*/
+	hl2 = new HullManager(ls2);
+	wl2 = new WallManager(hl2);
+	cl2 = new CollisionManager(wl2, km, dm);*/
 
 	mp_grid = new Grid2D();
 	mp_grid->Init(&m_level, cl);
@@ -89,11 +95,11 @@ void GameState::Enter() {
 	testLight->m_bleed = 0.0f;
 	testLight->m_linearizeFactor = 0.8f;
 	testLight->CalculateAABB();
-    
+
 	lm->AddLight(testLight, mp_player);
 	//lm2->AddLight(testLight, mp_player);
 	testLight->SetAlwaysUpdate(true);
-	
+
 	for(unsigned int i = 0; i < m_guards.size(); i++) {
 		ltbl::Light_Point* guardLight = new ltbl::Light_Point();
 		guardLight->m_intensity = 1.5f;
@@ -108,28 +114,28 @@ void GameState::Enter() {
 		guardLight->m_bleed = 0.3f;
 
 		guardLight->CalculateAABB();
-		
-		
+
+
 		lm->AddLight(guardLight, m_guards.at(i));
 		guardLight->SetAlwaysUpdate(true);
 	}
 
-	
+
 	ltbl::Light_Point* testLight2 = new ltbl::Light_Point();
 	testLight2->m_center = Vec2f(Settings::ms_enter.x, -4150);
 	testLight2->m_radius = 1000.0f;
 	testLight2->m_size = 10.0f;
 	testLight2->m_color.r = 0.0f;
-    testLight2->m_color.g = 0.0f;
-    testLight2->m_color.b = 0.0f;
+	testLight2->m_color.g = 0.0f;
+	testLight2->m_color.b = 0.0f;
 	testLight2->m_intensity = 1.0f;
 	//testLight2->m_bleed = 0.0f;
 	testLight2->m_spreadAngle = ltbl::pifTimes2;
 	testLight2->m_softSpreadAngle = 0.0f;
 	testLight2->CalculateAABB();
-    
+
 	lm->AddLight(testLight2, lm);
-	
+
 	testLight2->SetAlwaysUpdate(false);
 	/*
 	testLight3 = new ltbl::Light_Point();
@@ -137,32 +143,30 @@ void GameState::Enter() {
 	testLight3->m_radius = 1000.0f;
 	testLight3->m_size = 10.0f;
 	testLight3->m_color.r = 0.0f;
-    testLight3->m_color.g = 0.0f;
-    testLight3->m_color.b = 0.0f;
+	testLight3->m_color.g = 0.0f;
+	testLight3->m_color.b = 0.0f;
 	testLight3->m_intensity = 1.0f;
 	testLight3->m_bleed = 0.0f;
 	testLight3->m_spreadAngle = ltbl::pifTimes2;
 	testLight3->m_softSpreadAngle = 0.0f;
 	testLight3->CalculateAABB();
-    
+
 	lm2->AddLight(testLight3, lm2);
 
 	testLight3->SetAlwaysUpdate(false);
 	*/
-	if(!wl->LoadFromFile("../data/Walls.txt")) {
-		abort();
-	}
+
 
 	/*if(!wl2->LoadFromFile("../data/Walls.txt")) {
-		abort();
+	abort();
 	}*/
-    if(!fm->LoadFromFile("../data/Furniture.txt",ls)) {
+	if(!fm->LoadFromFile("../data/Furniture.txt",ls)) {
 		abort();
 	}
-    if(!km->LoadFromFile("../data/Keys.txt")) {
+	if(!km->LoadFromFile("../data/Keys.txt")) {
 		abort();
 	}
-    if(!dm->LoadFromFile("../data/Doors.txt")) {
+	if(!dm->LoadFromFile("../data/Doors.txt")) {
 		abort();
 	}
 
@@ -170,25 +174,94 @@ void GameState::Enter() {
 		std::cout << "Failed loading music for GameState!\n";
 	}
 
-	
-
+	mp_guardFootSteps = new GuardFootSteps();
+	m_music.setLoop(true);
 	m_music.play();
 }
 
 void GameState::Exit() {
+	m_nextState = "";
+
+	if(mp_player != nullptr) {
+		delete mp_player;
+		mp_player = nullptr;
+	}
+	m_timer = 0.0f;
+	if(mp_grid != nullptr) {
+		delete mp_grid;
+		mp_grid = nullptr;
+	}
+	if(mp_gui != nullptr) {
+		delete mp_gui;
+		mp_gui = nullptr;
+	}
+
+	for(unsigned int i = 0; i < m_guards.size(); i++) {
+		if(m_guards.at(i) != nullptr) {
+			delete m_guards.at(i);
+			m_guards.at(i) = nullptr;
+			m_guards.erase(m_guards.begin() + i);
+			i--;
+		}
+	}
+
+	if(mp_guardFootSteps != nullptr) {
+		mp_guardFootSteps->Cleanup();
+		delete mp_guardFootSteps;
+		mp_guardFootSteps = nullptr;
+	}
+
+	if(fm != nullptr) {
+		delete fm;
+		fm = nullptr;
+	}
+	if(km != nullptr) {
+		delete km;
+		km = nullptr;
+	}
+	if(lm != nullptr) {
+		delete lm;
+		lm = nullptr;
+	}
+	if(wl != nullptr) {
+		delete wl;
+		wl = nullptr;
+	}
+	if(hl != nullptr) {
+		delete hl;
+		hl = nullptr;
+	}
+	if(cl != nullptr) {
+		delete cl;
+		cl = nullptr;
+	}
+	if(ls != nullptr) {
+		delete ls;
+		ls = nullptr;
+	}
+
+	m_soundRippleManager.Cleanup();
+
 	m_spriteManager.Cleanup();
+
 	m_music.stop();
 }
 
 bool GameState::Update() {
+	//Updates the timer for the guards
 	m_timer += Settings::ms_deltatime;
 
+	//Updates keypresses. returns true if the game is exiting
 	if(UpdateEvents()) {
 		return false;
 	}
 
+	//Updates the player
 	mp_player->Update();
 
+	//Checks and fixes the collision detection
+	//ToDo: Check with furnitures and doors.
+	//ToDo: fix the actions that is taken when a collision is detected. The player can't move at all as it is now.
 	int tries = 0;
 	while(cl->Circle_WallCollision(*(mp_player->GetSprite()))) {
 		if(mp_player->CollisionDetected(tries)) {
@@ -198,15 +271,28 @@ bool GameState::Update() {
 	}
 
 	for(unsigned int i = 0; i < m_guards.size(); i++) {
+		//updates the guard
 		m_guards.at(i)->Update(mp_player->GetPosition(), cl);
-		if(m_timer > 0.5f) {
-			m_soundRippleManager.CreateSoundRipple(m_guards.at(i)->GetPosition(), 2, false, m_spriteManager.Load("ripple.txt"));
-		}
+
+		//checks to see if a guard is within hearing range of a playercreated sound
 		sf::Vector2f pos(m_soundRippleManager.GuardNotice(m_guards.at(i)->GetPosition()));
 		if(pos.x > 1.0f && pos.y > 1.0f) {
 			m_guards.at(i)->AddWaypointToFront(pos);
 		}
-		
+
+		//checks to see if a foot step is to be created. Move or change so it is in sync with the walk animation
+		if(m_guards.at(i)->IsWalking() && m_timer > 0.5f) {
+			AnimatedSprite* footPrint = m_spriteManager.Load("GuardFootStep.txt");
+			if(m_guards.at(i)->GetFoot() == 0) {
+				footPrint->ChangeAnimation("Footstep_left.png");
+			}
+			else {
+				footPrint->ChangeAnimation("Footstep_right.png");
+			}
+			mp_guardFootSteps->AddRipple(m_guards.at(i)->GetPosition(), m_guards.at(i)->GetSprite()->getSprite()->getRotation(), footPrint);
+		}
+
+		//updates the guards flashlight position and direction
 		Vec2f vecG(m_guards.at(i)->GetPosition().x, -m_guards.at(i)->GetPosition().y + mp_view->getSize().y);
 		float angle = (static_cast<int>(m_guards.at(i)->GetSprite()->getSprite()->getRotation() - 90) % 360)  * (3.141592 / 180);
 		lm->GetLight(m_guards.at(i))->m_directionAngle = -angle;
@@ -214,29 +300,34 @@ bool GameState::Update() {
 		lm->GetLight(m_guards.at(i))->CalculateAABB();
 	}
 
+	//resets the timer
 	if(m_timer > 0.5f) {
 		m_timer = 0.0f;
 	}
 
+	//updates the footsteps and the soundripples
+	mp_guardFootSteps->Update();
 	m_soundRippleManager.UpdateSounds();
 
+	//updates the light around the player
 	Vec2f vec(mp_player->GetPosition().x, -mp_view->getCenter().y + mp_view->getSize().y);
-	//lm->GetLight(mp_player)->CalculateAABB();
 	lm->GetLight(mp_player)->SetCenter(vec);
-	//lm2->GetLight(mp_player)->SetCenter(vec);
 
-	if(Settings::ms_gameOver || 
-		(	mp_player->GetPosition().x > Settings::ms_exit.x && mp_player->GetPosition().x < Settings::ms_exit.x + 100 &&
-			mp_player->GetPosition().y > Settings::ms_exit.y && mp_player->GetPosition().y < Settings::ms_exit.y + 50
-		)) {
-		m_nextState = "CreditState";
+	//checks if the player has won or lost.
+	//ToDo: Fix so it does the right thing. Separate win and loss.
+	if(Settings::ms_gameOver) {
+		m_nextState = "StartMenuState";
+		Settings::ms_gameOver = false;
+		return false;
+	}
+	else if(mp_player->GetPosition().x > Settings::ms_exit.x && mp_player->GetPosition().x < Settings::ms_exit.x + 100 && mp_player->GetPosition().y > Settings::ms_exit.y && mp_player->GetPosition().y < Settings::ms_exit.y + 50) {
+		m_nextState = "StartMenuState";
 		return false;
 	}
 	return true;
 }
 
 void GameState::Draw() {
-	Settings::ms_window->clear(sf::Color(0, 0, 0, 255));
 
 	mp_view->setCenter(mp_player->GetPosition());
 	Settings::ms_window->setView(*mp_view);
@@ -246,7 +337,7 @@ void GameState::Draw() {
 	for(unsigned int i = 0; i < m_guards.size(); i++) {
 		m_guards.at(i)->Draw();
 	}
-	
+
 	dm->Draw(Settings::ms_window);
 	fm->Draw(Settings::ms_window);
 
@@ -262,11 +353,12 @@ void GameState::Draw() {
 	km->Draw(Settings::ms_window);
 
 	m_soundRippleManager.Draw();
+	mp_guardFootSteps->Draw();
 
 	mp_gui->Draw(Settings::ms_window);
 	//mp_grid->Draw();
 	Settings::ms_window->display();
-//	Settings::ms_window->clear(sf::Color(0, 0, 0, 255));
+	Settings::ms_window->clear(sf::Color(0, 0, 0, 255));
 }
 
 std::string GameState::Next() {
@@ -310,10 +402,10 @@ bool GameState::UpdateEvents() {
 				Settings::ms_inputManager.m_keyboard_current[sf::Keyboard::Space] = true;
 				sf::CircleShape* circle_key = cl->Circle_KeyPickup(*mp_player->GetSprite());
 				if(circle_key != nullptr) {
-                    Key* key = km->PickUpKey(circle_key);
-                    sf::Color color = key->GetPickUpRadius()->getFillColor();
-                    color.a = 255;
-                    key->setColor(color);
+					Key* key = km->PickUpKey(circle_key);
+					sf::Color color = key->GetPickUpRadius()->getFillColor();
+					color.a = 255;
+					key->setColor(color);
 					mp_gui->AddItem(key);
 				}
 			}
@@ -346,24 +438,24 @@ bool GameState::UpdateEvents() {
 		quit = true;
 	}
 
-	//if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-	//	m_soundRippleManager.CreateSoundRipple(mp_player->GetPosition(), 2, true, m_spriteManager.Load("ripple.txt"));
-	//	for(unsigned int i = 0; i < m_guards.size(); i++) {
-	//		/*sf::Vector2f pos(m_soundRippleManager.GuardNotice(m_guards.at(i)->GetPosition()));
-	//		if(pos.x > 0.1f && pos.y > 0.1f) {
-	//			m_guards.at(i)->AddWaypointToFront(pos);
-	//		}*/
-	//	}
-	//}
-	//else if(sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
-	//	m_soundRippleManager.CreateSoundRipple(mp_player->GetPosition(), 4, true, m_spriteManager.Load("ripple.txt"));
-	//	for(unsigned int i = 0; i < m_guards.size(); i++) {
-	//		/*sf::Vector2f pos(m_soundRippleManager.GuardNotice(m_guards.at(i)->GetPosition()));
-	//		if(pos.x > 0.1f && pos.y > 0.1f) {
-	//			m_guards.at(i)->AddWaypointToFront(pos);
-	//		}*/
-	//	}
-	//}
+	if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+		m_soundRippleManager.CreateSoundRipple(mp_player->GetPosition(), 2, true, m_spriteManager.Load("ripple.txt"));
+		for(unsigned int i = 0; i < m_guards.size(); i++) {
+			/*sf::Vector2f pos(m_soundRippleManager.GuardNotice(m_guards.at(i)->GetPosition()));
+			if(pos.x > 0.1f && pos.y > 0.1f) {
+			m_guards.at(i)->AddWaypointToFront(pos);
+			}*/
+		}
+	}
+	else if(sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
+		m_soundRippleManager.CreateSoundRipple(mp_player->GetPosition(), 4, true, m_spriteManager.Load("ripple.txt"));
+		for(unsigned int i = 0; i < m_guards.size(); i++) {
+			/*sf::Vector2f pos(m_soundRippleManager.GuardNotice(m_guards.at(i)->GetPosition()));
+			if(pos.x > 0.1f && pos.y > 0.1f) {
+			m_guards.at(i)->AddWaypointToFront(pos);
+			}*/
+		}
+	}
 
 	Settings::ms_inputManager.PostUpdate();
 

@@ -48,3 +48,14 @@ void SoundRippleManager::Draw() {
 		m_soundOrigins.at(i)->Draw();
 	}
 }
+
+void SoundRippleManager::Cleanup() {
+	for(unsigned int i = 0; i < m_soundOrigins.size(); i++) {
+		if(m_soundOrigins.at(i) != nullptr) {
+			delete m_soundOrigins.at(i);
+			m_soundOrigins.erase(m_soundOrigins.begin() + i);
+			i--;
+		}
+	}
+	m_soundOrigins.clear();
+}
