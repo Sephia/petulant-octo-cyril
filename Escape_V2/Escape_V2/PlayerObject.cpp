@@ -14,7 +14,7 @@ PlayerObject::PlayerObject(AnimatedSprite* sprite) {
 	mp_sprite->getSprite()->setOrigin(mp_sprite->getSprite()->getLocalBounds().width / 2, mp_sprite->getSprite()->getLocalBounds().height / 2);
 	m_position = Settings::ms_enter;
 	m_sneak = true;
-	m_speed = 100;
+	m_speed = 150;
 	m_direction.x = 0.0f;
 	m_direction.y = 0.0f;
 	m_rightFoot = true;
@@ -82,7 +82,7 @@ int PlayerObject::Movement(CollisionManager* p_collisionManager, FurnitureManage
 			sf::Vector2f tryPosition = m_position;
 			tryPosition.x += m_direction.x * m_speed * Settings::ms_deltatime;
 			temp_sprite.setPosition(tryPosition);
-			if(!p_collisionManager->Circle_WallCollision(tryPosition, 46)) {
+			if(!p_collisionManager->Circle_WallCollision(tryPosition, 30)) {
 				for(int i = 0; i < p_furnitureManager->GetCount(); i++) {
 					if(p_collisionManager->Circle_FurnitureCollision(temp_sprite, *p_furnitureManager->GetFurniture(i))) {
 						collisionFurnitureX = 1;
@@ -96,7 +96,7 @@ int PlayerObject::Movement(CollisionManager* p_collisionManager, FurnitureManage
 			tryPosition = m_position;
 			tryPosition.y += m_direction.y * m_speed * Settings::ms_deltatime;
 			temp_sprite.setPosition(tryPosition);
-			if(!p_collisionManager->Circle_WallCollision(tryPosition, 46)) {
+			if(!p_collisionManager->Circle_WallCollision(tryPosition, 30)) {
 				for(int i = 0; i < p_furnitureManager->GetCount(); i++) {
 					if(p_collisionManager->Circle_FurnitureCollision(temp_sprite, *p_furnitureManager->GetFurniture(i))) {
 						collisionFurnitureX = 1;
@@ -112,7 +112,7 @@ int PlayerObject::Movement(CollisionManager* p_collisionManager, FurnitureManage
 			sf::Vector2f tryPosition = m_position;
 			tryPosition.x += m_direction.x * m_speed * 3.0f * Settings::ms_deltatime;
 			temp_sprite.setPosition(tryPosition);
-			if(!p_collisionManager->Circle_WallCollision(tryPosition, 46)) {
+			if(!p_collisionManager->Circle_WallCollision(tryPosition, 30)) {
 				for(int i = 0; i < p_furnitureManager->GetCount(); i++) {
 					if(p_collisionManager->Circle_FurnitureCollision(temp_sprite, *p_furnitureManager->GetFurniture(i))) {
 						collisionFurnitureY = 1;
@@ -126,7 +126,7 @@ int PlayerObject::Movement(CollisionManager* p_collisionManager, FurnitureManage
 			tryPosition = m_position;
 			tryPosition.y += m_direction.y * m_speed * 3.0f * Settings::ms_deltatime;
 			temp_sprite.setPosition(tryPosition);
-			if(!p_collisionManager->Circle_WallCollision(tryPosition, 46)) {
+			if(!p_collisionManager->Circle_WallCollision(tryPosition, 30)) {
 				for(int i = 0; i < p_furnitureManager->GetCount(); i++) {
 					if(p_collisionManager->Circle_FurnitureCollision(temp_sprite, *p_furnitureManager->GetFurniture(i))) {
 						collisionFurnitureY = 1;

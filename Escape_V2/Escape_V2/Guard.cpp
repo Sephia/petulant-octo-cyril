@@ -31,7 +31,7 @@ Guard::Guard(int number, AnimatedSprite* p_sprite, Grid2D* p_grid) {
 	mp_guardStateManager->SetState("GuardPatrolState");
 	mp_guardStateManager->Init(m_number, &m_position, &m_rotation, mp_sprite, p_grid);
 
-	m_speed = 10;
+	m_speed = 15;
 
 	m_foot = 0;
 }

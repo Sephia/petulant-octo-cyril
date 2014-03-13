@@ -317,7 +317,7 @@ bool CollisionManager::Circle_FurnitureCollision(const sf::Sprite& player, const
 		return false;
 	}
 	float radius = (player.getTextureRect().width * player.getScale().x +
-		player.getTextureRect().height * player.getScale().y)/4;
+		player.getTextureRect().height * player.getScale().y)/6;
 	sf::Vector2f coordinates = sf::Vector2f(player.getGlobalBounds().left + player.getGlobalBounds().width / 2.0f,
 		player.getGlobalBounds().top + player.getGlobalBounds().height / 2.0f);
 
