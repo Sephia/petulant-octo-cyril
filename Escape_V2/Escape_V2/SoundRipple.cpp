@@ -23,7 +23,6 @@ SoundRipple::SoundRipple(sf::Vector2f position, int volume, bool isPlayer, Anima
 		m_scales.push_back(vect);
 		vect *= factor;
 	}
-	
 }
 
 
@@ -44,7 +43,7 @@ int SoundRipple::getVolume() {
 
 bool SoundRipple::Update() {
 	m_time += Settings::ms_deltatime;
-	if(m_time > 2.0f) {
+	if(m_time > 1.0f) {
 		return true;
 	}
 	return false;
@@ -53,8 +52,8 @@ bool SoundRipple::Update() {
 void SoundRipple::Draw() {
 	for(unsigned int i = 0; i < m_scales.size(); i++) {
 		mp_sprite->getSprite()->setScale(m_scales.at(i));
-		m_scales.at(i).x *= 1.015f;
-		m_scales.at(i).y *= 1.015f;
+		m_scales.at(i).x *= 1.055f;
+		m_scales.at(i).y *= 1.055f;
 		sf::Color color = mp_sprite->getSprite()->getColor();
 		color.a *= 0.992;
 		mp_sprite->getSprite()->setColor(color);

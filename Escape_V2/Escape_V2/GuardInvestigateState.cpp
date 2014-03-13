@@ -54,10 +54,13 @@ void GuardInvestigateState::Init(int number, sf::Vector2f* p_position, float* p_
 }
 
 bool GuardInvestigateState::Update(sf::Vector2f player_position, CollisionManager* p_collisionManager) {
-	if(m_waypoints.size() > 0) {
-		//mp_pathfinding->FindPath()
+	if(!Detected(player_position, p_collisionManager)) {
+		Movement();
 	}
-	Movement();
+	else {
+		m_nextState = "GuardShootingState";
+		m_done = true;
+	}
 
 	return m_done;
 }
@@ -89,7 +92,9 @@ void GuardInvestigateState::AddWaypointToFront(sf::Vector2f waypoint) {
 void GuardInvestigateState::Movement() {
 	if(!mp_pathfinding->m_foundGoal) {
 		while(!mp_pathfinding->m_foundGoal) {
-			mp_pathfinding->FindPath(sf::Vector2f((*mp_position).x, (*mp_position).y), sf::Vector2f(m_waypoints.at(0).x, m_waypoints.at(0).y));
+			if(!mp_pathfinding->FindPath(sf::Vector2f((*mp_position).x, (*mp_position).y), sf::Vector2f(m_waypoints.at(0).x, m_waypoints.at(0).y))) {
+				break;
+			}
 		}
 	}
 	if(mp_pathfinding->m_foundGoal) {
@@ -148,7 +153,7 @@ bool GuardInvestigateState::Detected(sf::Vector2f playerPosition, CollisionManag
 		return false;
 	}
 	sf::Vector2f direction;
-	if(distance != 0) {
+	if(distance > 0.001) {
 		direction = vectorBetween / distance;
 	}
 

@@ -24,7 +24,6 @@ void Grid2D::Init(Level* p_level, CollisionManager* cm) {
 		for(unsigned int j = 0; j < m_grid.at(i).size(); j++) {
 			bool walkable = cm->Circle_WallCollision(sf::Vector2f(j * squareSize + squareSize / 2.0f, i * squareSize + squareSize / 2.0f), squareSize / 2.0f);
 			if(walkable) {
-				std::cout << "Hej";
 			}
 			m_grid.at(i).at(j) = !walkable;
 		}
@@ -32,8 +31,10 @@ void Grid2D::Init(Level* p_level, CollisionManager* cm) {
 }
 
 bool Grid2D::Walkable(int x, int y) {
-	
-	if(x < 0 || y < 0 || x > width || y > height) {
+	if(x == width) {
+		std::cout << "" << std::endl;
+	}
+	if(x < 0 || y < 0 || x >= width || y >= height) {
 		return false;
 	}
 

@@ -65,7 +65,10 @@ private:
 
 	sf::Music m_music;
 
-	float m_timer;
+	float m_timerGuards;
+	float m_timerPlayer;
+	float m_gameOverTimer;
+
 	sf::View* mp_view;
 
 	LightManager* lm;

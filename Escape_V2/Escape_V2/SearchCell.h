@@ -18,8 +18,8 @@ public:
 
 	float GetF() { return m_g + m_h; }
 	float ManHattanDistance(SearchCell* nodeEnd) {
-		float x  = static_cast<float>(fabs(this->m_xcoord - static_cast<float>(nodeEnd->m_xcoord)));
-		float y  = static_cast<float>(fabs(this->m_ycoord - static_cast<float>(nodeEnd->m_ycoord)));
+		float x  = abs(this->m_xcoord - nodeEnd->m_xcoord);
+		float y  = abs(this->m_ycoord - nodeEnd->m_ycoord);
 		return x + y;
 	}
 };

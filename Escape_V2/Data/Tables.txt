@@ -1,0 +1,10 @@
+2798 1289 270 1 1 Table.png
+6091 3936 310 1 1 Table.png
+7952 4914 235 1 1 Table.png
+7952 4909 225 1 1 Table.png
+6149 5549 315 1 1 Secretary_Desk.png
+6649 5538 135 1 1 Secretary_Desk.png
+6491 5683 315 1 1 Secretary_Desk.png
+6297 5709 225 1 1 Secretary_Desk.png
+6092 6634 315 1 1 Table.png
+§

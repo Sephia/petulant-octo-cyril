@@ -112,7 +112,7 @@ bool KeyManager::LoadFromFile(std::string filename){
     while (!stream.eof())
     {
         
-        while(row != "\xc2\xa7")
+        while(row != "\xa7")
         {
             int x, y;
             std::stringstream ss(row);

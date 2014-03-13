@@ -143,7 +143,9 @@ bool GuardChaseState::Detected(sf::Vector2f playerPosition, CollisionManager* p_
 void GuardChaseState::Movement() {
 	if(!mp_pathfinding->m_foundGoal) {
 		while(!mp_pathfinding->m_foundGoal) {
-			mp_pathfinding->FindPath(sf::Vector2f((*mp_position).x, (*mp_position).y), sf::Vector2f(m_waypoints.at(0).x, m_waypoints.at(0).y));
+			if(!mp_pathfinding->FindPath(sf::Vector2f((*mp_position).x, (*mp_position).y), sf::Vector2f(m_waypoints.at(0).x, m_waypoints.at(0).y))) {
+				break;
+			}
 		}
 	}
 

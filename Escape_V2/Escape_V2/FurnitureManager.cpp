@@ -51,6 +51,7 @@ void FurnitureManager::Draw(sf::RenderWindow* win)
 bool FurnitureManager::LoadFromFile(std::string filename, ltbl::LightSystem* lm)
 {
     std::ifstream stream;
+	std::string path = "../data/";
     stream.open(filename);
     if(!stream.is_open())
     {
@@ -72,7 +73,7 @@ bool FurnitureManager::LoadFromFile(std::string filename, ltbl::LightSystem* lm)
     while (!stream.eof())
     {
         
-        while(row != "\xc2\xa7")
+        while(row != "\xa7")
         {
             int x, y;
             std::stringstream ss(row);
@@ -84,7 +85,7 @@ bool FurnitureManager::LoadFromFile(std::string filename, ltbl::LightSystem* lm)
             {
                 sf::Texture* texture = new sf::Texture();
                 std::ifstream image;
-                image.open(textureName);
+                image.open(path + textureName);
                 if(!image.is_open())
                 {
                     delete texture;
@@ -96,12 +97,12 @@ bool FurnitureManager::LoadFromFile(std::string filename, ltbl::LightSystem* lm)
                     continue;
                 }
                 image.close();
-                texture->loadFromFile(textureName);
+                texture->loadFromFile(path + textureName);
                 m_textures.insert(std::make_pair(textureName, texture));
                 sf::Vector2f size = static_cast<sf::Vector2f>(texture->getSize());
                 shape = new Furniture(size);
                 shape->setTexture(texture);
-                //shape->setTextureRect(sf::Rect<int>(0,0,texture->getSize().x, texture->getSize().y));
+                shape->setTextureRect(sf::Rect<int>(0,0,texture->getSize().x, texture->getSize().y));
             }
             else
             {
@@ -109,7 +110,7 @@ bool FurnitureManager::LoadFromFile(std::string filename, ltbl::LightSystem* lm)
                 sf::Vector2f size = static_cast<sf::Vector2f>(texture->getSize());
                 shape = new Furniture(size);
                 shape->setTexture(texture);
-                //shape->setTextureRect(sf::Rect<int>(0,0,texture->getSize().x, texture->getSize().y));
+                shape->setTextureRect(sf::Rect<int>(0,0,texture->getSize().x, texture->getSize().y));
             }
             shape->setPosition(static_cast<float>(x), static_cast<float>(y));
             shape->setOrigin(static_cast<float>(shape->getTextureRect().width / 2), static_cast<float>(shape->getTextureRect().height / 2));
@@ -149,10 +150,11 @@ bool FurnitureManager::LoadFromFile(std::string filename, ltbl::LightSystem* lm)
                 {
                     hull->m_transparency = 0.2f;
                 }
-                m_furniture.push_back(shape);
                 mp_hullManager->AddHull(hull, shape);
             }
             
+			m_furniture.push_back(shape);
+
             std::getline(stream, row, '\n');
             if (*(row.end()-1) == '\r')
             {

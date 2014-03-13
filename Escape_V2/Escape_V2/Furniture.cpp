@@ -11,7 +11,7 @@ Furniture::Furniture()
 Furniture::Furniture(const sf::Vector2f& size)
 :sf::RectangleShape(size)
 {
-    
+	
 }
 
 float Furniture::GetNoise() const

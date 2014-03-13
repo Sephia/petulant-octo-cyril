@@ -88,7 +88,9 @@ void GuardPatrolState::Movement() {
 	if(m_waypoints.size() > 0) {
 		if(!mp_pathfinding->m_foundGoal) {
 			while(!mp_pathfinding->m_foundGoal) {
-				mp_pathfinding->FindPath(sf::Vector2f((*mp_position).x, (*mp_position).y), sf::Vector2f(m_waypoints.at(m_nextWaypoint).x, m_waypoints.at(m_nextWaypoint).y));
+				if(!mp_pathfinding->FindPath(sf::Vector2f((*mp_position).x, (*mp_position).y), sf::Vector2f(m_waypoints.at(m_nextWaypoint).x, m_waypoints.at(m_nextWaypoint).y))) {
+					break;
+				}
 			}
 			m_nextPosition = mp_pathfinding->NextPathPos(*mp_position, 10);
 		}
@@ -115,7 +117,9 @@ void GuardPatrolState::Movement() {
 
 				if(!mp_pathfinding->m_foundGoal) {
 					while(!mp_pathfinding->m_foundGoal) {
-						mp_pathfinding->FindPath(sf::Vector2f((*mp_position).x, (*mp_position).y), sf::Vector2f(m_waypoints.at(m_nextWaypoint).x, m_waypoints.at(m_nextWaypoint).y));
+						if(!mp_pathfinding->FindPath(sf::Vector2f((*mp_position).x, (*mp_position).y), sf::Vector2f(m_waypoints.at(m_nextWaypoint).x, m_waypoints.at(m_nextWaypoint).y))) {
+							break;
+						}
 					}
 					m_nextPosition = mp_pathfinding->NextPathPos(*mp_position, 10);
 				}
@@ -125,6 +129,7 @@ void GuardPatrolState::Movement() {
 			mp_sprite->ChangeAnimation("Guard1Turning.png");
 		}
 	}
+	/*mp_pathfinding->Draw(Settings::ms_window);*/
 }
 
 void GuardPatrolState::AddWaypointToFront(sf::Vector2f waypoint) {

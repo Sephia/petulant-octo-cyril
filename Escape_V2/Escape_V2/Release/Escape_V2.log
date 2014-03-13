@@ -1,8 +1,9 @@
-﻿Build started 2014-03-09 23:40:48.
+﻿Build started 2014-03-13 19:56:51.
      1>Project "D:\petulant-octo-cyril\Escape_V2\Escape_V2\Escape_V2.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"..\Deps\let-there-be-light" /I"..\Deps\SFML-2.1\include\\" /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt PathFinding.cpp
-         PathFinding.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"..\Deps\let-there-be-light" /I"..\Deps\SFML-2.1\include\\" /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt SoundRipple.cpp
+         SoundRipple.cpp
+     1>SoundRipple.cpp(58): warning C4244: '*=' : conversion from 'double' to 'sf::Uint8', possible loss of data
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\petulant-octo-cyril\Escape_V2\Release\Escape_V2.exe" /NOLOGO /LIBPATH:"..\Deps\SFML-2.1\lib" /LIBPATH:"...\Deps\let-there-be-light" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\petulant-octo-cyril\Escape_V2\Release\Escape_V2.pdb" /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\petulant-octo-cyril\Escape_V2\Release\Escape_V2.lib" /MACHINE:X86 /SAFESEH Release\AABB.obj
          Release\Color3f.obj
@@ -69,4 +70,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:05.23
+Time Elapsed 00:00:05.56

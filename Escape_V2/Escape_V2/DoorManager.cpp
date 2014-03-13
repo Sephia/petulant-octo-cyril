@@ -161,7 +161,7 @@ bool DoorManager::LoadFromFile(std::string filename)
     while (!stream.eof())
     {
         
-        while(row != "\xc2\xa7")
+        while(row != "\xa7")
         {
             int x, y;
             Door* door;
@@ -172,6 +172,8 @@ bool DoorManager::LoadFromFile(std::string filename)
             //rotation of the image
             int rotation;
             ss >> rotation;
+			rotation += 270;
+			rotation %= 360;
             
             //plaque or not
             std::string pl;
@@ -197,6 +199,7 @@ bool DoorManager::LoadFromFile(std::string filename)
             
             std::string textureName;
             ss >> textureName;
+			textureName = "../data/Door.png";
             if(m_textures.find(textureName)== m_textures.end())
             {
                 sf::Texture* texture = new sf::Texture();

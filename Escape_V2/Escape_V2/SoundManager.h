@@ -17,8 +17,8 @@ public:
 */
 
 #pragma once
-#include <SFML\Audio.hpp>
-#include <SFML\System.hpp>
+#include <SFML/Audio.hpp>
+#include <SFML/System.hpp>
 #include "state.h"
 #include <map>
 
@@ -42,9 +42,23 @@ public:
 class SoundManager
 {
 public:
-	std::vector <SoundEntity*> Sounds;
-	std::vector <sf::Music*> Songs;
-	int newSound(std::string filename, bool Looping);
-	int newSong(std::string filename, bool Looping);
+    std::string newSound(std::string filename, bool Looping);
+    std::string newSong(std::string filename, bool Looping);
+    SoundEntity* GetSound(std::string filename);
+    sf::Music* GetSong(std::string filename);
+    int GetSoundCount();
+    int GetSongCount();
+    
 	void Update();
+    void ToggleSound(bool active);
+    void ToggleMusic(bool active);
+    
+    void SetSoundVolume(float volume);
+    float GetSoundVolume();
+    void SetSongVolume(float volume);
+    float GetSongVolume();
+    
+    std::map <std::string, SoundEntity*> Sounds;
+	std::map <std::string, sf::Music*> Songs;
+    
 };

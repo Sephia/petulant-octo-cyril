@@ -55,7 +55,7 @@ bool GuardShootingState::Update(sf::Vector2f player_position, CollisionManager* 
 	
 	
 	if(m_timer > 2.5f) {
-		Settings::ms_gameOver = true;
+		Shoot(p_collisionManager, player_position);
 	}
 	else if(m_timer > 1.0f) {
 		mp_sprite->ChangeAnimation("Guard1Shooting.png");
@@ -144,4 +144,10 @@ bool GuardShootingState::Rotate(sf::Vector2f playerPosition) {
 	*mp_rotation = static_cast<int>(*mp_rotation) % 360;
 	
 	return false;
+}
+
+void GuardShootingState::Shoot(CollisionManager* p_collisionManager, sf::Vector2f playerPosition) {
+	std::cout << "Shooting! Dead!\n";
+	Settings::Shoot(*mp_position, playerPosition);
+	Settings::ms_gameOver = true;
 }

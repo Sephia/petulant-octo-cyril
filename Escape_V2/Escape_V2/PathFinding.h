@@ -10,7 +10,7 @@ public:
 	~PathFinding();
 
 	void Init(Grid2D* grid);
-	void FindPath(sf::Vector2f currentPos, sf::Vector2f targetPos);
+	bool FindPath(sf::Vector2f currentPos, sf::Vector2f targetPos);
 	sf::Vector2f NextPathPos(sf::Vector2f pos, float radius);
 	void ClearOpenList() { m_openList.clear(); }
 	void ClearVisitedList() { m_visitedList.clear(); }

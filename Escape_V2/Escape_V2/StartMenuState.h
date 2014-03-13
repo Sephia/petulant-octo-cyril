@@ -1,7 +1,7 @@
 // StateMenuState.h
 
 #pragma once
-#include <SFML\Graphics.hpp>
+#include <SFML/Graphics.hpp>
 #include "SoundManager.h"
 #include "state.h"
 
@@ -52,11 +52,11 @@ private:
 	sf::Time creditsRollOn;
 	sf::Clock *turnOnCredits;
 
-	int soundButtonOn;
-	int soundButtonOff;
+    std::string soundButtonOn;
+    std::string soundButtonOff;
 	SoundManager* soundManager;
 	sf::Music buzzing;
-	int menuMusic;
+    std::string menuMusic;
 
 	//Options
 	sf::Texture *soundOn;

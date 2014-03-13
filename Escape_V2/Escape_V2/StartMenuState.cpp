@@ -351,7 +351,7 @@ void StartMenuState::Enter() {
 	}
 	*/
 	menuMusic = soundManager->newSong("../Data/Music/Dances_and_Dames.wav", true);
-	soundManager->Songs.at(menuMusic)->play();
+	soundManager->GetSong(menuMusic)->play();
 
 	mp_view = new sf::View(sf::FloatRect(0, 0, static_cast<float>(Settings::ms_window->getSize().x), static_cast<float>(Settings::ms_window->getSize().y)));
 
@@ -361,7 +361,7 @@ void StartMenuState::Enter() {
 void StartMenuState::Exit() {
 	//har du något new vid enter måste du ha delete i exit
 	buzzing.stop();
-	soundManager->Songs.at(menuMusic)->stop();
+	soundManager->GetSong(menuMusic)->stop();
 
 	if(mp_view != nullptr) {
 		delete mp_view;
@@ -612,7 +612,7 @@ void StartMenuState::UpdateEvents() {
 					optionsSelected = false;
 				}
 				//soundButtonOn.Sounds[m_soundButtonOn].Play(0);
-				soundManager->Sounds[soundButtonOn]->Play(0);
+				soundManager->GetSound(soundButtonOn)->Play(0);
 			}
 		}
 
@@ -633,7 +633,7 @@ void StartMenuState::UpdateEvents() {
 		mp_arrow_1->setPosition(50, 630);
 
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
-			soundManager->Songs.at(menuMusic)->stop();
+			soundManager->GetSong(menuMusic)->stop();
 			m_done = true;
 		}
 	}
@@ -653,12 +653,10 @@ void StartMenuState::UpdateEvents() {
 						musicActivation = false;
 					}
 					else {
-						for (unsigned int i = 0; i < soundManager->Songs.size(); i++){
-							soundManager->Songs.at(i)->play();
-						}
 						musicActivation = true;
 					}
-					soundManager->Sounds[soundButtonOn]->Play(0);
+                    soundManager->ToggleMusic(musicActivation);
+					soundManager->GetSound(soundButtonOn)->Play(0);
 				}
 			}
 
@@ -674,9 +672,7 @@ void StartMenuState::UpdateEvents() {
 
 		if (musicActivation == false){
 		//	toggleMusic = false;
-			for (unsigned int i = 0; i < soundManager->Songs.size(); i++){
-				soundManager->Songs.at(i)->pause();
-			}
+			soundManager->ToggleMusic(musicActivation);
 			mp_checkboxMusic->setTexture(*checkboxOff);
 			mp_music->setTexture(*musicOff);
 			mp_sliderMusic->setTexture(*sliderOff);
@@ -702,9 +698,7 @@ void StartMenuState::UpdateEvents() {
 		}
 
 		if (soundActivation == true){
-			for (unsigned int i = 0; i < soundManager->Sounds.size(); i++){
-				soundManager->Sounds.at(i)->toggleSound = true;
-			}
+			soundManager->ToggleSound(soundActivation);
 			buzzing.setVolume((mp_pointerSound->getPosition().x - mp_sliderSound->getPosition().x) / ((mp_sliderSound->getLocalBounds().width - mp_pointerSound->getLocalBounds().width) / 100));
 			mp_checkboxSound->setTexture(*checkboxOn);
 			mp_sound->setTexture(*soundOn);
@@ -713,9 +707,7 @@ void StartMenuState::UpdateEvents() {
 		}
 
 		if (soundActivation == false){
-			for (unsigned int i = 0; i < soundManager->Sounds.size(); i++){
-				soundManager->Sounds.at(i)->toggleSound = false;
-			}
+			soundManager->ToggleSound(soundActivation);
 			buzzing.setVolume(0);
 			mp_checkboxSound->setTexture(*checkboxOff);
 			mp_sound->setTexture(*soundOff);
@@ -736,7 +728,7 @@ void StartMenuState::UpdateEvents() {
 						mp_pointerMusic->setPosition(mp_sliderMusic->getPosition().x + mp_sliderMusic->getLocalBounds().width - mp_pointerMusic->getLocalBounds().width, mp_pointerMusic->getPosition().y);
 					}
 					for (unsigned int i = 0; i < soundManager->Songs.size(); i++){
-						soundManager->Songs.at(i)->setVolume((mp_pointerMusic->getPosition().x - mp_sliderMusic->getPosition().x) / ((mp_sliderMusic->getLocalBounds().width - mp_pointerMusic->getLocalBounds().width) / 100));
+						soundManager->SetSongVolume((mp_pointerMusic->getPosition().x - mp_sliderMusic->getPosition().x) / ((mp_sliderMusic->getLocalBounds().width - mp_pointerMusic->getLocalBounds().width) / 100));
 					}
 				}
 		}
@@ -754,7 +746,7 @@ void StartMenuState::UpdateEvents() {
 					mp_pointerSound->setPosition(mp_sliderSound->getPosition().x + mp_sliderSound->getLocalBounds().width - mp_pointerSound->getLocalBounds().width, mp_pointerSound->getPosition().y);
 				}
 				for (unsigned int i = 0; i < soundManager->Sounds.size(); i++){
-					soundManager->Sounds.at(i)->Sound.setVolume((mp_pointerSound->getPosition().x - mp_sliderSound->getPosition().x) / ((mp_sliderSound->getLocalBounds().width - mp_pointerSound->getLocalBounds().width) / 100));
+					soundManager->SetSoundVolume((mp_pointerSound->getPosition().x - mp_sliderSound->getPosition().x) / ((mp_sliderSound->getLocalBounds().width - mp_pointerSound->getLocalBounds().width) / 100));
 				}				
 			}
 		}
