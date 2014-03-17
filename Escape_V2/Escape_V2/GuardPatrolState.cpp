@@ -9,7 +9,7 @@
 
 
 GuardPatrolState::GuardPatrolState() {
-	m_speed = 100.0f;
+	m_speed = 200.0f;
 }
 
 GuardPatrolState::~GuardPatrolState() {

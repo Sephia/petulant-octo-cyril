@@ -57,7 +57,7 @@ public:
     float GetSoundVolume();
     void SetSongVolume(float volume);
     float GetSongVolume();
-    
+private:
     std::map <std::string, SoundEntity*> Sounds;
 	std::map <std::string, sf::Music*> Songs;
     

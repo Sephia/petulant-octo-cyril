@@ -9,7 +9,7 @@
 #include "stdafx.h"
 
 GuardInvestigateState::GuardInvestigateState() {
-	m_speed = 120.0f;
+	m_speed = 200.0f;
 }
 
 GuardInvestigateState::~GuardInvestigateState() {

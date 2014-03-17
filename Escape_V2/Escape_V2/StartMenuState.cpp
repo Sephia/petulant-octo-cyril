@@ -547,7 +547,7 @@ void StartMenuState::UpdateEvents() {
 				if (optionsSelected) {
 					optionsSelected = false;
 				}
-				soundManager->Sounds[soundButtonOn]->Play(0);
+				soundManager->GetSound(soundButtonOn)->Play(0);
 			}
 
 		}
@@ -580,7 +580,7 @@ void StartMenuState::UpdateEvents() {
 				if (creditsSelected) {
 					creditsSelected = false;
 				}
-				soundManager->Sounds[soundButtonOn]->Play(0);
+				soundManager->GetSound(soundButtonOn)->Play(0);
 			}
 		}
 
@@ -691,7 +691,7 @@ void StartMenuState::UpdateEvents() {
 					else {
 						soundActivation = true;
 					}
-					soundManager->Sounds[soundButtonOn]->Play(0);
+					soundManager->GetSound(soundButtonOn)->Play(0);
 				}
 			}
 
@@ -727,7 +727,7 @@ void StartMenuState::UpdateEvents() {
 					if (mp_pointerMusic->getLocalBounds().width + mp_pointerMusic->getPosition().x > mp_sliderMusic->getLocalBounds().width + mp_sliderMusic->getPosition().x){
 						mp_pointerMusic->setPosition(mp_sliderMusic->getPosition().x + mp_sliderMusic->getLocalBounds().width - mp_pointerMusic->getLocalBounds().width, mp_pointerMusic->getPosition().y);
 					}
-					for (unsigned int i = 0; i < soundManager->Songs.size(); i++){
+					for (unsigned int i = 0; i < soundManager->GetSongCount(); i++){
 						soundManager->SetSongVolume((mp_pointerMusic->getPosition().x - mp_sliderMusic->getPosition().x) / ((mp_sliderMusic->getLocalBounds().width - mp_pointerMusic->getLocalBounds().width) / 100));
 					}
 				}
@@ -745,7 +745,7 @@ void StartMenuState::UpdateEvents() {
 				if (mp_pointerSound->getLocalBounds().width + mp_pointerSound->getPosition().x > mp_sliderSound->getLocalBounds().width + mp_sliderSound->getPosition().x){
 					mp_pointerSound->setPosition(mp_sliderSound->getPosition().x + mp_sliderSound->getLocalBounds().width - mp_pointerSound->getLocalBounds().width, mp_pointerSound->getPosition().y);
 				}
-				for (unsigned int i = 0; i < soundManager->Sounds.size(); i++){
+				for (unsigned int i = 0; i < soundManager->GetSoundCount(); i++){
 					soundManager->SetSoundVolume((mp_pointerSound->getPosition().x - mp_sliderSound->getPosition().x) / ((mp_sliderSound->getLocalBounds().width - mp_pointerSound->getLocalBounds().width) / 100));
 				}				
 			}

@@ -13,7 +13,7 @@ GuardChaseState::GuardChaseState() {
 	m_done = false;
 	m_justLostSight = true;
 	m_timer = 0.0f;
-	m_speed = 300.0f;
+	m_speed = 350.0f;
 }
 
 
