@@ -19,3 +19,7 @@
 *.exe
 *.out
 *.app
+*.sdf
+*.suo
+Escape_V2/Escape_V2.sdf
+Escape_V2/Escape_V2.v11.suo
