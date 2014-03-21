@@ -14,6 +14,7 @@ public:
     sf::Sprite* GetItem(int);
     void AddItem(sf::Sprite* item);
     int GetItemCount();
+	void RemoveItem(int);
     
     void Draw(sf::RenderWindow* window);
     void Clear();

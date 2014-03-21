@@ -6,7 +6,7 @@
 
 class Level {
 public:
-	Level();
+	Level(const std::string& c_path);
 	~Level();
 
 	void Draw();

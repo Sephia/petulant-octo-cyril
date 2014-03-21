@@ -28,8 +28,8 @@ sf::Vector2f SoundRippleManager::GuardNotice(sf::Vector2f guardPosition) {
 	return sf::Vector2f(0, 0);
 }
 
-void SoundRippleManager::CreateSoundRipple(sf::Vector2f soundOriginPosition, int soundVolume, bool isPlayer, AnimatedSprite* p_sprite) {
-	m_soundOrigins.push_back(new SoundRipple(soundOriginPosition, soundVolume, isPlayer, p_sprite));
+void SoundRippleManager::CreateSoundRipple(sf::Vector2f soundOriginPosition, int soundVolume, bool isPlayer, AnimatedSprite* p_sprite, sf::Sound* sound) {
+	m_soundOrigins.push_back(new SoundRipple(soundOriginPosition, soundVolume, isPlayer, p_sprite, sound));
 }
 
 void SoundRippleManager::UpdateSounds() {

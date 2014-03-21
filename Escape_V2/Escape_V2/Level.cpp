@@ -4,11 +4,11 @@
 #include "Settings.h"
 #include "stdafx.h"
 
-Level::Level() {
+Level::Level(const std::string& c_path) {
 	mp_levelTexture = new sf::Texture;
 	mp_levelSprite = new sf::Sprite;
 
-	mp_levelTexture->loadFromFile("../data/level01.png");
+	mp_levelTexture->loadFromFile("../data/" + c_path + "level.png");
 	mp_levelSprite->setTexture(*mp_levelTexture);
 }
 

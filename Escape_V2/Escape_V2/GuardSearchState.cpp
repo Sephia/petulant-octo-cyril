@@ -17,7 +17,6 @@ GuardSearchState::~GuardSearchState() {
 }
 
 void GuardSearchState::Enter() {
-	std::cout << "Entering GuardSearchState\n";
 	m_done = false;
 }
 

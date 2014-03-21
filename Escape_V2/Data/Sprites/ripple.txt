@@ -1,0 +1,2 @@
+SoundRipple.png
+200 0 0 500 500

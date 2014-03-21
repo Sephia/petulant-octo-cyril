@@ -55,10 +55,6 @@ void GuardStateManager::SetState(const std::string &c_type) {
 void GuardStateManager::ChangeState() {
 	std::string next = mp_currentState->Next();
 
-	if(mp_currentState->IsType("GuardPatrolState") || mp_currentState->IsType("GuardSearchState")) {
-		std::cout << "Guard Detected Player\n";
-	}
-
 	if(mp_currentState != nullptr) {
 		mp_currentState->Exit();
 		mp_currentState = nullptr;

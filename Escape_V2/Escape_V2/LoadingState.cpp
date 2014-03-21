@@ -5,6 +5,7 @@
 #include "stdafx.h"
 
 LoadingState::LoadingState() {
+	srand(time(NULL));
 	Settings::ms_window = nullptr;
 }
 
@@ -23,7 +24,6 @@ void LoadingState::Enter() {
         if(it->width/16 == it->height/9)
         {
             video = *it;
-            //std::cout << "found: " << it->width << "*" << it->height << std::endl;
             break;
         }
         it++;
@@ -33,7 +33,7 @@ void LoadingState::Enter() {
 	setting.antialiasingLevel = 8;
 	Settings::ms_window = new sf::RenderWindow(video, "SFML shapes", sf::Style::Default, setting);
 	Settings::ms_window->setFramerateLimit(60);
-	Settings::Load();
+	
 }
 
 void LoadingState::Exit() {

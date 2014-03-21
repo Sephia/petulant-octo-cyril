@@ -335,10 +335,12 @@ void StartMenuState::Enter() {
 
 	//Sound: Button On
 	soundManager = new SoundManager;
-	soundButtonOn = soundManager->newSound("../Data/Sound/MAIN_MENU/KEY_PRESS_DOWN.wav", false);
+    std::string temp;
+	temp = soundManager->newSound("../Data/Sound/MAIN_MENU/KEY_PRESS_DOWN.wav", false, 500, 0.1f);
+    soundButtonOn = soundManager->GetSound(temp)->CreateSound(sf::Vector2f(0,0));
 	
 	//Sound: Button Off
-	soundButtonOff = soundManager->newSound("../Data/Sound/MAIN_MENU/KEY-PRESS-RELEASE.wav", false);
+	soundButtonOff = soundManager->newSound("../Data/Sound/MAIN_MENU/KEY-PRESS-RELEASE.wav", false, 500, 0.1f);
 
 	//Sound: Header Buzzing
 	if (!buzzing.openFromFile("../Data/Sound/MAIN_MENU/BUZZ3_5.wav")){
@@ -346,12 +348,8 @@ void StartMenuState::Enter() {
 	}
 	
 	//Menu Music
-	/*if (!menuMusic.openFromFile("../Data/Music/Dances_and_Dames.wav")){
-		std::cout << "could not load menuMusic" << std::endl;
-	}
-	*/
 	menuMusic = soundManager->newSong("../Data/Music/Dances_and_Dames.wav", true);
-	soundManager->GetSong(menuMusic)->play();
+	soundManager->GetSong(menuMusic)->Play();
 
 	mp_view = new sf::View(sf::FloatRect(0, 0, static_cast<float>(Settings::ms_window->getSize().x), static_cast<float>(Settings::ms_window->getSize().y)));
 
@@ -361,7 +359,7 @@ void StartMenuState::Enter() {
 void StartMenuState::Exit() {
 	//har du något new vid enter måste du ha delete i exit
 	buzzing.stop();
-	soundManager->GetSong(menuMusic)->stop();
+	soundManager->GetSong(menuMusic)->Stop();
 
 	if(mp_view != nullptr) {
 		delete mp_view;
@@ -547,7 +545,10 @@ void StartMenuState::UpdateEvents() {
 				if (optionsSelected) {
 					optionsSelected = false;
 				}
-				soundManager->GetSound(soundButtonOn)->Play(0);
+				if(!SoundEntity::IsMuted())
+                {
+                    soundButtonOn->play();
+                }
 			}
 
 		}
@@ -580,7 +581,10 @@ void StartMenuState::UpdateEvents() {
 				if (creditsSelected) {
 					creditsSelected = false;
 				}
-				soundManager->GetSound(soundButtonOn)->Play(0);
+                if(!SoundEntity::IsMuted())
+                {
+                    soundButtonOn->play();
+                }
 			}
 		}
 
@@ -612,7 +616,10 @@ void StartMenuState::UpdateEvents() {
 					optionsSelected = false;
 				}
 				//soundButtonOn.Sounds[m_soundButtonOn].Play(0);
-				soundManager->GetSound(soundButtonOn)->Play(0);
+				if(!SoundEntity::IsMuted())
+                {
+                    soundButtonOn->play();
+                }
 			}
 		}
 
@@ -633,7 +640,7 @@ void StartMenuState::UpdateEvents() {
 		mp_arrow_1->setPosition(50, 630);
 
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
-			soundManager->GetSong(menuMusic)->stop();
+			soundManager->GetSong(menuMusic)->Stop();
 			m_done = true;
 		}
 	}
@@ -655,8 +662,11 @@ void StartMenuState::UpdateEvents() {
 					else {
 						musicActivation = true;
 					}
-                    soundManager->ToggleMusic(musicActivation);
-					soundManager->GetSound(soundButtonOn)->Play(0);
+                    soundManager->ToggleMusic();
+					if(!SoundEntity::IsMuted())
+                    {
+                        soundButtonOn->play();
+                    }
 				}
 			}
 
@@ -672,7 +682,7 @@ void StartMenuState::UpdateEvents() {
 
 		if (musicActivation == false){
 		//	toggleMusic = false;
-			soundManager->ToggleMusic(musicActivation);
+			soundManager->ToggleMusic();
 			mp_checkboxMusic->setTexture(*checkboxOff);
 			mp_music->setTexture(*musicOff);
 			mp_sliderMusic->setTexture(*sliderOff);
@@ -691,14 +701,17 @@ void StartMenuState::UpdateEvents() {
 					else {
 						soundActivation = true;
 					}
-					soundManager->GetSound(soundButtonOn)->Play(0);
+					if(!SoundEntity::IsMuted())
+                    {
+                        soundButtonOn->play();
+                    }
 				}
 			}
 
 		}
 
 		if (soundActivation == true){
-			soundManager->ToggleSound(soundActivation);
+			soundManager->ToggleSound();
 			buzzing.setVolume((mp_pointerSound->getPosition().x - mp_sliderSound->getPosition().x) / ((mp_sliderSound->getLocalBounds().width - mp_pointerSound->getLocalBounds().width) / 100));
 			mp_checkboxSound->setTexture(*checkboxOn);
 			mp_sound->setTexture(*soundOn);
@@ -707,7 +720,7 @@ void StartMenuState::UpdateEvents() {
 		}
 
 		if (soundActivation == false){
-			soundManager->ToggleSound(soundActivation);
+			soundManager->ToggleSound();
 			buzzing.setVolume(0);
 			mp_checkboxSound->setTexture(*checkboxOff);
 			mp_sound->setTexture(*soundOff);

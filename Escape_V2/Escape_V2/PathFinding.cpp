@@ -20,10 +20,10 @@ void PathFinding::Init(Grid2D* grid) {
 }
 
 bool PathFinding::FindPath(sf::Vector2f currentPos, sf::Vector2f targetPos) {
-	currentPos.x /= m_grid->GetSquareSize() + 0.5f;
-	currentPos.y /= m_grid->GetSquareSize() + 0.5f;
-	targetPos.x /= m_grid->GetSquareSize() + 0.5f;
-	targetPos.y /= m_grid->GetSquareSize() + 0.5f;
+	currentPos.x = currentPos.x / m_grid->GetSquareSize() + 0.5f;
+	currentPos.y = currentPos.y / m_grid->GetSquareSize() + 0.5f;
+	targetPos.x = targetPos.x / m_grid->GetSquareSize() + 0.5f;
+	targetPos.y = targetPos.y / m_grid->GetSquareSize() + 0.5f;
 
 	if(!m_initializedStartGoal) {
 		for(unsigned int i = 0; i < m_openList.size(); i++) {

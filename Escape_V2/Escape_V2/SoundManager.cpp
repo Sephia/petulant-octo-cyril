@@ -1,113 +1,168 @@
-/*
-#include "SoundManager.h"
-
-SoundManager::SoundManager(){
-}
-
-sf::SoundBuffer* SoundManager::LoadSound(std::string Filename){
-	if (SoundMap.find(Filename) == SoundMap.end()){
-		sf::SoundBuffer *Load = new sf::SoundBuffer;
-		Load->loadFromFile(Filename);
-		SoundMap.insert(std::pair<std::string, sf::SoundBuffer*>(Filename, Load));
-		return Load;
-	}
-	else
-		return SoundMap.find(Filename)->second;
-}
-sf::SoundBuffer* SoundManager::GetSound(std::string Filename)
-{
-	if (SoundMap.find(Filename) == SoundMap.end())
-	{
-		return nullptr;
-	}
-	else
-	{
-		return SoundMap.find(Filename)->second;
-	}
-}
-
-void SoundManager::Clear(){
-	for (std::map<std::string, sf::SoundBuffer*>::iterator i = SoundMap.begin(); i != SoundMap.end(); i = SoundMap.begin()){
-		delete i->second;
-		SoundMap.erase(i);
-	}
-
-	SoundMap.clear();
-
-}
-
-SoundManager::~SoundManager(){
-	for (std::map<std::string, sf::SoundBuffer*>::iterator i = SoundMap.begin(); i != SoundMap.end(); i = SoundMap.begin()){
-		delete i->second;
-		SoundMap.erase(i);
-	}
-
-}
-*/
-
 #include "SoundManager.h"
 #include "stdafx.h"
 
-bool SoundEntity::toggleSound = true;
+bool SoundEntity::ms_toggleSound = true;
+unsigned int SoundEntity::ms_volume = 100;
 
-
-void SoundEntity::Loop()
+SoundEntity::SoundEntity(float minimumDistance, float attenuation, bool looping)
+:m_minDistance(minimumDistance)
+,m_attenuation(attenuation)
+,m_looping(looping)
 {
-	Sound.setPlayingOffset(startingPoint);
+    mp_buffer = nullptr;
 }
 
-void SoundEntity::Play(bool stop)        // stops the sound, then starts it from the beginning of the loop, then starts it
+SoundEntity::~SoundEntity()
 {
-	if (toggleSound){
-		if (stop)
-			Sound.stop();
-		Sound.setPlayingOffset(startingPoint);
-		Sound.play();
-	}
+    if(mp_buffer != nullptr)
+    {
+        delete mp_buffer;
+        mp_buffer = nullptr;
+    }
 }
-
-
 
 void SoundEntity::Init(std::string filename)
 {
-	//Buffer = new sf::SoundBuffer;
-	Buffer.loadFromFile(filename);
-	//Sound = new sf::Sound;
-	Sound.setBuffer(Buffer);
-	startingPoint = sf::microseconds(0);
-	endPoint = Buffer.getDuration();
+	mp_buffer = new sf::SoundBuffer();
+	mp_buffer->loadFromFile(filename);
 }
-
-SoundEntity::SoundEntity()
+void SoundEntity::ToogleSound()
 {
-	std::cout << "Hi\n";
-	startingPoint = sf::seconds(0);
-	endPoint = sf::seconds(0);
+    ms_toggleSound = !ms_toggleSound;
 }
-
-void SoundEntity::Update()
+bool SoundEntity::IsMuted()
 {
-	if (Sound.getPlayingOffset() >= endPoint && Sound.getLoop())
-	{
-		Loop();
-	}
-	else if (Sound.getPlayingOffset() >= endPoint)
-	{
-		Sound.stop();
-	}
+    return !ms_toggleSound;
+}
+sf::Sound* SoundEntity::CreateSound(sf::Vector2f position)
+{
+    sf::Sound* sound = new sf::Sound();
+    
+    sound->setBuffer(*mp_buffer);
+    sound->setPosition(position.x, 0, position.y);
+    sound->setMinDistance(m_minDistance);
+    sound->setAttenuation(m_attenuation);
+    sound->setVolume(ms_volume);
+    sound->setLoop(m_looping);
+    return sound;
+}
+float SoundEntity::GetMinimumDistance()
+{
+    return m_minDistance;
+}
+void SoundEntity::SetMinimumDistance(float minimumDistance)
+{
+    m_minDistance = minimumDistance;
+}
+float SoundEntity::GetAttenuation()
+{
+    return m_attenuation;
+}
+void SoundEntity::SetAttenuation(float attenuation)
+{
+    m_attenuation = attenuation;
+}
+unsigned int SoundEntity::GetVolume()
+{
+    return ms_volume;
+}
+void SoundEntity::SetVolume(unsigned int volume)
+{
+    ms_volume = volume;
 }
 
+bool MusicEntity::ms_toggleSound = true;
+unsigned int MusicEntity::ms_volume = 100;
 
+MusicEntity::MusicEntity(sf::Music* song)
+:mp_musicStream(song)
+{
+    mp_musicStream->setRelativeToListener(true);
+    mp_musicStream->setPosition(0, 0, -1);
+}
+MusicEntity::~MusicEntity()
+{
+    if (mp_musicStream != nullptr)
+    {
+        delete mp_musicStream;
+        mp_musicStream = nullptr;
+    }
+}
 
-std::string SoundManager::newSound(std::string filename, bool Looping)
+void MusicEntity::Play()
+{
+    if(ms_toggleSound)
+    {
+        return;
+    }
+    mp_musicStream->play();
+}
+void MusicEntity::Stop()
+{
+    mp_musicStream->stop();
+}
+void MusicEntity::Pause()
+{
+    mp_musicStream->pause();
+}
+
+sf::Music* MusicEntity::GetMusic()
+{
+    return mp_musicStream;
+}
+void MusicEntity::SetVolume(float volume)
+{
+    ms_volume = volume;
+}
+float MusicEntity::GetVolume()
+{
+    return ms_volume;
+}
+void MusicEntity::ToggleSound()
+{
+    ms_toggleSound = !ms_toggleSound;
+}
+bool MusicEntity::IsMuted()
+{
+    return !ms_toggleSound;
+}
+
+SoundManager::SoundManager()
+{
+    m_listener.setPosition(0, 0, 0);
+    Sounds.clear();
+    Songs.clear();
+}
+SoundManager::~SoundManager()
+{
+    for (auto it = Sounds.begin(); it != Sounds.end(); it++)
+    {
+        if (it->second != nullptr)
+        {
+            delete it->second;
+            it->second = nullptr;
+        }
+    }
+    for (auto it = Songs.begin(); it != Songs.end(); it++)
+    {
+        if (it->second != nullptr)
+        {
+            delete it->second;
+            it->second = nullptr;
+        }
+    }
+    Sounds.clear();
+    Songs.clear();
+}
+
+std::string SoundManager::newSound(std::string filename, bool Looping, float minimumDistance, float attenuation)
 {
     if(Sounds.find(filename)!=Sounds.end())
     {
         return filename;
     }
-	SoundEntity* newSoundEntity = new SoundEntity;
+	SoundEntity* newSoundEntity = new SoundEntity(minimumDistance, attenuation, Looping);
     newSoundEntity->Init(filename);
-    newSoundEntity->Sound.setLoop(Looping);
 	Sounds.insert(std::make_pair(filename, newSoundEntity));
 	return filename;
 }
@@ -118,20 +173,18 @@ std::string SoundManager::newSong(std::string filename, bool Looping)
     {
         return filename;
     }
-	sf::Music* newSoundEntity = new sf::Music;
-	newSoundEntity->openFromFile(filename);
-    newSoundEntity->setLoop(Looping);
-	Songs.insert(std::make_pair(filename, newSoundEntity));
+	sf::Music* song = new sf::Music;
+	song->openFromFile(filename);
+    song->setLoop(Looping);
+    song->setVolume(MusicEntity::GetVolume());
+    MusicEntity* songEntity = new MusicEntity(song);
+	Songs.insert(std::make_pair(filename, songEntity));
 	return filename;
 }
 
-void SoundManager::Update()
+void SoundManager::Update(sf::Vector2f playerPosition)
 {
-	for (auto i = Sounds.begin(); i != Sounds.end(); i++)
-	{
-		i->second->Update();
-	}
-
+    m_listener.setPosition(playerPosition.x, 0, playerPosition.y);
 }
 
 SoundEntity* SoundManager::GetSound(std::string filename)
@@ -144,7 +197,7 @@ SoundEntity* SoundManager::GetSound(std::string filename)
     return sound->second;
 }
 
-sf::Music* SoundManager::GetSong(std::string filename)
+MusicEntity* SoundManager::GetSong(std::string filename)
 {
     auto song = Songs.find(filename);
     if(song == Songs.end())
@@ -154,70 +207,59 @@ sf::Music* SoundManager::GetSong(std::string filename)
     return song->second;
 }
 
-int SoundManager::GetSoundCount()
+unsigned long SoundManager::GetSoundCount()
 {
     return Sounds.size();
 }
 
-int SoundManager::GetSongCount()
+unsigned long SoundManager::GetSongCount()
 {
     return Songs.size();
 }
 
-void SoundManager::ToggleSound(bool active)
+void SoundManager::ToggleSound()
 {
-    SoundEntity::toggleSound = active;
+    SoundEntity::ToogleSound();
 }
 
-void SoundManager::ToggleMusic(bool active)
+void SoundManager::ToggleMusic()
 {
+    MusicEntity::ToggleSound();
     for (auto it = Songs.begin(); it != Songs.end(); it++)
     {
-        if(active)
+        if(!MusicEntity::IsMuted())
         {
-            it->second->play();
+            it->second->Play();
         }
         else
         {
-            it->second->pause();
+            it->second->Pause();
         }
     }
 }
 
-void SoundManager::SetSoundVolume(float volume)
+void SoundManager::SetSoundVolume(unsigned int volume)
 {
+    SoundEntity::SetVolume(volume);
     for (auto it = Sounds.begin(); it != Sounds.end(); it++)
     {
-        
+        it->second->SetVolume(volume);
     }
 }
 float SoundManager::GetSoundVolume()
 {
-    if(Sounds.size()!=0)
-    {
-        return Sounds.begin()->second->Sound.getVolume();
-    }
-    else
-    {
-        return 1;
-    }
+    return SoundEntity::GetVolume();
 }
 
-void SoundManager::SetSongVolume(float volume)
+void SoundManager::SetSongVolume(unsigned int volume)
 {
-    for (auto it = Sounds.begin(); it != Sounds.end(); it++)
+    MusicEntity::SetVolume(volume);
+    for (auto it = Songs.begin(); it != Songs.end(); it++)
     {
-        
+        it->second->SetVolume(volume);
     }
 }
 float SoundManager::GetSongVolume()
 {
-    if(Songs.size()!=0)
-    {
-        return Songs.begin()->second->getVolume();
-    }
-    else
-    {
-        return 1;
-    }
+    return MusicEntity::GetVolume();
 }

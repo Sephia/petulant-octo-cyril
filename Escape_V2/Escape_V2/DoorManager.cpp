@@ -71,9 +71,9 @@ bool DoorManager::OpenDoor(sf::CircleShape* useRadius, sf::Color key)
             }
             hull->CalculateNormals();
             hull->CalculateAABB();
-            hull->SetWorldCenter(Vec2f(door->getPosition().x, (mp_lightSystem->m_viewAABB.GetDims().y - door->getPosition().y)));
-            ltbl::Light_Point* glow = mp_lightManager->GetLight(door);
-            glow->SetCenter(hull->GetWorldCenter());
+            hull->SetWorldCenter(Vec2f(door->GetPos().x, (mp_lightSystem->m_viewAABB.GetDims().y - door->GetPos().y)));
+            /*ltbl::Light_Point* glow = mp_lightManager->GetLight(door);
+            glow->SetCenter(hull->GetWorldCenter());*/
             
         }
         else
@@ -91,19 +91,16 @@ bool DoorManager::OpenDoor(sf::CircleShape* useRadius, sf::Color key)
             }
             hull->CalculateNormals();
             hull->CalculateAABB();
-            hull->SetWorldCenter(Vec2f(door->getPosition().x, (mp_lightSystem->m_viewAABB.GetDims().y - door->getPosition().y)));
-            ltbl::Light_Point* glow = mp_lightManager->GetLight(door);
-            glow->SetCenter(hull->GetWorldCenter());
+            hull->SetWorldCenter(Vec2f(door->GetPos().x, (mp_lightSystem->m_viewAABB.GetDims().y - door->GetPos().y)));
+            /*ltbl::Light_Point* glow = mp_lightManager->GetLight(door);
+            glow->SetCenter(hull->GetWorldCenter());*/
             
         }
         return true;
     }
     return false;
 }
-/*Plaque* DoorManager::GetPlaque(sf::CircleShape* useRadius)
-{
-    
-}*/
+
 bool DoorManager::IsOpen(sf::CircleShape* useRadius)
 {
     auto it = m_doors.find(useRadius);
@@ -172,7 +169,7 @@ bool DoorManager::LoadFromFile(std::string filename)
             //rotation of the image
             int rotation;
             ss >> rotation;
-			rotation += 270;
+			rotation = -rotation;
 			rotation %= 360;
             
             //plaque or not
@@ -199,7 +196,7 @@ bool DoorManager::LoadFromFile(std::string filename)
             
             std::string textureName;
             ss >> textureName;
-			textureName = "../data/Door.png";
+			textureName = "../data/Sprites/Door.png";
             if(m_textures.find(textureName)== m_textures.end())
             {
                 sf::Texture* texture = new sf::Texture();

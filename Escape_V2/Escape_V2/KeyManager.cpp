@@ -14,7 +14,7 @@ KeyManager::KeyManager(LightManager* lightManager, ltbl::LightSystem* lightSyste
 ,mp_lightSystem(lightSystem)
 {
     m_texture = new sf::Texture();
-    m_texture->loadFromFile("../data/Key.png");
+    m_texture->loadFromFile("../data/sprites/Key.png");
     m_glowRising = true;
 }
 KeyManager::~KeyManager()

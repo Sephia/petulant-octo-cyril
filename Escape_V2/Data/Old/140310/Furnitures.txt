@@ -1,6 +1,0 @@
-﻿200 200 ../data/Bookshelf.png 0 2
-
-400 400 ../data/Bookshelf.png 123 1
-
-§
-x y bild rotation lightproperty

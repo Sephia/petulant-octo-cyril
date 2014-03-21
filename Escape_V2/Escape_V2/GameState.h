@@ -3,7 +3,6 @@
 #pragma once
 
 #include "stdafx.h"
-#include "Level.h"
 #include "SpriteManager.h"
 #include "State.h"
 #include "SoundRippleManager.h"
@@ -21,6 +20,7 @@ class KeyManager;
 class DoorManager;
 class GUI;
 class GuardFootSteps;
+class Level;
 
 namespace ltbl {
 	class LightSystem;
@@ -53,7 +53,7 @@ private:
 private:
 	std::string m_nextState;
 
-	Level m_level;
+	Level* mp_level;
 
 	PlayerObject* mp_player;
 	std::vector<Guard*> m_guards;
@@ -68,6 +68,9 @@ private:
 	float m_timerGuards;
 	float m_timerPlayer;
 	float m_gameOverTimer;
+
+	int m_levelToLoad;
+	std::string m_pathToLevel;
 
 	sf::View* mp_view;
 

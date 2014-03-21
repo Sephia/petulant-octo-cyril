@@ -5,7 +5,7 @@
 
 GUI::GUI()
 {
-    m_keyTexture.loadFromFile("../data/Key-Item-HUD.png");
+    m_keyTexture.loadFromFile("../data/sprites/Key-Item-HUD.png");
     
 }
 GUI::~GUI()
@@ -35,6 +35,11 @@ void GUI::AddItem(sf::Sprite* item)
 int GUI::GetItemCount()
 {
     return m_items.size();
+}
+
+void GUI::RemoveItem(int i) {
+	auto it = m_items.begin() + i;
+	m_items.erase(it);
 }
 
 void GUI::Draw(sf::RenderWindow* window)

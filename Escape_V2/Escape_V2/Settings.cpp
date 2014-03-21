@@ -26,14 +26,16 @@ Settings::~Settings() {
 
 }
 
-void Settings::Load() {
+void Settings::Load(const std::string& c_path) {
 	{
-		std::string path = "../data/";
+		std::string path = "../data/" + c_path;
 		std::ifstream stream(path + "Guards.txt");
 		std::string row;
 		std::string split;
 		std::vector<sf::Vector2f> waypoints;
 		sf::Vector2f vect;
+
+		m_allGuardWaypoints.clear();
 
 
 		if(stream.is_open()) {
@@ -87,7 +89,7 @@ void Settings::Load() {
 		m_allGuardWaypoints.insert(std::pair<int, std::vector<sf::Vector2f>>(ms_guards.size() - 1, waypoints));
 	}
 	{
-		std::string path = "../data/";
+		std::string path = "../data/" + c_path;
 		std::ifstream stream(path + "EnterExit.txt");
 		std::string row;
 		std::string split;
@@ -148,7 +150,6 @@ void Settings::SetFullscreen() {
 		if(it->width/16 == it->height/9)
 		{
 			video = *it;
-			//std::cout << "found: " << it->width << "*" << it->height << std::endl;
 			break;
 		}
 		it++;
@@ -171,7 +172,6 @@ void Settings::SetWindowed() {
 		if(it->width/16 == it->height/9)
 		{
 			video = *it;
-			//std::cout << "found: " << it->width << "*" << it->height << std::endl;
 			break;
 		}
 		it++;
@@ -202,4 +202,8 @@ void Settings::DrawShot() {
 		lines[1].color = sf::Color(192, 192, 192);
 		ms_window->draw(lines);
 	}
+}
+
+void Settings::ResetShot() {
+	ms_shoot = false;
 }

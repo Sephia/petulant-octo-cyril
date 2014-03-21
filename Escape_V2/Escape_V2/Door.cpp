@@ -70,7 +70,8 @@ bool Door::Open(sf::Color key)
             sf::Vector2f newCirclePosition;
             newCirclePosition.x = circlePosition.x * cosf(m_degree * (M_PI / 180)) - circlePosition.y * sinf(m_degree * (M_PI / 180));
             newCirclePosition.y = circlePosition.x * sinf(m_degree * (M_PI / 180)) + circlePosition.y * cosf(m_degree * (M_PI / 180));
-            mp_useRadius->setPosition(this->getPosition() + newCirclePosition);
+            m_pos = this->getPosition() + newCirclePosition;
+            //mp_useRadius->setPosition(this->getPosition() + newCirclePosition);
             mp_useRadius->setFillColor(*mp_key);
             m_open = !m_open;
             return true;
@@ -98,7 +99,8 @@ bool Door::Open(sf::Color key)
     sf::Vector2f newCirclePosition;
     newCirclePosition.x = circlePosition.x * cosf(m_degree * (M_PI / 180)) - circlePosition.y * sinf(m_degree * (M_PI / 180));
     newCirclePosition.y = circlePosition.x * sinf(m_degree * (M_PI / 180)) + circlePosition.y * cosf(m_degree * (M_PI / 180));
-    mp_useRadius->setPosition(this->getPosition() + newCirclePosition);
+    m_pos = this->getPosition() + newCirclePosition;
+    //mp_useRadius->setPosition(this->getPosition() + newCirclePosition);
     m_open = !m_open;
     return true;
 }
@@ -122,4 +124,9 @@ bool Door::Unlock(sf::Color key)
 sf::CircleShape* Door::GetUseRadius()
 {
     return mp_useRadius;
+}
+
+sf::Vector2f Door::GetPos()
+{
+    return m_pos;
 }

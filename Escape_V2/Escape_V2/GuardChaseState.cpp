@@ -21,7 +21,6 @@ GuardChaseState::~GuardChaseState() {
 }
 
 void GuardChaseState::Enter() {
-	std::cout << "Entering GuardChaseState\n";
 	m_done = false;
 	m_justLostSight = true;
 	m_timer = 0.0f;
@@ -108,11 +107,11 @@ bool GuardChaseState::Detected(sf::Vector2f playerPosition, CollisionManager* p_
 	}
 
 	sf::Vector2f direction;
-	if(distance > 0.001f) {
+	if(distance != 0.0f) {
 		direction = vectorBetween / distance;
 	}
 
-	while(distance > 8) {
+	while(distance > 8.0f) {
 		if(p_collisionManager->Circle_WallCollision(playerPosition - vectorBetween, 15)) {
 			return false;
 		}
@@ -120,21 +119,8 @@ bool GuardChaseState::Detected(sf::Vector2f playerPosition, CollisionManager* p_
 		vectorBetween.x -= direction.x * 10;
 		vectorBetween.y -= direction.y * 10;
 
-		/*sf::CircleShape circ(15);
-		circ.setPosition(playerPosition - vectorBetween);
-		circ.setFillColor(sf::Color(100, 100, 100));
-		circ.setOrigin(15.0f, 15.0f);
-		Settings::ms_window->draw(circ);
-		Settings::ms_window->display();*/
+		distance = sqrtf(vectorBetween.x * vectorBetween.x + vectorBetween.y * vectorBetween.y);
 
-		float sqr = sqrtf(vectorBetween.x * vectorBetween.x - vectorBetween.y * vectorBetween.y);
-
-		if(sqr > 0) {
-			distance = sqrtf(vectorBetween.x * vectorBetween.x - vectorBetween.y * vectorBetween.y);
-		}
-		else {
-			return false;
-		}
 	}
 
 	return true;
@@ -194,7 +180,7 @@ void GuardChaseState::Movement() {
 bool GuardChaseState::Rotate(int rotationWay) {
 	float rotationToGetTo;
 	int diffDegrees;
-	float rotationSpeed = 7.0f;
+	float rotationSpeed = 4.0f;
 
 	if(rotationWay < 0) {
 		diffDegrees = 10;
@@ -208,7 +194,7 @@ bool GuardChaseState::Rotate(int rotationWay) {
 	}
 
 	if(diffDegrees < 5 || diffDegrees > 355) {
-		*mp_rotation = rotationToGetTo;
+		*mp_rotation = static_cast<int>(*mp_rotation) % 360;
 		return true;
 	}
 	else if(diffDegrees >= 185) {

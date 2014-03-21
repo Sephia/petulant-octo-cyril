@@ -82,12 +82,15 @@ int PlayerObject::Movement(CollisionManager* p_collisionManager, FurnitureManage
 			sf::Vector2f tryPosition = m_position;
 			tryPosition.x += m_direction.x * m_speed * Settings::ms_deltatime;
 			temp_sprite.setPosition(tryPosition);
-			if(!p_collisionManager->Circle_WallCollision(tryPosition, 30)) {
+			if(!p_collisionManager->Circle_WallCollision(temp_sprite)) {
 				for(int i = 0; i < p_furnitureManager->GetCount(); i++) {
 					if(p_collisionManager->Circle_FurnitureCollision(temp_sprite, *p_furnitureManager->GetFurniture(i))) {
 						collisionFurnitureX = 1;
 						break;
 					}
+				}
+				if(p_collisionManager->Circle_DoorCollision(temp_sprite) != nullptr) {
+					collisionFurnitureX = 1;
 				}
 				if(collisionFurnitureX == -1) {
 					m_position.x += m_direction.x * m_speed * Settings::ms_deltatime;
@@ -96,14 +99,17 @@ int PlayerObject::Movement(CollisionManager* p_collisionManager, FurnitureManage
 			tryPosition = m_position;
 			tryPosition.y += m_direction.y * m_speed * Settings::ms_deltatime;
 			temp_sprite.setPosition(tryPosition);
-			if(!p_collisionManager->Circle_WallCollision(tryPosition, 30)) {
+			if(!p_collisionManager->Circle_WallCollision(temp_sprite)) {
 				for(int i = 0; i < p_furnitureManager->GetCount(); i++) {
 					if(p_collisionManager->Circle_FurnitureCollision(temp_sprite, *p_furnitureManager->GetFurniture(i))) {
-						collisionFurnitureX = 1;
+						collisionFurnitureY = 1;
 						break;
 					}
 				}
-				if(collisionFurnitureX == -1) {
+				if(p_collisionManager->Circle_DoorCollision(temp_sprite) != nullptr) {
+					collisionFurnitureY = 1;
+				}
+				if(collisionFurnitureY == -1) {
 					m_position.y += m_direction.y * m_speed * Settings::ms_deltatime;
 				}
 			}
@@ -112,26 +118,32 @@ int PlayerObject::Movement(CollisionManager* p_collisionManager, FurnitureManage
 			sf::Vector2f tryPosition = m_position;
 			tryPosition.x += m_direction.x * m_speed * 3.0f * Settings::ms_deltatime;
 			temp_sprite.setPosition(tryPosition);
-			if(!p_collisionManager->Circle_WallCollision(tryPosition, 30)) {
+			if(!p_collisionManager->Circle_WallCollision(temp_sprite)) {
 				for(int i = 0; i < p_furnitureManager->GetCount(); i++) {
 					if(p_collisionManager->Circle_FurnitureCollision(temp_sprite, *p_furnitureManager->GetFurniture(i))) {
-						collisionFurnitureY = 1;
+						collisionFurnitureX = 1;
 						break;
 					}
 				}
-				if(collisionFurnitureY == -1) {
+				if(p_collisionManager->Circle_DoorCollision(temp_sprite) != nullptr) {
+					collisionFurnitureX = 1;
+				}
+				if(collisionFurnitureX == -1) {
 					m_position.x += m_direction.x * m_speed * 3.0f* Settings::ms_deltatime;
 				}
 			}
 			tryPosition = m_position;
 			tryPosition.y += m_direction.y * m_speed * 3.0f * Settings::ms_deltatime;
 			temp_sprite.setPosition(tryPosition);
-			if(!p_collisionManager->Circle_WallCollision(tryPosition, 30)) {
+			if(!p_collisionManager->Circle_WallCollision(temp_sprite)) {
 				for(int i = 0; i < p_furnitureManager->GetCount(); i++) {
 					if(p_collisionManager->Circle_FurnitureCollision(temp_sprite, *p_furnitureManager->GetFurniture(i))) {
 						collisionFurnitureY = 1;
-						break;					
+						break;
 					}
+				}
+				if(p_collisionManager->Circle_DoorCollision(temp_sprite) != nullptr) {
+					collisionFurnitureY = 1;
 				}
 				if(collisionFurnitureY == -1) {
 					m_position.y += m_direction.y * m_speed * 3.0f * Settings::ms_deltatime;

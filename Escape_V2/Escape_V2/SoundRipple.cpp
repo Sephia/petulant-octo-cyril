@@ -5,9 +5,13 @@
 #include "AnimatedSprite.h"
 #include "stdafx.h"
 
-SoundRipple::SoundRipple(sf::Vector2f position, int volume, bool isPlayer, AnimatedSprite* sprite) {
+SoundRipple::SoundRipple(sf::Vector2f position, int volume, bool isPlayer, AnimatedSprite* sprite, sf::Sound* sound) {
 	m_position = position;
 	m_soundVolume = volume;
+    m_sound = sound;
+	if(m_sound != nullptr) {
+	    m_sound->play();
+	}
 
 	m_time = 0;
 
@@ -31,6 +35,11 @@ SoundRipple::~SoundRipple() {
 		delete mp_sprite;
 		mp_sprite = nullptr;
 	}
+    if(m_sound != nullptr)
+    {
+        delete m_sound;
+        m_sound = nullptr;
+    }
 }
 
 sf::Vector2f SoundRipple::getPosition() {
@@ -43,7 +52,12 @@ int SoundRipple::getVolume() {
 
 bool SoundRipple::Update() {
 	m_time += Settings::ms_deltatime;
-	if(m_time > 1.0f) {
+	if(m_sound != nullptr) {
+		if(m_time > m_sound->getPlayingOffset().asSeconds() && m_time > 2.0f) {
+			return true;
+		}
+	}
+	else if(m_time > 2.0f) {
 		return true;
 	}
 	return false;
@@ -55,7 +69,7 @@ void SoundRipple::Draw() {
 		m_scales.at(i).x *= 1.055f;
 		m_scales.at(i).y *= 1.055f;
 		sf::Color color = mp_sprite->getSprite()->getColor();
-		color.a *= 0.992;
+		color.a *= 0.98;
 		mp_sprite->getSprite()->setColor(color);
 		Settings::ms_window->draw(*mp_sprite->getSprite());
 	}

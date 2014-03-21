@@ -51,7 +51,7 @@ void FurnitureManager::Draw(sf::RenderWindow* win)
 bool FurnitureManager::LoadFromFile(std::string filename, ltbl::LightSystem* lm)
 {
     std::ifstream stream;
-	std::string path = "../data/";
+	std::string path = "../data/sprites/";
     stream.open(filename);
     if(!stream.is_open())
     {
@@ -73,7 +73,7 @@ bool FurnitureManager::LoadFromFile(std::string filename, ltbl::LightSystem* lm)
     while (!stream.eof())
     {
         
-        while(row != "\xa7")
+        while(row.find("§") == std::string::npos)
         {
             int x, y;
             std::stringstream ss(row);
@@ -81,6 +81,46 @@ bool FurnitureManager::LoadFromFile(std::string filename, ltbl::LightSystem* lm)
             Furniture* shape;
             std::string textureName;
             ss >> textureName;
+
+			
+			if(textureName == "OfficeChair.png") {			//Randomize which office chair to pick 1-6
+				int random = (rand() % 6) + 1;
+				std::stringstream ss2;
+				ss2 << random;
+				textureName = "OfficeChair_" + ss2.str() + ".png";
+			}
+			else if(textureName == "SecretaryDesk.png") {	//Randomize which secretary desk to pick 1-9
+				int random = (rand() % 9) + 1;
+				std::stringstream ss2;
+				ss2 << random;
+				textureName = "SecretaryDesk_" + ss2.str() + ".png";
+			}
+			else if(textureName == "Sofa.png") {			//Randomize which sofa to pick 1-2
+				int random = (rand() % 2) + 1;
+				std::stringstream ss2;
+				ss2 << random;
+				textureName = "Sofa_" + ss2.str() + ".png";
+			}
+			else if(textureName == "CafeTable.png") {		//Randomize which cafeteria table to pick 1-4
+				int random = (rand() % 4) + 1;
+				std::stringstream ss2;
+				ss2 << random;
+				textureName = "CafeTable_" + ss2.str() + ".png";
+			}
+			else if(textureName == "FileCabinet.png") {		//Randomize which filing cabinet to pick 1-3
+				int random = (rand() % 3) + 1;
+				std::stringstream ss2;
+				ss2 << random;
+				textureName = "FileCabinet_" + ss2.str() + ".png";
+			}
+			else if(textureName == "Plant.png") {			//Randomize which plant to pick 2-4
+				int random = (rand() % 3) + 2;
+				std::stringstream ss2;
+				ss2 << random;
+				textureName = "Plant_" + ss2.str() + ".png";
+			}
+
+
             if(m_textures.find(textureName)== m_textures.end())
             {
                 sf::Texture* texture = new sf::Texture();
@@ -88,6 +128,7 @@ bool FurnitureManager::LoadFromFile(std::string filename, ltbl::LightSystem* lm)
                 image.open(path + textureName);
                 if(!image.is_open())
                 {
+					std::cout << "Could not find picture " << path + textureName << std::endl;
                     delete texture;
                     std::getline(stream, row, '\n');
                     if (*(row.end()-1) == '\r')
@@ -148,7 +189,7 @@ bool FurnitureManager::LoadFromFile(std::string filename, ltbl::LightSystem* lm)
                 hull->m_renderLightOverHull = true;
                 if(lightProperty == 1)
                 {
-                    hull->m_transparency = 0.2f;
+                    hull->m_transparency = 0.0f;
                 }
                 mp_hullManager->AddHull(hull, shape);
             }

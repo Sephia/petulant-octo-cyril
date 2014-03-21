@@ -5,7 +5,7 @@
 #include "Settings.h"
 
 Grid2D::Grid2D() {
-	squareSize = 40;
+	squareSize = 30;
 }
 
 
@@ -31,9 +31,6 @@ void Grid2D::Init(Level* p_level, CollisionManager* cm) {
 }
 
 bool Grid2D::Walkable(int x, int y) {
-	if(x == width) {
-		std::cout << "" << std::endl;
-	}
 	if(x < 0 || y < 0 || x >= width || y >= height) {
 		return false;
 	}

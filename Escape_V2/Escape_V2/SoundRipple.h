@@ -8,7 +8,7 @@ class AnimatedSprite;
 
 class SoundRipple {
 public:
-	SoundRipple(sf::Vector2f position, int volume, bool isPlayer, AnimatedSprite* p_sprite);
+	SoundRipple(sf::Vector2f position, int volume, bool isPlayer, AnimatedSprite* p_sprite, sf::Sound* sound);
 	~SoundRipple();
 
 	
@@ -25,5 +25,6 @@ private:
 	AnimatedSprite* mp_sprite;
 	std::vector<sf::Vector2f> m_scales;
 	bool m_playerCreated;
+    sf::Sound* m_sound;
 };
 

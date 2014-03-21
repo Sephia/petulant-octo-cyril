@@ -19,6 +19,7 @@
 #include "Key.h"
 #include "GUI.h"
 #include "GuardFootSteps.h"
+#include "Level.h"
 
 GameState::GameState() {
 	m_nextState = "";
@@ -29,6 +30,8 @@ GameState::GameState() {
 	mp_grid = nullptr;
 	mp_gui = nullptr;
 	mp_guardFootSteps = nullptr;
+	mp_level = nullptr;
+	m_levelToLoad = 2;
 }
 
 GameState::~GameState() {
@@ -43,7 +46,30 @@ GameState::~GameState() {
 void GameState::Enter() {
 	m_nextState = "";
 
-	m_spriteManager.Init("../data/");
+	
+	if(m_levelToLoad == 0) {
+		m_pathToLevel = "Tutorial/";
+	}
+	else if(m_levelToLoad == 1) {
+		m_pathToLevel = "level01/";
+	}
+	else if(m_levelToLoad == 2) {
+		m_pathToLevel = "level02/";
+	}
+	else if(m_levelToLoad == 3) {
+		m_pathToLevel = "level03/";
+	}
+	else if(m_levelToLoad == 4) {
+		m_pathToLevel = "level04/";
+	}
+	else {
+		std::cout << "Failed to load level\n";
+	}
+
+	Settings::Load(m_pathToLevel);
+	mp_level = new Level(m_pathToLevel);
+
+	m_spriteManager.Init("../data/sprites/");
 
 	m_timerPlayer = 0.0f;
 	m_timerGuards = 0.0f;
@@ -58,11 +84,8 @@ void GameState::Enter() {
 
 	mp_gui = new GUI();
 
-	ls = new ltbl::LightSystem(AABB(Vec2f(0, 0), Vec2f(static_cast<float>(3657), static_cast<float>(5651))), Settings::ms_window, "../data/lightFin.png", "../data/shaders/lightAttenuationShader.frag");
+	ls = new ltbl::LightSystem(AABB(Vec2f(0, 0), Vec2f(static_cast<float>(3657), static_cast<float>(5651))), Settings::ms_window, "../data/sprites/lightFin.png", "../data/shaders/lightAttenuationShader.frag");
 	ls->SetView(*mp_view);
-
-	//ls2 = new ltbl::LightSystem(AABB(Vec2f(0, 0), Vec2f(static_cast<float>(3657), static_cast<float>(5651))), Settings::ms_window, "../data/lightFin.png", "../data/shaders/lightAttenuationShader.frag");
-	//ls2->SetView(*mp_view);
 
 	lm = new LightManager(ls);
 	hl = new HullManager(ls);
@@ -72,17 +95,12 @@ void GameState::Enter() {
 	fm = new FurnitureManager(hl);
 	cl = new CollisionManager(wl, km, dm);
 
-	if(!wl->LoadFromFile("../data/Walls.txt")) {
+	if(!wl->LoadFromFile("../data/" + m_pathToLevel + "Walls.txt")) {
 		abort();
 	}
 
-	/*lm2 = new LightManager(ls2);
-	hl2 = new HullManager(ls2);
-	wl2 = new WallManager(hl2);
-	cl2 = new CollisionManager(wl2, km, dm);*/
-
 	mp_grid = new Grid2D();
-	mp_grid->Init(&m_level, cl);
+	mp_grid->Init(mp_level, cl);
 
 	for(unsigned int i = 0; i < Settings::ms_guards.size(); i++) {
 		m_guards.push_back(new Guard(i, m_spriteManager.Load("Guard1.txt"), mp_grid));
@@ -103,7 +121,6 @@ void GameState::Enter() {
 	testLight->CalculateAABB();
 
 	lm->AddLight(testLight, mp_player);
-	//lm2->AddLight(testLight, mp_player);
 	testLight->SetAlwaysUpdate(true);
 
 	for(unsigned int i = 0; i < m_guards.size(); i++) {
@@ -135,7 +152,6 @@ void GameState::Enter() {
 	testLight2->m_color.g = 0.0f;
 	testLight2->m_color.b = 0.0f;
 	testLight2->m_intensity = 1.0f;
-	//testLight2->m_bleed = 0.0f;
 	testLight2->m_spreadAngle = ltbl::pifTimes2;
 	testLight2->m_softSpreadAngle = 0.0f;
 	testLight2->CalculateAABB();
@@ -143,41 +159,25 @@ void GameState::Enter() {
 	lm->AddLight(testLight2, lm);
 
 	testLight2->SetAlwaysUpdate(false);
-	/*
-	testLight3 = new ltbl::Light_Point();
-	testLight3->m_center = Vec2f(Settings::ms_enter.x, -4000);
-	testLight3->m_radius = 1000.0f;
-	testLight3->m_size = 10.0f;
-	testLight3->m_color.r = 0.0f;
-	testLight3->m_color.g = 0.0f;
-	testLight3->m_color.b = 0.0f;
-	testLight3->m_intensity = 1.0f;
-	testLight3->m_bleed = 0.0f;
-	testLight3->m_spreadAngle = ltbl::pifTimes2;
-	testLight3->m_softSpreadAngle = 0.0f;
-	testLight3->CalculateAABB();
 
-	lm2->AddLight(testLight3, lm2);
-
-	testLight3->SetAlwaysUpdate(false);
-	*/
-
-	/*if(!wl2->LoadFromFile("../data/Walls.txt")) {
-	abort();
-	}*/
-	if(!fm->LoadFromFile("../data/Furniture.txt",ls)) {
+	if(!fm->LoadFromFile("../data/" + m_pathToLevel + "Furniture.txt",ls)) {
 		abort();
 	}
-	if(!km->LoadFromFile("../data/Keys.txt")) {
+	if(!km->LoadFromFile("../data/" + m_pathToLevel + "Keys.txt")) {
 		abort();
 	}
-	if(!dm->LoadFromFile("../data/Doors.txt")) {
+	if(!dm->LoadFromFile("../data/" + m_pathToLevel + "Doors.txt")) {
 		abort();
 	}
 
-	if (!m_music.openFromFile("../data/I Knew a Guy - Stealth.wav")) {
+	if (!m_music.openFromFile("../data/music/I Knew a Guy - Stealth.wav")) {
 		std::cout << "Failed loading music for GameState!\n";
 	}
+
+	Settings::ms_soundManager.newSound("../data/sound/RUN_1.wav", false, 500, 0.1f);
+	Settings::ms_soundManager.newSound("../data/sound/RUN_2.wav", false, 500, 0.1f);
+
+	Settings::ResetShot();
 
 	mp_guardFootSteps = new GuardFootSteps();
 	m_music.setLoop(true);
@@ -189,6 +189,11 @@ void GameState::Exit() {
 	m_timerGuards = 0.0f;
 	m_timerPlayer = 0.0f;
 	m_gameOverTimer = 0.0f;
+
+	if(mp_level != nullptr) {
+		delete mp_level;
+		mp_level = nullptr;
+	}
 
 	if(mp_player != nullptr) {
 		delete mp_player;
@@ -269,27 +274,19 @@ bool GameState::Update() {
 	mp_player->Update(cl, fm);
 	if(mp_player->IsRunning() && m_timerPlayer > 0.5f) {
 		m_timerPlayer = 0.0f;
-		m_soundRippleManager.CreateSoundRipple(mp_player->GetPosition(), 4, true, m_spriteManager.Load("Ripple.txt"));
-		/*if(mp_player->IsRightFoot()) {
-			int s = Settings::ms_soundManager.newSound("../data/RUN_1.wav", false);
-			Settings::ms_soundManager.Sounds.at(s)->Play(false);
+		sf::Sound* footstep = nullptr;
+		if(mp_player->IsRightFoot()) {
+			if(!SoundEntity::IsMuted()) {
+				footstep = Settings::ms_soundManager.GetSound("../data/sound/RUN_1.wav")->CreateSound(mp_player->GetPosition());
+			}
 		}
 		else {
-			int s = Settings::ms_soundManager.newSound("../data/RUN_2.wav", false);
-			Settings::ms_soundManager.Sounds.at(s)->Play(false);
-		}*/
-	}
-
-	//Checks and fixes the collision detection
-	//ToDo: Check with furnitures and doors.
-	//ToDo: fix the actions that is taken when a collision is detected. The player can't move at all as it is now.
-	/*int tries = 0;
-	while(cl->Circle_WallCollision(*(mp_player->GetSprite()))) {
-		if(mp_player->CollisionDetected(tries)) {
-			break;
+			if(!SoundEntity::IsMuted()) {
+				footstep = Settings::ms_soundManager.GetSound("../data/sound/RUN_2.wav")->CreateSound(mp_player->GetPosition());
+			}
 		}
-		tries++;
-	}*/
+		m_soundRippleManager.CreateSoundRipple(mp_player->GetPosition(), 4, true, m_spriteManager.Load("Ripple.txt"), footstep);
+	}
 
 	for(unsigned int i = 0; i < m_guards.size(); i++) {
 		//checks to see if a guard is within hearing range of a playercreated sound
@@ -326,6 +323,22 @@ bool GameState::Update() {
 		m_timerGuards = 0.0f;
 	}
 
+	//Check if door is open
+	if(Settings::ms_inputManager.IsDownOnceKeyboard(sf::Keyboard::E) || Settings::ms_inputManager.IsDownOnceKeyboard(sf::Keyboard::Space)) {
+		sf::CircleShape* door = cl->Circle_DoorUse(*mp_player->GetSprite());
+		if(door != nullptr) {
+			if(!dm->OpenDoor(door)) {
+				for(int i = 0; i < mp_gui->GetItemCount(); i++) {
+					sf::Color color = mp_gui->GetItem(i)->getColor();
+					if(dm->OpenDoor(door, color)) {
+						mp_gui->RemoveItem(i);
+						break;
+					}
+				}
+			}
+		}
+	}
+
 	//updates the footsteps and the soundripples
 	mp_guardFootSteps->Update();
 	m_soundRippleManager.UpdateSounds();
@@ -333,7 +346,7 @@ bool GameState::Update() {
 	//updates the light around the player
 	Vec2f vec(mp_player->GetPosition().x, -mp_view->getCenter().y + mp_view->getSize().y);
 	lm->GetLight(mp_player)->SetCenter(vec);
-	
+
 	//checks if the player has won or lost.
 	//ToDo: Fix so it does the right thing. Separate win and loss.
 	if(Settings::ms_gameOver && m_gameOverTimer > 1.0f) {
@@ -349,19 +362,42 @@ bool GameState::Update() {
 		m_gameOverTimer += Settings::ms_deltatime;
 	}
 
+	if(Settings::ms_inputManager.IsDownOnceKeyboard(sf::Keyboard::F1)) {
+		m_levelToLoad = 1;
+		Exit();
+		Enter();
+	}
+	else if(Settings::ms_inputManager.IsDownOnceKeyboard(sf::Keyboard::F2)) {
+		m_levelToLoad = 2;
+		Exit();
+		Enter();
+	}
+	else if(Settings::ms_inputManager.IsDownOnceKeyboard(sf::Keyboard::F3)) {
+		m_levelToLoad = 3;
+		Exit();
+		Enter();
+	}
+	else if(Settings::ms_inputManager.IsDownOnceKeyboard(sf::Keyboard::F4)) {
+		m_levelToLoad = 4;
+		Exit();
+		Enter();
+	}
+	else if(Settings::ms_inputManager.IsDownOnceKeyboard(sf::Keyboard::F5)) {
+		m_levelToLoad = 0;
+		Exit();
+		Enter();
+	}
+
 	return true;
 }
 
 void GameState::Draw() {
 
-	//mp_view->setCenter(sf::Vector2f(Settings::ms_exit.x, Settings::ms_exit.y));
-	//mp_view->setCenter(m_guards.at(0)->GetPosition());
-
 	mp_view->setCenter(mp_player->GetPosition());
 
 	Settings::ms_window->setView(*mp_view);
 
-	m_level.Draw();
+	mp_level->Draw();
 	mp_player->Draw();
 	for(unsigned int i = 0; i < m_guards.size(); i++) {
 		m_guards.at(i)->Draw();
@@ -384,7 +420,7 @@ void GameState::Draw() {
 	Settings::DrawShot();
 
 	mp_gui->Draw(Settings::ms_window);
-	//mp_grid->Draw();
+
 	Settings::ms_window->display();
 	Settings::ms_window->clear(sf::Color(0, 0, 0, 255));
 }
@@ -414,21 +450,7 @@ bool GameState::UpdateEvents() {
 
 		else if(event.type == sf::Event::KeyPressed) {
 			Settings::ms_inputManager.m_keyboard_current[event.key.code] = true;
-			/*if(event.key.code == sf::Keyboard::A) {
-			Settings::ms_inputManager.m_keyboard_current[sf::Keyboard::A] = true;
-			}
-			if(event.key.code == sf::Keyboard::D) {
-			Settings::ms_inputManager.m_keyboard_current[sf::Keyboard::D] = true;
-			}
-			if(event.key.code == sf::Keyboard::W) {
-			Settings::ms_inputManager.m_keyboard_current[sf::Keyboard::W] = true;
-			}
-			if(event.key.code == sf::Keyboard::S) {
-			Settings::ms_inputManager.m_keyboard_current[sf::Keyboard::S] = true;
-			}
-			if(event.key.code == sf::Keyboard::LShift) {
-			Settings::ms_inputManager.m_keyboard_current[sf::Keyboard::LShift] = true;
-			}*/
+			
 			if(event.key.code == sf::Keyboard::Space) {
 				Settings::ms_inputManager.m_keyboard_current[sf::Keyboard::Space] = true;
 				sf::CircleShape* circle_key = cl->Circle_KeyPickup(*mp_player->GetSprite());
@@ -444,24 +466,6 @@ bool GameState::UpdateEvents() {
 
 		else if(event.type == sf::Event::KeyReleased) {
 			Settings::ms_inputManager.m_keyboard_current[event.key.code] = false;
-			/*if(event.key.code == sf::Keyboard::A) {
-			Settings::ms_inputManager.m_keyboard_current[sf::Keyboard::A] = false;
-			}
-			if(event.key.code == sf::Keyboard::D) {
-			Settings::ms_inputManager.m_keyboard_current[sf::Keyboard::D] = false;
-			}
-			if(event.key.code == sf::Keyboard::W) {
-			Settings::ms_inputManager.m_keyboard_current[sf::Keyboard::W] = false;
-			}
-			if(event.key.code == sf::Keyboard::S) {
-			Settings::ms_inputManager.m_keyboard_current[sf::Keyboard::S] = false;
-			}
-			if(event.key.code == sf::Keyboard::LShift) {
-			Settings::ms_inputManager.m_keyboard_current[sf::Keyboard::LShift] = false;
-			}
-			if(event.key.code == sf::Keyboard::Space) {
-			Settings::ms_inputManager.m_keyboard_current[sf::Keyboard::Space] = false;
-			}*/
 		}
 	}
 
@@ -469,27 +473,6 @@ bool GameState::UpdateEvents() {
 		Settings::ms_window->close();
 		quit = true;
 	}
-
-	//if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-	//	m_soundRippleManager.CreateSoundRipple(mp_player->GetPosition(), 2, true, m_spriteManager.Load("ripple.txt"));
-	//	for(unsigned int i = 0; i < m_guards.size(); i++) {
-	//		/*sf::Vector2f pos(m_soundRippleManager.GuardNotice(m_guards.at(i)->GetPosition()));
-	//		if(pos.x > 0.1f && pos.y > 0.1f) {
-	//		m_guards.at(i)->AddWaypointToFront(pos);
-	//		}*/
-	//	}
-	//}
-	//else if(sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
-	//	m_soundRippleManager.CreateSoundRipple(mp_player->GetPosition(), 4, true, m_spriteManager.Load("ripple.txt"));
-	//	for(unsigned int i = 0; i < m_guards.size(); i++) {
-	//		/*sf::Vector2f pos(m_soundRippleManager.GuardNotice(m_guards.at(i)->GetPosition()));
-	//		if(pos.x > 0.1f && pos.y > 0.1f) {
-	//		m_guards.at(i)->AddWaypointToFront(pos);
-	//		}*/
-	//	}
-	//}
-
-
 
 	return quit;
 }

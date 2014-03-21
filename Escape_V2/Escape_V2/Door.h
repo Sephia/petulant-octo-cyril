@@ -17,6 +17,7 @@ public:
     //Plaque* GetPlaque();
     bool IsOpen();
     sf::CircleShape* GetUseRadius();
+    sf::Vector2f GetPos();
     
 private:
     bool Unlock(sf::Color key);
@@ -26,6 +27,7 @@ private:
     sf::Color* mp_key;
     float m_transparency;
     bool m_open, m_locked;
+    sf::Vector2f m_pos;
     int m_degree;
     //Plaque* m_plaque
     

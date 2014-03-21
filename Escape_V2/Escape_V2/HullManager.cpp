@@ -81,10 +81,12 @@ std::vector<sf::ConvexShape*> HullManager::LoadFromFile(std::string filename)
     }
     std::string row;
     std::getline(stream, row, '\n');
-    /*if (*(row.end()-1) == '\r')
+#ifdef __APPLE__
+    if (*(row.end()-1) == '\r')
     {
         row.erase(row.end()-1);
-    }*/
+    }
+#endif
     if (*(row.begin()) == '\xef')
     {
         for(int i =0; i<3; i++)
@@ -105,18 +107,21 @@ std::vector<sf::ConvexShape*> HullManager::LoadFromFile(std::string filename)
             sy.push_back(ty);
             
             std::getline(stream, row, '\n');
-          /*  if (*(row.end()-1) == '\r')
+#ifdef __APPLE__
+            if (*(row.end()-1) == '\r')
             {
                 row.erase(row.end()-1);
-            }*/
+            }
+#endif
         }
-        /*std::getline(stream, row, '\n');
+#ifdef __APPLE__
         if (*(row.end()-1) == '\r')
         {
             row.erase(row.end()-1);
-        }*/
+        }
+#endif
         sf::ConvexShape* shape = new sf::ConvexShape();
-        shape->setPointCount(sx.size()/*sx.size()-1*/);
+        shape->setPointCount(sx.size());
         shape->setPosition(static_cast<float>(sx[0]), static_cast<float>(sy[0]));
         
         for(unsigned int i =1; i < sx.size(); i++)
@@ -126,15 +131,17 @@ std::vector<sf::ConvexShape*> HullManager::LoadFromFile(std::string filename)
         shapes.push_back(shape);
         
         //ladda in hulls
-        while(row != "\xa7")
+        while(row != "\xc2\xa7" && row != "\xa7")
         {
             std::vector<int> x, y;
             std::getline(stream, row, '\n');
-            /*if (*(row.end()-1) == '\r')
+#ifdef __APPLE__
+            if (*(row.end()-1) == '\r')
             {
                 row.erase(row.end()-1);
-            }*/
-            while (row != "" && row != "\xa7")
+            }
+#endif
+            while (row != "" && row != "\xc2\xa7" && row != "\xa7")
             {
                 int tx, ty;
                 std::stringstream ss(row);
@@ -143,10 +150,12 @@ std::vector<sf::ConvexShape*> HullManager::LoadFromFile(std::string filename)
                 y.push_back(ty);
                 
                 std::getline(stream, row, '\n');
-                /*if (*(row.end()-1) == '\r')
+#ifdef __APPLE__
+                if (*(row.end()-1) == '\r')
                 {
                     row.erase(row.end()-1);
-                }*/
+                }
+#endif
             }
             
             
@@ -169,10 +178,12 @@ std::vector<sf::ConvexShape*> HullManager::LoadFromFile(std::string filename)
             }
         }
         std::getline(stream, row, '\n');
-        /*if (*(row.end()-1) == '\r')
+#ifdef __APPLE__
+        if (*(row.end()-1) == '\r')
         {
             row.erase(row.end()-1);
-        }*/
+        }
+#endif
         if (row == "")
         {
             break;

@@ -13,7 +13,7 @@ public:
 	~SoundRippleManager();
 
 	sf::Vector2f GuardNotice(sf::Vector2f guardPosition);
-	void CreateSoundRipple(sf::Vector2f soundOriginPosition, int soundVolume, bool isPLayer, AnimatedSprite* p_sprite);
+	void CreateSoundRipple(sf::Vector2f soundOriginPosition, int soundVolume, bool isPLayer, AnimatedSprite* p_sprite, sf::Sound* sound);
 	void UpdateSounds();
 	void Draw();
 	void Cleanup();

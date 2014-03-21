@@ -17,7 +17,6 @@ GuardInvestigateState::~GuardInvestigateState() {
 }
 
 void GuardInvestigateState::Enter() {
-	std::cout << "Entering GuardInvestigateState\n";
 	m_done = false;
 }
 
@@ -172,10 +171,10 @@ bool GuardInvestigateState::Detected(sf::Vector2f playerPosition, CollisionManag
 		Settings::ms_window->draw(circ);
 		Settings::ms_window->display();*/
 
-		float sqr = sqrtf(vectorBetween.x * vectorBetween.x - vectorBetween.y * vectorBetween.y);
+		float sqr = sqrtf(vectorBetween.x * vectorBetween.x + vectorBetween.y * vectorBetween.y);
 
 		if(sqr > 0) {
-			distance = sqrtf(vectorBetween.x * vectorBetween.x - vectorBetween.y * vectorBetween.y);
+			distance = sqrtf(vectorBetween.x * vectorBetween.x + vectorBetween.y * vectorBetween.y);
 		}
 		else {
 			return false;

@@ -17,7 +17,6 @@ GuardPatrolState::~GuardPatrolState() {
 }
 
 void GuardPatrolState::Enter() {
-	std::cout << "Entering GuardPatrolState\n";
 	m_done = false;
 }
 
@@ -176,10 +175,10 @@ bool GuardPatrolState::Detected(sf::Vector2f playerPosition, CollisionManager* p
 		Settings::ms_window->draw(circ);
 		Settings::ms_window->display();*/
 
-		float sqr = sqrtf(vectorBetween.x * vectorBetween.x - vectorBetween.y * vectorBetween.y);
+		float sqr = sqrtf(vectorBetween.x * vectorBetween.x + vectorBetween.y * vectorBetween.y);
 
 		if(sqr > 0) {
-			distance = sqrtf(vectorBetween.x * vectorBetween.x - vectorBetween.y * vectorBetween.y);
+			distance = sqrtf(vectorBetween.x * vectorBetween.x + vectorBetween.y * vectorBetween.y);
 		}
 		else {
 			return false;

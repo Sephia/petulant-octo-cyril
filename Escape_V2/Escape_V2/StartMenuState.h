@@ -52,7 +52,7 @@ private:
 	sf::Time creditsRollOn;
 	sf::Clock *turnOnCredits;
 
-    std::string soundButtonOn;
+    sf::Sound* soundButtonOn;
     std::string soundButtonOff;
 	SoundManager* soundManager;
 	sf::Music buzzing;
