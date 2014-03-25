@@ -39,6 +39,7 @@ bool PathFinding::FindPath(sf::Vector2f currentPos, sf::Vector2f targetPos) {
 		for(unsigned int i = 0; i < m_pathToGoal.size(); i++) {
 			delete m_pathToGoal.at(i);
 		}
+
 		m_pathToGoal.clear();
 
 		SearchCell start;
@@ -144,7 +145,7 @@ void PathFinding::ContinuePath() {
 			m_pathToGoal.push_back(new sf::Vector2f(static_cast<float>(getPath->m_xcoord), static_cast<float>(getPath->m_ycoord)));
 		}
 
-		FixGoalPath();
+		//FixGoalPath();
 
 		m_foundGoal = true;
 		return;
@@ -181,23 +182,13 @@ void PathFinding::ContinuePath() {
 			}
 		}
 	}
-	//sf::RectangleShape rec(sf::Vector2f(50, 50));
-	//rec.setFillColor(sf::Color(255, 0, 0));
-	//rec.setPosition(m_goalCell->m_xcoord * m_grid->GetSquareSize(), m_goalCell->m_ycoord * m_grid->GetSquareSize());
-	//Settings::ms_window->draw(rec);
-	//rec.setFillColor(sf::Color(150, 150, 150));
-	//rec.setPosition(currentCell->m_xcoord * m_grid->GetSquareSize(), currentCell->m_ycoord * m_grid->GetSquareSize());
-	//Settings::ms_window->draw(rec);
-	//
-	////Settings::ms_window->setView(sf::View(sf::Vector2f(m_goalCell->m_xcoord * m_grid->GetSquareSize(), m_goalCell->m_ycoord * m_grid->GetSquareSize()), sf::Vector2f(1920, 1080)));
-	//Settings::ms_window->display();
 }
 
 sf::Vector2f PathFinding::NextPathPos(sf::Vector2f pos, float radius) {
 	sf::Vector2f nextPos = pos;
 	if(m_pathToGoal.size() > 0) {
-		pos.x -= m_grid->GetSquareSize() / 2;
-		pos.y -= m_grid->GetSquareSize() / 2;
+		pos.x = pos.x - m_grid->GetSquareSize() / 2;
+		pos.y = pos.y - m_grid->GetSquareSize() / 2;
 
 		pos.x /= m_grid->GetSquareSize();
 		pos.y /= m_grid->GetSquareSize();
@@ -226,12 +217,12 @@ sf::Vector2f PathFinding::NextPathPos(sf::Vector2f pos, float radius) {
 
 
 void PathFinding::Draw(sf::RenderWindow* window) {
-	sf::RectangleShape rec(sf::Vector2f(50, 50));
+	sf::RectangleShape rec(sf::Vector2f(30, 30));
 	rec.setFillColor(sf::Color(150, 150, 150));
-	/*for(unsigned int i = 0; i < this->m_pathToGoal.size(); i++) {
+	for(unsigned int i = 0; i < this->m_pathToGoal.size(); i++) {
 		rec.setPosition((*this->m_pathToGoal.at(i)).x * m_grid->GetSquareSize(), (*this->m_pathToGoal.at(i)).y * m_grid->GetSquareSize());
 		window->draw(rec);
-	}*/
+	}
 	window->display();
 }
 
@@ -242,8 +233,8 @@ void PathFinding::FixGoalPath() {
 
 	if(m_pathToGoal.size() > 2) {
 		while(true) {
-			if( (( m_pathToGoal.at(currentPosition)->x == m_pathToGoal.at(nextPosition)->x ) || (m_pathToGoal.at(currentPosition)->y == m_pathToGoal.at(nextPosition)->y )) 
-				&& ((m_pathToGoal.at(currentPosition)->x == m_pathToGoal.at(middlePosition)->x ) || (m_pathToGoal.at(currentPosition)->y == m_pathToGoal.at(middlePosition)->y ))) {
+			if( (( m_pathToGoal.at(currentPosition)->x == m_pathToGoal.at(nextPosition)->x ) && (m_pathToGoal.at(currentPosition)->x == m_pathToGoal.at(middlePosition)->x )) 
+				|| ((m_pathToGoal.at(currentPosition)->y == m_pathToGoal.at(nextPosition)->y ) && (m_pathToGoal.at(currentPosition)->y == m_pathToGoal.at(middlePosition)->y ))) {
 					delete m_pathToGoal.at(middlePosition);
 					m_pathToGoal.erase(m_pathToGoal.begin() + middlePosition);
 			}
@@ -261,6 +252,6 @@ void PathFinding::FixGoalPath() {
 
 	if(m_pathToGoal.size() > 1) {
 		delete m_pathToGoal.at(m_pathToGoal.size() - 1);
-		m_pathToGoal.erase(m_pathToGoal.begin() + m_pathToGoal.size() - 1);
+		m_pathToGoal.erase(m_pathToGoal.end() - 1);
 	}
 }

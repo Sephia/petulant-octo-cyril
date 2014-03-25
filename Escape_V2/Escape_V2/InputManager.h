@@ -22,6 +22,7 @@ public:
 	bool IsDownOnceMouse(EMouseButton button) const;
 
 	void PostUpdate();
+	void ClearPresses();
 
 	bool m_keyboard_current[256];
 	bool m_keyboard_previous[256];

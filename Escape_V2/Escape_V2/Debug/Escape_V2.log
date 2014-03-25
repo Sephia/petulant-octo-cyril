@@ -1,16 +1,14 @@
-﻿Build started 2014-03-21 18:10:20.
+﻿Build started 2014-03-23 15:33:53.
      1>Project "D:\petulant-octo-cyril\Escape_V2\Escape_V2\Escape_V2.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"..\Deps\let-there-be-light" /I"..\Deps\SFML-2.1\include\\" /ZI /nologo /W3 /WX- /sdl /MP /Od /Oy- /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt GameState.cpp SoundRipple.cpp SoundRippleManager.cpp
-     1>cl : Command line warning D9030: '/Gm' is incompatible with multiprocessing; ignoring /MP switch
-         SoundRippleManager.cpp
-         SoundRipple.cpp
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\soundripple.cpp(72): warning C4244: '*=' : conversion from 'double' to 'sf::Uint8', possible loss of data
-         GameState.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"..\Deps\let-there-be-light" /I"..\Deps\SFML-2.1\include\\" /ZI /nologo /W3 /WX- /sdl /MP /Od /Oy- /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt PathFinding.cpp
+         PathFinding.cpp
      1>d:\petulant-octo-cyril\escape_v2\escape_v2\searchcell.h(21): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
      1>d:\petulant-octo-cyril\escape_v2\escape_v2\searchcell.h(22): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\gamestate.cpp(315): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-         Generating Code...
+     1>d:\petulant-octo-cyril\escape_v2\escape_v2\pathfinding.cpp(164): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\petulant-octo-cyril\escape_v2\escape_v2\pathfinding.cpp(168): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\petulant-octo-cyril\escape_v2\escape_v2\pathfinding.cpp(172): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\petulant-octo-cyril\escape_v2\escape_v2\pathfinding.cpp(176): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\petulant-octo-cyril\Escape_V2\Debug\Escape_V2.exe" /INCREMENTAL /NOLOGO /LIBPATH:"..\Deps\SFML-2.1\lib" /LIBPATH:"...\Deps\let-there-be-light" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\petulant-octo-cyril\Escape_V2\Debug\Escape_V2.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\petulant-octo-cyril\Escape_V2\Debug\Escape_V2.lib" /MACHINE:X86 Debug\AABB.obj
          Debug\Color3f.obj
@@ -75,4 +73,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:04.96
+Time Elapsed 00:00:02.00

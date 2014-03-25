@@ -5,6 +5,7 @@
 
 std::map<int, std::vector<sf::Vector2f>> Settings::m_allGuardWaypoints;
 std::vector<sf::Vector2f> Settings::ms_guards;
+std::vector<sf::Vector2f> Settings::ms_roomWaypoints;
 sf::RenderWindow *Settings::ms_window = nullptr;
 float Settings::ms_deltatime = 0.1f;
 bool Settings::ms_gameOver = false;
@@ -128,6 +129,29 @@ void Settings::Load(const std::string& c_path) {
 			}
 		}
 	}
+	{
+		std::string path = "../data/" + c_path + "RoomWaypoints.txt";
+		std::ifstream stream(path);
+		std::string row;
+		sf::Vector2f newPosition;
+		ms_roomWaypoints.clear();
+
+		if(stream.is_open()) {
+			while(!stream.eof()) {
+				std::getline(stream, row);
+				if(row.length() > 0) {
+					std::stringstream sstream(row);
+					std::string part;
+					sstream >> part;
+					newPosition.x = std::stof(part);
+					sstream >> part;
+					newPosition.y = std::stof(part);
+					ms_roomWaypoints.push_back(newPosition);
+				}
+			}
+		}
+	}
+	ms_inputManager.ClearPresses();
 }
 
 void Settings::UpdateDeltatime() {

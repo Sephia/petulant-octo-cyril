@@ -36,6 +36,18 @@ void InputManager::PostUpdate() {
 	}
 }
 
+void InputManager::ClearPresses() {
+	for(int i = 0; i < 256; i++) {
+		m_keyboard_previous[i] = false;
+		m_keyboard_current[i] = false;
+	}
+
+	for(int i = 0; i < MB_COUNT; i++) {
+		m_mouse_previous[i] = false;
+		m_mouse_current[i] = false;
+	}
+}
+
 bool InputManager::IsDownMouse(EMouseButton button) const {
 	return m_mouse_current[button];
 }

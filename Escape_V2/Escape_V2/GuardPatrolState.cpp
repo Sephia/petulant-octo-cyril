@@ -90,6 +90,7 @@ void GuardPatrolState::Movement() {
 				if(!mp_pathfinding->FindPath(sf::Vector2f((*mp_position).x, (*mp_position).y), sf::Vector2f(m_waypoints.at(m_nextWaypoint).x, m_waypoints.at(m_nextWaypoint).y))) {
 					break;
 				}
+				mp_pathfinding->Draw(Settings::ms_window);
 			}
 			m_nextPosition = mp_pathfinding->NextPathPos(*mp_position, 10);
 		}
@@ -109,6 +110,7 @@ void GuardPatrolState::Movement() {
 				*mp_position = *mp_position - distance * m_speed * Settings::ms_deltatime;
 			}
 			else {
+				
 				m_nextWaypoint++;
 				m_nextWaypoint %= m_waypoints.size();
 				mp_pathfinding->m_foundGoal = false;
@@ -128,16 +130,13 @@ void GuardPatrolState::Movement() {
 			mp_sprite->ChangeAnimation("Guard1Turning.png");
 		}
 	}
-	/*mp_pathfinding->Draw(Settings::ms_window);*/
+	
 }
 
 void GuardPatrolState::AddWaypointToFront(sf::Vector2f waypoint) {
 
 	m_nextState = "GuardInvestigateState";
 	m_done = true;
-
-	/*auto it = m_waypoints.begin() + m_nextWaypoint;
-	m_waypoints.insert(it, waypoint);*/
 }
 
 bool GuardPatrolState::Detected(sf::Vector2f playerPosition, CollisionManager* p_collisionManager) {
@@ -167,13 +166,6 @@ bool GuardPatrolState::Detected(sf::Vector2f playerPosition, CollisionManager* p
 
 		vectorBetween.x -= direction.x * 10;
 		vectorBetween.y -= direction.y * 10;
-
-		/*sf::CircleShape circ(15);
-		circ.setPosition(playerPosition - vectorBetween);
-		circ.setFillColor(sf::Color(100, 100, 100));
-		circ.setOrigin(15.0f, 15.0f);
-		Settings::ms_window->draw(circ);
-		Settings::ms_window->display();*/
 
 		float sqr = sqrtf(vectorBetween.x * vectorBetween.x + vectorBetween.y * vectorBetween.y);
 

@@ -21,6 +21,7 @@ public:
 
 	static std::map<int, std::vector<sf::Vector2f>> m_allGuardWaypoints;
 	static std::vector<sf::Vector2f> ms_guards;
+	static std::vector<sf::Vector2f> ms_roomWaypoints;
 	static sf::RenderWindow *ms_window;
 	static float ms_deltatime;
 	static bool ms_gameOver;
@@ -36,5 +37,6 @@ private:
 	static bool ms_shoot;
 	static sf::Vector2f ms_shootFrom;
 	static sf::Vector2f ms_shootTo;
+	
 };
 

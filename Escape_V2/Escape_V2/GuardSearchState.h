@@ -25,5 +25,9 @@ public:
 private:
 	void Movement();
 	bool Rotate();
+
+private:
+	int m_currentWaypoint;
+	sf::Vector2f m_nextPosition;
 };
 

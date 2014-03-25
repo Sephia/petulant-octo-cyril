@@ -31,7 +31,7 @@ GameState::GameState() {
 	mp_gui = nullptr;
 	mp_guardFootSteps = nullptr;
 	mp_level = nullptr;
-	m_levelToLoad = 2;
+	m_levelToLoad = 3;
 }
 
 GameState::~GameState() {
@@ -178,7 +178,7 @@ void GameState::Enter() {
 	Settings::ms_soundManager.newSound("../data/sound/RUN_2.wav", false, 500, 0.1f);
 
 	Settings::ResetShot();
-
+	
 	mp_guardFootSteps = new GuardFootSteps();
 	m_music.setLoop(true);
 	m_music.play();
@@ -354,7 +354,7 @@ bool GameState::Update() {
 		Settings::ms_gameOver = false;
 		return false;
 	}
-	else if(mp_player->GetPosition().x > Settings::ms_exit.x && mp_player->GetPosition().x < Settings::ms_exit.x + 100 && mp_player->GetPosition().y > Settings::ms_exit.y && mp_player->GetPosition().y < Settings::ms_exit.y + 50) {
+	else if(mp_player->GetPosition().x > Settings::ms_exit.x && mp_player->GetPosition().x < Settings::ms_exit.x + 200 && mp_player->GetPosition().y > Settings::ms_exit.y && mp_player->GetPosition().y < Settings::ms_exit.y + 200) {
 		m_nextState = "StartMenuState";
 		return false;
 	}
