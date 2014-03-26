@@ -1,17 +1,15 @@
 ﻿Project file contains ToolsVersion="12.0". This toolset may be unknown or missing, in which case you may be able to resolve this by installing the appropriate version of MSBuild, or the build may have been forced to a particular ToolsVersion for policy reasons. Treating the project as if it had ToolsVersion="4.0". For more information, please see http://go.microsoft.com/fwlink/?LinkId=291333.
-  Engine.cpp
-  GameState.cpp
-c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\SearchCell.h(21): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
-c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\SearchCell.h(22): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
-GameState.cpp(128): warning C4244: 'argument' : conversion from 'float' to 'unsigned int', possible loss of data
-GameState.cpp(407): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-  GuardShootingState.cpp
-c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\Furniture.h(20): warning C4520: 'Furniture' : multiple default constructors specified
-c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\SearchCell.h(21): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
-c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\SearchCell.h(22): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
-GuardShootingState.cpp(126): warning C4305: 'argument' : truncation from 'double' to 'float'
-GuardShootingState.cpp(149): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
-  StateManager.cpp
+  SoundManager.cpp
+SoundManager.cpp(45): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
+SoundManager.cpp(115): warning C4244: '=' : conversion from 'float' to 'unsigned int', possible loss of data
+SoundManager.cpp(119): warning C4244: 'return' : conversion from 'unsigned int' to 'float', possible loss of data
+SoundManager.cpp(251): warning C4244: 'return' : conversion from 'unsigned int' to 'float', possible loss of data
+SoundManager.cpp(256): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
+SoundManager.cpp(259): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
+  SoundRippleManager.cpp
+  StartMenuState.cpp
+StartMenuState.cpp(744): warning C4244: 'argument' : conversion from 'const float' to 'unsigned int', possible loss of data
+StartMenuState.cpp(762): warning C4244: 'argument' : conversion from 'const float' to 'unsigned int', possible loss of data
   Generating code
   Finished generating code
   Escape_V2.vcxproj -> C:\Users\Rullis\Documents\GitHub\petulant-octo-cyril\Escape_V2\Release\Escape_V2.exe

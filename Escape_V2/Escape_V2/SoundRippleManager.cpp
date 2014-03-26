@@ -20,7 +20,7 @@ sf::Vector2f SoundRippleManager::GuardNotice(sf::Vector2f guardPosition) {
 			vdistance = guardPosition - m_soundOrigins.at(i)->getPosition();
 			fdistance = sqrtf(fabs(vdistance.x * vdistance.x + vdistance.y * vdistance.y));
 
-			if(fdistance < m_soundOrigins.at(i)->getVolume() * 100) {
+			if(fdistance < m_soundOrigins.at(i)->getVolume() * 500) {
 				return m_soundOrigins.at(i)->getPosition();
 			}
 		}

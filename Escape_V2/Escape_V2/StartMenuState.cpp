@@ -261,7 +261,7 @@ void StartMenuState::Enter() {
 
 	//Credits
 	creditsNumber = 0;
-	fadeTimer = 8;
+	fadeTimer = 3;
 	sf::Texture* tempTex;
 	tempTex = new sf::Texture;
 	if (!tempTex->loadFromFile("../Data/Sprites/MAIN_MENU/Credits/1_Lead-Designer.png"))
@@ -392,32 +392,34 @@ bool StartMenuState::Update() {
 		//mp_creditsRoll->setColor(sf::Color(255, 255, 255, opacity));
 		float creditsChangeSprite = turnOnCredits->getElapsedTime().asSeconds();
 		sf::Color opacity = mp_creditsRoll->getColor();
-		if (creditsChangeSprite > 5.0f) {
+		if (creditsChangeSprite > 1.0f) {
 			if (checkFade == false){
-				fade -= 0.30f;
+				fade -= Settings::ms_deltatime * 127.0f;
 			}
 			else {
-				fade += 0.30f;
+				fade += Settings::ms_deltatime * 127.0f;
 			}
 			opacity.a = static_cast<sf::Uint8>(fade);
 				mp_creditsRoll->setColor(opacity);
 				if (fade <= 1){
 					checkFade = true;
 				}
-				if (fade >= 253){
+				if (fade >= 254){
 				checkFade = false;
+				turnOnCredits->restart();
+				creditsChangeSprite = 0;
+				fadeTimer = 3.0f;
 			}
 		}
 		if (creditsChangeSprite > fadeTimer){
 			creditsNumber++;
-			fadeTimer += 5.98f;
+			fadeTimer += 5.0f;
 			if (creditsNumber == Credits.size()){
 				creditsNumber = 0;
 			}
 			mp_creditsRoll->setTexture(*Credits.at(creditsNumber));			
 			
 		}
-
 	}
 	else {
 		creditsNumber = 0;
@@ -662,7 +664,7 @@ void StartMenuState::UpdateEvents() {
 					else {
 						musicActivation = true;
 					}
-                    soundManager->ToggleMusic();
+                    Settings::ms_soundManager.ToggleMusic();
 					if(!SoundEntity::IsMuted())
                     {
                         soundButtonOn->play();
@@ -682,7 +684,6 @@ void StartMenuState::UpdateEvents() {
 
 		if (musicActivation == false){
 		//	toggleMusic = false;
-			soundManager->ToggleMusic();
 			mp_checkboxMusic->setTexture(*checkboxOff);
 			mp_music->setTexture(*musicOff);
 			mp_sliderMusic->setTexture(*sliderOff);
@@ -701,6 +702,7 @@ void StartMenuState::UpdateEvents() {
 					else {
 						soundActivation = true;
 					}
+					Settings::ms_soundManager.ToggleSound();
 					if(!SoundEntity::IsMuted())
                     {
                         soundButtonOn->play();
@@ -711,7 +713,6 @@ void StartMenuState::UpdateEvents() {
 		}
 
 		if (soundActivation == true){
-			soundManager->ToggleSound();
 			buzzing.setVolume((mp_pointerSound->getPosition().x - mp_sliderSound->getPosition().x) / ((mp_sliderSound->getLocalBounds().width - mp_pointerSound->getLocalBounds().width) / 100));
 			mp_checkboxSound->setTexture(*checkboxOn);
 			mp_sound->setTexture(*soundOn);
@@ -720,7 +721,6 @@ void StartMenuState::UpdateEvents() {
 		}
 
 		if (soundActivation == false){
-			soundManager->ToggleSound();
 			buzzing.setVolume(0);
 			mp_checkboxSound->setTexture(*checkboxOff);
 			mp_sound->setTexture(*soundOff);

@@ -91,7 +91,7 @@ MusicEntity::~MusicEntity()
 
 void MusicEntity::Play()
 {
-    if(ms_toggleSound)
+    if(!ms_toggleSound)
     {
         return;
     }
