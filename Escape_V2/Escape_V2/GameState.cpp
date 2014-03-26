@@ -51,6 +51,9 @@ void GameState::Enter() {
 	Settings::ms_window->draw(*loadingScreenSprite);
 	Settings::ms_window->display();
 
+	delete loadingScreenTexture;
+	delete loadingScreenSprite;
+
 	m_nextState = "";
 	
 	if(m_levelToLoad == 0) {
@@ -352,7 +355,6 @@ bool GameState::Update() {
 	lm->GetLight(mp_player)->SetCenter(vec);
 
 	//checks if the player has won or lost.
-	//ToDo: Fix so it does the right thing. Separate win and loss.
 	if(Settings::ms_gameOver && m_gameOverTimer > 3.2f) {
 		m_nextState = "StartMenuState";
 		Settings::ms_gameOver = false;
@@ -390,6 +392,12 @@ bool GameState::Update() {
 		m_levelToLoad = 0;
 		Exit();
 		Enter();
+	}
+	else if(Settings::ms_inputManager.IsDownOnceKeyboard(sf::Keyboard::F11)) {
+		Settings::SetFullscreen();
+	}
+	else if(Settings::ms_inputManager.IsDownOnceKeyboard(sf::Keyboard::F12)) {
+		Settings::SetWindowed();
 	}
 
 	return true;
