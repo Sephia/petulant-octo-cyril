@@ -1,6 +1,105 @@
 ﻿Project file contains ToolsVersion="12.0". This toolset may be unknown or missing, in which case you may be able to resolve this by installing the appropriate version of MSBuild, or the build may have been forced to a particular ToolsVersion for policy reasons. Treating the project as if it had ToolsVersion="4.0". For more information, please see http://go.microsoft.com/fwlink/?LinkId=291333.
+  VictoryState.cpp
+  GuardFootSteps.cpp
+  GuardChaseState.cpp
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\searchcell.h(21): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\searchcell.h(22): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\guardchasestate.cpp(102): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\guardchasestate.cpp(121): warning C4305: 'argument' : truncation from 'double' to 'float'
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\guardchasestate.cpp(207): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\guardchasestate.cpp(222): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+  GameOverState.cpp
+  FoV.cpp
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\fov.cpp(29): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\fov.cpp(34): warning C4018: '<' : signed/unsigned mismatch
+  FootStepRipples.cpp
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\footstepripples.cpp(37): warning C4244: '*=' : conversion from 'double' to 'sf::Uint8', possible loss of data
+  Generating Code...
+cl : Command line warning D9030: '/Gm' is incompatible with multiprocessing; ignoring /MP switch
+  StateManager.cpp
+  State.cpp
+  StartMenuState.cpp
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\startmenustate.cpp(744): warning C4244: 'argument' : conversion from 'const float' to 'unsigned int', possible loss of data
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\startmenustate.cpp(762): warning C4244: 'argument' : conversion from 'const float' to 'unsigned int', possible loss of data
+  SoundRipple.cpp
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\soundripple.cpp(72): warning C4244: '*=' : conversion from 'double' to 'sf::Uint8', possible loss of data
+  SoundManager.cpp
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\soundmanager.cpp(45): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\soundmanager.cpp(115): warning C4244: '=' : conversion from 'float' to 'unsigned int', possible loss of data
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\soundmanager.cpp(119): warning C4244: 'return' : conversion from 'unsigned int' to 'float', possible loss of data
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\soundmanager.cpp(251): warning C4244: 'return' : conversion from 'unsigned int' to 'float', possible loss of data
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\soundmanager.cpp(256): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\soundmanager.cpp(259): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
+  Settings.cpp
+  PlayerObject.cpp
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\furniture.h(20): warning C4520: 'Furniture' : multiple default constructors specified
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\playerobject.cpp(92): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+  PathFinding.cpp
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\searchcell.h(21): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\searchcell.h(22): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\pathfinding.cpp(164): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\pathfinding.cpp(168): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\pathfinding.cpp(172): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\pathfinding.cpp(176): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+  OptionsState.cpp
+  LoadingState.cpp
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\loadingstate.cpp(8): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
+  Level.cpp
+  GuardShootingState.cpp
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\furniture.h(20): warning C4520: 'Furniture' : multiple default constructors specified
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\searchcell.h(21): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\searchcell.h(22): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\guardshootingstate.cpp(122): warning C4305: 'argument' : truncation from 'double' to 'float'
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\guardshootingstate.cpp(145): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+  GuardSearchState.cpp
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\searchcell.h(21): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\searchcell.h(22): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\guardsearchstate.cpp(94): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\guardsearchstate.cpp(111): warning C4305: 'argument' : truncation from 'double' to 'float'
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\guardsearchstate.cpp(179): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\guardsearchstate.cpp(192): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+  GuardPatrolState.cpp
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\searchcell.h(21): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\searchcell.h(22): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\guardpatrolstate.cpp(150): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\guardpatrolstate.cpp(167): warning C4305: 'argument' : truncation from 'double' to 'float'
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\guardpatrolstate.cpp(189): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\guardpatrolstate.cpp(202): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+  GuardInvestigateState.cpp
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\searchcell.h(21): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\searchcell.h(22): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\guardinvestigatestate.cpp(159): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\guardinvestigatestate.cpp(176): warning C4305: 'argument' : truncation from 'double' to 'float'
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\guardinvestigatestate.cpp(209): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\guardinvestigatestate.cpp(224): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+  Guard.cpp
+  Grid2D.cpp
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\grid2d.cpp(27): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\grid2d.cpp(30): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\grid2d.cpp(44): warning C4018: '>=' : signed/unsigned mismatch
   GameState.cpp
 c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\searchcell.h(21): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
 c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\searchcell.h(22): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
-c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\gamestate.cpp(322): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\gamestate.cpp(127): warning C4244: 'argument' : conversion from 'float' to 'unsigned int', possible loss of data
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\gamestate.cpp(392): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+  Engine.cpp
+  DoorManager.cpp
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\doormanager.cpp(30): warning C4018: '>=' : signed/unsigned mismatch
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\doormanager.cpp(64): warning C4018: '<' : signed/unsigned mismatch
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\doormanager.cpp(67): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\doormanager.cpp(68): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\doormanager.cpp(81): warning C4018: '<' : signed/unsigned mismatch
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\doormanager.cpp(84): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\doormanager.cpp(85): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\doormanager.cpp(225): warning C4018: '<' : signed/unsigned mismatch
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\doormanager.cpp(229): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\doormanager.cpp(230): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+  Generating Code...
+  Compiling...
+  CreditState.cpp
+  Background.cpp
+  AnimatedSprite.cpp
+  Generating Code...
+  Skipping... (no relevant changes detected)
+  GuardStateManager.cpp
   Escape_V2.vcxproj -> C:\Users\Rullis\Documents\GitHub\petulant-octo-cyril\Escape_V2\Debug\Escape_V2.exe

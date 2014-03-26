@@ -62,6 +62,7 @@ void GameState::Enter() {
 	Settings::ms_window->display();
 
 	m_nextState = "";
+	m_deathSoundPlayed = false;
 
 	if(m_levelToLoad == 0) {
 		m_pathToLevel = "Tutorial/";
@@ -200,6 +201,7 @@ void GameState::Enter() {
 	Settings::ms_soundManager.newSound("../data/sound/DEATH_SOUND.ogg", false, 800, 0.9f);
 	Settings::ms_soundManager.newSound("../data/sound/STEP_1.ogg", false, 0.1f, 10.0f);
 	Settings::ms_soundManager.newSound("../data/sound/STEP_2.ogg", false, 0.1f, 10.0f);
+	Settings::ms_soundManager.newSound("../data/sound/FURNITURE.ogg", false, 0.1f, 10.0f);
 
 	Settings::ResetShot();
 
@@ -327,9 +329,10 @@ void GameState::Exit() {
 }
 
 bool GameState::Update() {
-	//Updates the timer for the guards
+	//Updates the timers
 	m_timerGuards += Settings::ms_deltatime;
 	m_timerPlayer += Settings::ms_deltatime;
+	m_bumpTimer += Settings::ms_deltatime;
 
 	//Updates keypresses. returns true if the game is exiting
 	if(UpdateEvents()) {
@@ -337,7 +340,19 @@ bool GameState::Update() {
 	}
 
 	//Updates the player
-	mp_player->Update(cl, fm, mp_fov);
+	int noise = mp_player->Update(cl, fm, mp_fov);
+	if(noise != -1 && m_bumpTimer > 0.91f) {
+		sf::Sound* bump = nullptr;
+		if(!SoundEntity::IsMuted()) {
+			bump = Settings::ms_soundManager.GetSound("../data/sound/FURNITURE.ogg")->CreateSound(mp_player->GetPosition());
+			if(bump != nullptr) {
+				bump->play();
+			}
+		}
+		m_soundRippleManager.CreateSoundRipple(mp_player->GetPosition(), noise, true, m_spriteManager.Load("Ripple.txt"), bump);
+		m_bumpTimer = 0.0f;
+	}
+
 	//Update the listener
 	Settings::ms_soundManager.Update(mp_player->GetPosition());
 	if(mp_player->IsRunning() && m_timerPlayer > 0.5f) {
@@ -380,9 +395,9 @@ bool GameState::Update() {
 			else {
 				footPrint->ChangeAnimation("Footstep_right.png");
 				if(!SoundEntity::IsMuted())
-                {
-                    sound = Settings::ms_soundManager.GetSound("../data/sound/STEP_2.ogg")->CreateSound((m_guards.at(i)->GetPosition()));
-                }
+				{
+					sound = Settings::ms_soundManager.GetSound("../data/sound/STEP_2.ogg")->CreateSound((m_guards.at(i)->GetPosition()));
+				}
 			}
 			mp_guardFootSteps->AddRipple(m_guards.at(i)->GetPosition(), m_guards.at(i)->GetSprite()->getSprite()->getRotation(), footPrint, sound);
 		}
@@ -410,50 +425,50 @@ bool GameState::Update() {
 					if(dm->OpenDoor(door, color)) {
 						mp_gui->RemoveItem(i);
 						if(!SoundEntity::IsMuted())
-                        {
-                            mp_unlock->play();
-                            mp_unlock->setPosition(door->getPosition().x, 0, door->getPosition().y);
-                        }
+						{
+							mp_unlock->play();
+							mp_unlock->setPosition(door->getPosition().x, 0, door->getPosition().y);
+						}
 						break;
 					}
 				}
 			}
 			else
-            {
-                if(dm->GetDoor(door)->IsOpen())
-                {
-                    if(!SoundEntity::IsMuted())
-                    {
-                        mp_closeDoor->play();
-                        mp_closeDoor->setPosition(door->getPosition().x, 0, door->getPosition().y);
-                    }
-                }
-                else
-                {
-                    if(!SoundEntity::IsMuted())
-                    {
-                        mp_openDoor->play();
-                        mp_openDoor->setPosition(door->getPosition().x, 0, door->getPosition().y);
-                    }
-                }
-            }
+			{
+				if(dm->GetDoor(door)->IsOpen())
+				{
+					if(!SoundEntity::IsMuted())
+					{
+						mp_closeDoor->play();
+						mp_closeDoor->setPosition(door->getPosition().x, 0, door->getPosition().y);
+					}
+				}
+				else
+				{
+					if(!SoundEntity::IsMuted())
+					{
+						mp_openDoor->play();
+						mp_openDoor->setPosition(door->getPosition().x, 0, door->getPosition().y);
+					}
+				}
+			}
 		}
 	}
 
 	//check if key is close neough to pick up
-    sf::CircleShape* circle_key = cl->Circle_KeyPickup(*mp_player->GetSprite());
-    if(circle_key != nullptr) {
-        Key* key = km->PickUpKey(circle_key);
-        sf::Color color = key->GetPickUpRadius()->getFillColor();
-        color.a = 255;
-        key->setColor(color);
-        mp_gui->AddItem(key);
-        if (!SoundEntity::IsMuted())
-        {
-            mp_keySound->play();
-            mp_keySound->setPosition(key->getPosition().x, 0, key->getPosition().y);
-        }
-    }
+	sf::CircleShape* circle_key = cl->Circle_KeyPickup(*mp_player->GetSprite());
+	if(circle_key != nullptr) {
+		Key* key = km->PickUpKey(circle_key);
+		sf::Color color = key->GetPickUpRadius()->getFillColor();
+		color.a = 255;
+		key->setColor(color);
+		mp_gui->AddItem(key);
+		if (!SoundEntity::IsMuted())
+		{
+			mp_keySound->play();
+			mp_keySound->setPosition(key->getPosition().x, 0, key->getPosition().y);
+		}
+	}
 
 	//updates the footsteps and the soundripples
 	mp_guardFootSteps->Update();
@@ -482,18 +497,19 @@ bool GameState::Update() {
 		}
 	}
 	else if(Settings::ms_gameOver) {
-		if(m_gameOverTimer > 1.5f)
-        {
-            int random = rand()%10;
-            if(random == 0)
-            {
-                mp_jokeDeath->play();
-            }
-            else
-            {
-                mp_death->play();
-            }
-        }
+		if(m_gameOverTimer > 1.5f && !m_deathSoundPlayed)
+		{
+			int random = rand()%10;
+			if(random == 0)
+			{
+				mp_jokeDeath->play();
+			}
+			else
+			{
+				mp_death->play();
+			}
+			m_deathSoundPlayed = true;
+		}
 		m_gameOverTimer += Settings::ms_deltatime;
 	}
 

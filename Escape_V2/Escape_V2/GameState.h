@@ -72,9 +72,12 @@ private:
 	sf::Sound* mp_death;
 	sf::Sound* mp_jokeDeath;
 
+	bool m_deathSoundPlayed;
+
 	float m_timerGuards;
 	float m_timerPlayer;
 	float m_gameOverTimer;
+	float m_bumpTimer;		//Only create a new sound from bumping into furniures after a certain time from the last
 
 	int m_levelToLoad;
 	std::string m_pathToLevel;

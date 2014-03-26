@@ -27,6 +27,10 @@ void GuardShootingState::Enter() {
 	m_done = false;
 	m_timer = 0.0f;
 	mp_sprite->ChangeAnimation("Guard1DrawWeapon.png");
+
+	Settings::ms_soundManager.newSound("../data/sound/GUARD_SHOOTING.ogg", false, 2000, 1.0f);
+    mp_shooting = Settings::ms_soundManager.GetSound("../data/sound/GUARD_SHOOTING.ogg")->CreateSound(*mp_position);
+	m_soundShootingPlayed = false;
 }
 
 void GuardShootingState::Exit() {
@@ -59,12 +63,12 @@ bool GuardShootingState::Update(sf::Vector2f playerPosition, CollisionManager* p
 		m_done = true;
 	}
 
-
-	if(m_timer > 2.5f) {
-		if(!SoundEntity::IsMuted())
+	if(m_timer > 2.2f) {
+		if(!SoundEntity::IsMuted() && !m_soundShootingPlayed)
         {
             mp_shooting->play();
             mp_shooting->setPosition(mp_position->x, 0, mp_position->y);
+			m_soundShootingPlayed = true;
         }
 		Shoot(p_collisionManager, playerPosition);
 	}
