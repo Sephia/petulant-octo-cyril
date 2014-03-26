@@ -13,6 +13,7 @@
 GuardShootingState::GuardShootingState() {
 	m_nextState = "GuardSearchState";
 	m_timer = 0.0f;
+	mp_shooting = nullptr;
 }
 
 GuardShootingState::~GuardShootingState() {
@@ -29,7 +30,11 @@ void GuardShootingState::Enter() {
 }
 
 void GuardShootingState::Exit() {
-
+	if(mp_shooting != nullptr)
+	{
+		delete mp_shooting;
+		mp_shooting = nullptr;
+	}
 }
 
 void GuardShootingState::Init(int number, sf::Vector2f* p_position, float* p_rotation, AnimatedSprite* sprite, Grid2D* p_grid) {
@@ -56,6 +61,11 @@ bool GuardShootingState::Update(sf::Vector2f playerPosition, CollisionManager* p
 
 
 	if(m_timer > 2.5f) {
+		if(!SoundEntity::IsMuted())
+        {
+            mp_shooting->play();
+            mp_shooting->setPosition(mp_position->x, 0, mp_position->y);
+        }
 		Shoot(p_collisionManager, playerPosition);
 	}
 	else if(m_timer > 1.0f) {
@@ -108,10 +118,14 @@ bool GuardShootingState::Detected(sf::Vector2f playerPosition, CollisionManager*
 		if(p_collisionManager->Circle_WallCollision(playerPosition - vectorBetween, 10)) {
 			return false;
 		}
-		for(int i = 0; i < p_furnitureManager->GetCount(); i++) {
-			sf::Sprite tempSprite = *mp_sprite->getSprite();
-			tempSprite.setScale(0.1, 0.1);
-			tempSprite.setPosition(playerPosition - vectorBetween);
+		sf::Sprite tempSprite = *mp_sprite->getSprite();
+		tempSprite.setScale(0.1, 0.1);
+		tempSprite.setPosition(playerPosition - vectorBetween);
+
+		if(p_collisionManager->Circle_DoorCollision(tempSprite) != nullptr) {
+			return false;
+		}
+		for(int i = 0; i < p_furnitureManager->GetCount(); i++) {	
 			if(p_collisionManager->Circle_FurnitureCollision(tempSprite, *p_furnitureManager->GetFurniture(i))) {
 				return false;
 			}
@@ -120,14 +134,8 @@ bool GuardShootingState::Detected(sf::Vector2f playerPosition, CollisionManager*
 		vectorBetween.x -= direction.x * 10;
 		vectorBetween.y -= direction.y * 10;
 
-		float sqr = sqrtf(vectorBetween.x * vectorBetween.x + vectorBetween.y * vectorBetween.y);
 
-		if(sqr > 0) {
-			distance = sqrtf(vectorBetween.x * vectorBetween.x + vectorBetween.y * vectorBetween.y);
-		}
-		else {
-			return false;
-		}
+		distance = sqrtf(vectorBetween.x * vectorBetween.x + vectorBetween.y * vectorBetween.y);
 	}
 	return true;
 }

@@ -13,7 +13,7 @@ public:
 	GuardFootSteps();
 	~GuardFootSteps();
 
-	void AddRipple(sf::Vector2f position, float rotation, AnimatedSprite* sprite);
+	void AddRipple(sf::Vector2f position, float rotation, AnimatedSprite* sprite, sf::Sound* sound);
 	void Cleanup();
 	void Update();
 	void Draw();

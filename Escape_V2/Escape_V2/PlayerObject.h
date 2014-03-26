@@ -7,6 +7,8 @@
 class AnimatedSprite;
 class CollisionManager;
 class FurnitureManager;
+class FoV;
+
 namespace sf{
 	class Sprite;
 }
@@ -19,7 +21,7 @@ public:
 	void SetPosition(sf::Vector2f position);
 	sf::Vector2f GetPosition();
 
-	int Update(CollisionManager* p_collisionManager, FurnitureManager* p_furnitureManager);
+	int Update(CollisionManager* p_collisionManager, FurnitureManager* p_furnitureManager, FoV* p_foV);
 	void SetSneak(bool sneak);
 	void SetDirection(sf::Vector2f direction);
 	void UpdateSprite();
@@ -31,7 +33,7 @@ public:
 	void Draw();
 
 private:
-	int Movement(CollisionManager* p_collisionManager, FurnitureManager* p_furnitureManager);
+	int Movement(CollisionManager* p_collisionManager, FurnitureManager* p_furnitureManager, FoV* p_fov);
 	void NormalizeDirection();
 
 private:

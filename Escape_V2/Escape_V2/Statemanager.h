@@ -18,7 +18,6 @@ public:
 	void SetState(const std::string &c_type);
 	void ChangeState();
 	bool IsRunning();
-	void Init();
 	void CleanUp();
 	
 

@@ -72,9 +72,6 @@ bool DoorManager::OpenDoor(sf::CircleShape* useRadius, sf::Color key)
             hull->CalculateNormals();
             hull->CalculateAABB();
             hull->SetWorldCenter(Vec2f(door->GetPos().x, (mp_lightSystem->m_viewAABB.GetDims().y - door->GetPos().y)));
-            /*ltbl::Light_Point* glow = mp_lightManager->GetLight(door);
-            glow->SetCenter(hull->GetWorldCenter());*/
-            
         }
         else
         {
@@ -238,7 +235,7 @@ bool DoorManager::LoadFromFile(std::string filename)
             hull->CalculateAABB();
             hull->SetWorldCenter(Vec2f(door->GetUseRadius()->getPosition().x, (mp_lightSystem->m_viewAABB.GetDims().y - door->GetUseRadius()->getPosition().y)));
             hull->m_renderLightOverHull = true;
-            hull->m_transparency = 0.5f;
+            //hull->m_transparency = 0.5f;
             
             m_doors.insert(std::make_pair(door->GetUseRadius(), door));
             mp_hullManager->AddHull(hull, door);

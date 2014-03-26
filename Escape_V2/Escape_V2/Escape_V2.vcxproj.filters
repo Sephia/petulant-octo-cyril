@@ -201,6 +201,15 @@
     <ClCompile Include="FootStepRipples.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="VictoryState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOverState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FoV.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Deps\let-there-be-light\LTBL\Constructs\AABB.h">
@@ -381,6 +390,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FootStepRipples.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VictoryState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FoV.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

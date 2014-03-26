@@ -95,7 +95,7 @@ bool GuardSearchState::Detected(sf::Vector2f playerPosition, CollisionManager* p
 	float directionLooking = -(*mp_rotation) + 90;
 	int diffAngle = static_cast<int>(angleToPlayer - directionLooking + 360) % 360;
 
-	if(diffAngle < 300 && diffAngle > 60) {
+	if(diffAngle < 330 && diffAngle > 30) {
 		return false;
 	}
 	sf::Vector2f direction;
@@ -107,11 +107,14 @@ bool GuardSearchState::Detected(sf::Vector2f playerPosition, CollisionManager* p
 		if(p_collisionManager->Circle_WallCollision(playerPosition - vectorBetween, 15)) {
 			return false;
 		}
-		
-		for(int i = 0; i < p_furnitureManager->GetCount(); i++) {
-			sf::Sprite tempSprite = *mp_sprite->getSprite();
-			tempSprite.setScale(0.1, 0.1);
-			tempSprite.setPosition(playerPosition - vectorBetween);
+		sf::Sprite tempSprite = *mp_sprite->getSprite();
+		tempSprite.setScale(0.1, 0.1);
+		tempSprite.setPosition(playerPosition - vectorBetween);
+
+		if(p_collisionManager->Circle_DoorCollision(tempSprite) != nullptr) {
+			return false;
+		}
+		for(int i = 0; i < p_furnitureManager->GetCount(); i++) {	
 			if(p_collisionManager->Circle_FurnitureCollision(tempSprite, *p_furnitureManager->GetFurniture(i))) {
 				return false;
 			}
@@ -120,14 +123,8 @@ bool GuardSearchState::Detected(sf::Vector2f playerPosition, CollisionManager* p
 		vectorBetween.x -= direction.x * 10;
 		vectorBetween.y -= direction.y * 10;
 
-		float sqr = sqrtf(vectorBetween.x * vectorBetween.x + vectorBetween.y * vectorBetween.y);
+		distance = sqrtf(vectorBetween.x * vectorBetween.x + vectorBetween.y * vectorBetween.y);
 
-		if(sqr > 0) {
-			distance = sqrtf(vectorBetween.x * vectorBetween.x + vectorBetween.y * vectorBetween.y);
-		}
-		else {
-			return false;
-		}
 	}
 
 	return true;
@@ -158,7 +155,7 @@ void GuardSearchState::Movement() {
 				*mp_position = *mp_position - distance * m_speed * Settings::ms_deltatime;
 			}
 			else {
-				
+
 				m_currentWaypoint = rand() % m_waypoints.size();
 				mp_pathfinding->m_foundGoal = false;
 				mp_pathfinding->m_initializedStartGoal = false;
@@ -181,7 +178,7 @@ void GuardSearchState::Movement() {
 bool GuardSearchState::Rotate() {
 	float rotationToGetTo = ( static_cast<int>(atan2(mp_position->y - m_nextPosition.y, mp_position->x - m_nextPosition.x) * 180 / static_cast<float>(M_PI) - 90) + 360 ) % 360;
 	int diffDegrees = ( static_cast<int>(*mp_rotation - rotationToGetTo) + 720 ) % 360;
-	
+
 	if(diffDegrees < 5 || diffDegrees > 355) {
 		*mp_rotation = rotationToGetTo;
 		return true;

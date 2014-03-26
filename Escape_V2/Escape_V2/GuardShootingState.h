@@ -25,5 +25,6 @@ public:
 private:
 	bool Rotate(sf::Vector2f playerPosition);
 	void Shoot(CollisionManager* p_collisionManager, sf::Vector2f playerPosition);
+	sf::Sound* mp_shooting;
 };
 

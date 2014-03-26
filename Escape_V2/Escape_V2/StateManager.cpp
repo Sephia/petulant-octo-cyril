@@ -74,16 +74,11 @@ void StateManager::SetState(const std::string &c_type) {
 	}
 }
 
-void StateManager::Init() {
-	for(unsigned int i = 0; i < m_states.size(); i++) {
-        //lägg till en Init() i State
-		//m_states.at(i)->Init();
-	}
-}
-
 void StateManager::CleanUp() {
 	for(unsigned int i = 0; i < m_states.size(); i++) {
-        //använd delete istället eller lägg till en Cleanup() funktion i State
-		//m_states.at(i)->CleanUp();
+		if(m_states.at(i) != nullptr) {
+			delete m_states.at(i);
+			m_states.at(i) = nullptr;
+		}
 	}
 }

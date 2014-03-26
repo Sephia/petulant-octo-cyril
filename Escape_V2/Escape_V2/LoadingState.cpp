@@ -46,7 +46,7 @@ bool LoadingState::Update() {
 }
 
 void LoadingState::Draw() {
-//	ms_window->display();
+
 }
 
 std::string LoadingState::Next() {

@@ -18,8 +18,10 @@
 #include "PathFinding.h"
 #include "Key.h"
 #include "GUI.h"
+#include "FoV.h"
 #include "GuardFootSteps.h"
 #include "Level.h"
+#include "Door.h"
 
 GameState::GameState() {
 	m_nextState = "";
@@ -32,6 +34,13 @@ GameState::GameState() {
 	mp_guardFootSteps = nullptr;
 	mp_level = nullptr;
 	m_levelToLoad = 3;
+
+	mp_openDoor = nullptr;
+	mp_closeDoor = nullptr;
+	mp_keySound = nullptr;
+	mp_unlock = nullptr;
+	mp_death = nullptr;
+	mp_jokeDeath = nullptr;
 }
 
 GameState::~GameState() {
@@ -44,18 +53,16 @@ GameState::~GameState() {
 }
 
 void GameState::Enter() {
-	sf::Texture* loadingScreenTexture = new sf::Texture;
+	loadingScreenTexture = new sf::Texture;
 	loadingScreenTexture->loadFromFile("../Data/Sprites/LoadingScreen.png");
-	sf::Sprite* loadingScreenSprite = new sf::Sprite(*loadingScreenTexture);
+	loadingScreenSprite = new sf::Sprite(*loadingScreenTexture);
 
+	Settings::ms_window->clear();
 	Settings::ms_window->draw(*loadingScreenSprite);
 	Settings::ms_window->display();
 
-	delete loadingScreenTexture;
-	delete loadingScreenSprite;
-
 	m_nextState = "";
-	
+
 	if(m_levelToLoad == 0) {
 		m_pathToLevel = "Tutorial/";
 	}
@@ -93,7 +100,7 @@ void GameState::Enter() {
 
 	mp_gui = new GUI();
 
-	ls = new ltbl::LightSystem(AABB(Vec2f(0, 0), Vec2f(static_cast<float>(3657), static_cast<float>(5651))), Settings::ms_window, "../data/sprites/lightFin.png", "../data/shaders/lightAttenuationShader.frag");
+	ls = new ltbl::LightSystem(AABB(Vec2f(0, 0), Vec2f(static_cast<float>(Settings::ms_window->getSize().x), static_cast<float>(Settings::ms_window->getSize().y))), Settings::ms_window, "../data/sprites/lightFin.png", "../data/shaders/lightAttenuationShader.frag");
 	ls->SetView(*mp_view);
 
 	lm = new LightManager(ls);
@@ -116,6 +123,8 @@ void GameState::Enter() {
 	if(!dm->LoadFromFile("../data/" + m_pathToLevel + "Doors.txt")) {
 		abort();
 	}
+
+	mp_fov = new FoV(wl, mp_level->GetSpriteSize().x, mp_level->GetSpriteSize().y);
 
 	mp_grid = new Grid2D();
 	mp_grid->Init(mp_player->GetSprite(), mp_level, cl, fm);
@@ -151,7 +160,7 @@ void GameState::Enter() {
 		guardLight->m_color.r = 1.0f;
 		guardLight->m_color.g = 1.0f;
 		guardLight->m_spreadAngle = 1.0f;
-		guardLight->m_softSpreadAngle = 0.0f;
+		guardLight->m_softSpreadAngle = 0.3f;
 		guardLight->m_bleed = 0.3f;
 
 		guardLight->CalculateAABB();
@@ -176,19 +185,33 @@ void GameState::Enter() {
 	lm->AddLight(testLight2, lm);
 
 	testLight2->SetAlwaysUpdate(false);
-	
+
 	if (!m_music.openFromFile("../data/music/I Knew a Guy - Stealth.wav")) {
 		std::cout << "Failed loading music for GameState!\n";
 	}
 
-	Settings::ms_soundManager.newSound("../data/sound/RUN_1.wav", false, 500, 0.1f);
-	Settings::ms_soundManager.newSound("../data/sound/RUN_2.wav", false, 500, 0.1f);
+	Settings::ms_soundManager.newSound("../data/sound/RUN_1.ogg", false, 500, 0.1f);
+	Settings::ms_soundManager.newSound("../data/sound/RUN_2.ogg", false, 500, 0.1f);
+	Settings::ms_soundManager.newSound("../data/sound/DOOR_OPEN.ogg", false, 800, 0.9f);
+	Settings::ms_soundManager.newSound("../data/sound/DOOR_CLOSE.ogg", false, 800, 0.9f);
+	Settings::ms_soundManager.newSound("../data/sound/PICKUP_KEY.ogg", false, 800, 0.9f);
+	Settings::ms_soundManager.newSound("../data/sound/UNLOCK_DOOR.ogg", false, 800, 0.9f);
+	Settings::ms_soundManager.newSound("../data/sound/DEATH_SOUND-REAL.ogg", false, 800, 0.9f);
+	Settings::ms_soundManager.newSound("../data/sound/DEATH_SOUND.ogg", false, 800, 0.9f);
+	Settings::ms_soundManager.newSound("../data/sound/STEP_1.ogg", false, 0.1f, 10.0f);
+	Settings::ms_soundManager.newSound("../data/sound/STEP_2.ogg", false, 0.1f, 10.0f);
 
 	Settings::ResetShot();
-	
+
 	mp_guardFootSteps = new GuardFootSteps();
 	m_music.setLoop(true);
 	m_music.play();
+	mp_openDoor = Settings::ms_soundManager.GetSound("../data/sound/DOOR_OPEN.ogg")->CreateSound(sf::Vector2f(0,0));
+	mp_closeDoor = Settings::ms_soundManager.GetSound("../data/sound/DOOR_CLOSE.ogg")->CreateSound(sf::Vector2f(0,0));
+	mp_keySound = Settings::ms_soundManager.GetSound("../data/sound/PICKUP_KEY.ogg")->CreateSound(sf::Vector2f(0,0));
+	mp_unlock = Settings::ms_soundManager.GetSound("../data/sound/UNLOCK_DOOR.ogg")->CreateSound(sf::Vector2f(0,0));
+	mp_death = Settings::ms_soundManager.GetSound("../data/sound/DEATH_SOUND-REAL.ogg")->CreateSound(sf::Vector2f(0,0));
+	mp_jokeDeath = Settings::ms_soundManager.GetSound("../data/sound/DEATH_SOUND.ogg")->CreateSound(sf::Vector2f(0,0));
 }
 
 void GameState::Exit() {
@@ -196,6 +219,8 @@ void GameState::Exit() {
 	m_timerGuards = 0.0f;
 	m_timerPlayer = 0.0f;
 	m_gameOverTimer = 0.0f;
+
+	Settings::ms_window->setView(Settings::ms_window->getDefaultView());
 
 	if(mp_level != nullptr) {
 		delete mp_level;
@@ -260,11 +285,45 @@ void GameState::Exit() {
 		ls = nullptr;
 	}
 
+	if(loadingScreenTexture != nullptr) {
+		delete loadingScreenTexture;
+		loadingScreenTexture = nullptr;
+	}
+	if(loadingScreenSprite != nullptr) {
+		delete loadingScreenSprite;
+		loadingScreenTexture = nullptr;
+	}
+
 	m_soundRippleManager.Cleanup();
 
 	m_spriteManager.Cleanup();
 
 	m_music.stop();
+
+	if(mp_keySound != nullptr) {
+		delete mp_keySound;
+		mp_keySound = nullptr;
+	}
+	if (mp_openDoor != nullptr) {
+		delete mp_openDoor;
+		mp_openDoor = nullptr;
+	}
+	if(mp_closeDoor != nullptr) {
+		delete mp_closeDoor;
+		mp_closeDoor = nullptr;
+	}
+	if(mp_unlock != nullptr) {
+		delete mp_unlock;
+		mp_unlock = nullptr;
+	}
+	if(mp_death != nullptr) {
+		delete mp_death;
+		mp_death = nullptr;
+	}
+	if (mp_jokeDeath != nullptr) {
+		delete mp_jokeDeath;
+		mp_jokeDeath = nullptr;
+	}
 }
 
 bool GameState::Update() {
@@ -278,18 +337,20 @@ bool GameState::Update() {
 	}
 
 	//Updates the player
-	mp_player->Update(cl, fm);
+	mp_player->Update(cl, fm, mp_fov);
+	//Update the listener
+	Settings::ms_soundManager.Update(mp_player->GetPosition());
 	if(mp_player->IsRunning() && m_timerPlayer > 0.5f) {
 		m_timerPlayer = 0.0f;
 		sf::Sound* footstep = nullptr;
 		if(mp_player->IsRightFoot()) {
 			if(!SoundEntity::IsMuted()) {
-				footstep = Settings::ms_soundManager.GetSound("../data/sound/RUN_1.wav")->CreateSound(mp_player->GetPosition());
+				footstep = Settings::ms_soundManager.GetSound("../data/sound/RUN_1.ogg")->CreateSound(mp_player->GetPosition());
 			}
 		}
 		else {
 			if(!SoundEntity::IsMuted()) {
-				footstep = Settings::ms_soundManager.GetSound("../data/sound/RUN_2.wav")->CreateSound(mp_player->GetPosition());
+				footstep = Settings::ms_soundManager.GetSound("../data/sound/RUN_2.ogg")->CreateSound(mp_player->GetPosition());
 			}
 		}
 		m_soundRippleManager.CreateSoundRipple(mp_player->GetPosition(), 4, true, m_spriteManager.Load("Ripple.txt"), footstep);
@@ -308,13 +369,22 @@ bool GameState::Update() {
 		//checks to see if a foot step is to be created. Move or change so it is in sync with the walk animation
 		if(m_guards.at(i)->IsWalking() && m_timerGuards > 0.5f) {
 			AnimatedSprite* footPrint = m_spriteManager.Load("GuardFootStep.txt");
+			sf::Sound* sound = nullptr;
 			if(m_guards.at(i)->GetFoot() == 0) {
 				footPrint->ChangeAnimation("Footstep_left.png");
+				if(!SoundEntity::IsMuted())
+				{
+					sound = Settings::ms_soundManager.GetSound("../data/sound/STEP_1.ogg")->CreateSound((m_guards.at(i)->GetPosition()));
+				}
 			}
 			else {
 				footPrint->ChangeAnimation("Footstep_right.png");
+				if(!SoundEntity::IsMuted())
+                {
+                    sound = Settings::ms_soundManager.GetSound("../data/sound/STEP_2.ogg")->CreateSound((m_guards.at(i)->GetPosition()));
+                }
 			}
-			mp_guardFootSteps->AddRipple(m_guards.at(i)->GetPosition(), m_guards.at(i)->GetSprite()->getSprite()->getRotation(), footPrint);
+			mp_guardFootSteps->AddRipple(m_guards.at(i)->GetPosition(), m_guards.at(i)->GetSprite()->getSprite()->getRotation(), footPrint, sound);
 		}
 
 		//updates the guards flashlight position and direction
@@ -339,12 +409,51 @@ bool GameState::Update() {
 					sf::Color color = mp_gui->GetItem(i)->getColor();
 					if(dm->OpenDoor(door, color)) {
 						mp_gui->RemoveItem(i);
+						if(!SoundEntity::IsMuted())
+                        {
+                            mp_unlock->play();
+                            mp_unlock->setPosition(door->getPosition().x, 0, door->getPosition().y);
+                        }
 						break;
 					}
 				}
 			}
+			else
+            {
+                if(dm->GetDoor(door)->IsOpen())
+                {
+                    if(!SoundEntity::IsMuted())
+                    {
+                        mp_closeDoor->play();
+                        mp_closeDoor->setPosition(door->getPosition().x, 0, door->getPosition().y);
+                    }
+                }
+                else
+                {
+                    if(!SoundEntity::IsMuted())
+                    {
+                        mp_openDoor->play();
+                        mp_openDoor->setPosition(door->getPosition().x, 0, door->getPosition().y);
+                    }
+                }
+            }
 		}
 	}
+
+	//check if key is close neough to pick up
+    sf::CircleShape* circle_key = cl->Circle_KeyPickup(*mp_player->GetSprite());
+    if(circle_key != nullptr) {
+        Key* key = km->PickUpKey(circle_key);
+        sf::Color color = key->GetPickUpRadius()->getFillColor();
+        color.a = 255;
+        key->setColor(color);
+        mp_gui->AddItem(key);
+        if (!SoundEntity::IsMuted())
+        {
+            mp_keySound->play();
+            mp_keySound->setPosition(key->getPosition().x, 0, key->getPosition().y);
+        }
+    }
 
 	//updates the footsteps and the soundripples
 	mp_guardFootSteps->Update();
@@ -356,15 +465,35 @@ bool GameState::Update() {
 
 	//checks if the player has won or lost.
 	if(Settings::ms_gameOver && m_gameOverTimer > 3.2f) {
-		m_nextState = "StartMenuState";
+		m_nextState = "GameOverState";
 		Settings::ms_gameOver = false;
 		return false;
 	}
 	else if(mp_player->GetPosition().x > Settings::ms_exit.x && mp_player->GetPosition().x < Settings::ms_exit.x + 200 && mp_player->GetPosition().y > Settings::ms_exit.y && mp_player->GetPosition().y < Settings::ms_exit.y + 200) {
-		m_nextState = "StartMenuState";
-		return false;
+		m_levelToLoad++;
+		m_levelToLoad = m_levelToLoad % 5;
+		if(m_levelToLoad == 0) {
+			m_nextState = "VictoryState";
+			return false;
+		}
+		else {
+			Exit();
+			Enter();
+		}
 	}
 	else if(Settings::ms_gameOver) {
+		if(m_gameOverTimer > 1.5f)
+        {
+            int random = rand()%10;
+            if(random == 0)
+            {
+                mp_jokeDeath->play();
+            }
+            else
+            {
+                mp_death->play();
+            }
+        }
 		m_gameOverTimer += Settings::ms_deltatime;
 	}
 
@@ -426,6 +555,8 @@ void GameState::Draw() {
 	ls->RenderLights();
 	ls->RenderLightTexture();
 
+	mp_fov->Draw();
+
 	m_soundRippleManager.Draw();
 	mp_guardFootSteps->Draw();
 
@@ -462,18 +593,6 @@ bool GameState::UpdateEvents() {
 
 		else if(event.type == sf::Event::KeyPressed) {
 			Settings::ms_inputManager.m_keyboard_current[event.key.code] = true;
-			
-			if(event.key.code == sf::Keyboard::Space) {
-				Settings::ms_inputManager.m_keyboard_current[sf::Keyboard::Space] = true;
-				sf::CircleShape* circle_key = cl->Circle_KeyPickup(*mp_player->GetSprite());
-				if(circle_key != nullptr) {
-					Key* key = km->PickUpKey(circle_key);
-					sf::Color color = key->GetPickUpRadius()->getFillColor();
-					color.a = 255;
-					key->setColor(color);
-					mp_gui->AddItem(key);
-				}
-			}
 		}
 
 		else if(event.type == sf::Event::KeyReleased) {
@@ -482,7 +601,7 @@ bool GameState::UpdateEvents() {
 	}
 
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-		Settings::ms_window->close();
+		m_nextState = "StartMenuState";
 		quit = true;
 	}
 

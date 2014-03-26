@@ -19,6 +19,7 @@ class FurnitureManager;
 class KeyManager;
 class DoorManager;
 class GUI;
+class FoV;
 class GuardFootSteps;
 class Level;
 
@@ -64,6 +65,12 @@ private:
 	SoundRippleManager m_soundRippleManager;
 
 	sf::Music m_music;
+	sf::Sound* mp_openDoor;
+	sf::Sound* mp_closeDoor;
+	sf::Sound* mp_keySound;
+	sf::Sound* mp_unlock;
+	sf::Sound* mp_death;
+	sf::Sound* mp_jokeDeath;
 
 	float m_timerGuards;
 	float m_timerPlayer;
@@ -77,14 +84,18 @@ private:
 	LightManager* lm;
 	HullManager* hl;
 	WallManager* wl;
-    DoorManager* dm;
-    KeyManager* km;
-    FurnitureManager* fm;
+	DoorManager* dm;
+	KeyManager* km;
+	FurnitureManager* fm;
 	CollisionManager* cl;
 	ltbl::LightSystem* ls;
-	
+
 	Grid2D* mp_grid;
 	PathFinding* mp_finding;
 
 	GUI* mp_gui;
+	FoV* mp_fov;
+
+	sf::Texture* loadingScreenTexture;
+	sf::Sprite* loadingScreenSprite;
 };

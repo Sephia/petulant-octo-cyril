@@ -28,4 +28,5 @@ private:
 
 private:
 	sf::Vector2f m_nextPosition;
+	sf::Sound* mp_alerted;
 };

@@ -103,7 +103,7 @@ bool GuardChaseState::Detected(sf::Vector2f playerPosition, CollisionManager* p_
 	float directionLooking = -(*mp_rotation) + 90;
 	int diffAngle = static_cast<int>(angleToPlayer - directionLooking + 360) % 360;
 
-	if(diffAngle < 300 && diffAngle > 60) {
+	if(diffAngle < 330 && diffAngle > 30) {
 		return false;
 	}
 
@@ -117,14 +117,19 @@ bool GuardChaseState::Detected(sf::Vector2f playerPosition, CollisionManager* p_
 			return false;
 		}
 
-		for(int i = 0; i < p_furnitureManager->GetCount(); i++) {
-			sf::Sprite tempSprite = *mp_sprite->getSprite();
-			tempSprite.setScale(0.1, 0.1);
-			tempSprite.setPosition(playerPosition - vectorBetween);
+		sf::Sprite tempSprite = *mp_sprite->getSprite();
+		tempSprite.setScale(0.1, 0.1);
+		tempSprite.setPosition(playerPosition - vectorBetween);
+
+		if(p_collisionManager->Circle_DoorCollision(tempSprite) != nullptr) {
+			return false;
+		}
+		for(int i = 0; i < p_furnitureManager->GetCount(); i++) {	
 			if(p_collisionManager->Circle_FurnitureCollision(tempSprite, *p_furnitureManager->GetFurniture(i))) {
 				return false;
 			}
 		}
+
 
 		vectorBetween.x -= direction.x * 10;
 		vectorBetween.y -= direction.y * 10;

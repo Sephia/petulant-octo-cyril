@@ -19,10 +19,21 @@ GuardInvestigateState::~GuardInvestigateState() {
 
 void GuardInvestigateState::Enter() {
 	m_done = false;
+	Settings::ms_soundManager.newSound("../data/sound/ALERTED_GUARD.ogg", false, 800, 1.0f);
+
+	mp_alerted = Settings::ms_soundManager.GetSound("../data/sound/ALERTED_GUARD.ogg")->CreateSound(*mp_position);
+	if(!SoundEntity::IsMuted())
+	{
+		mp_alerted->play();
+	}
 }
 
 void GuardInvestigateState::Exit() {
-
+	if(mp_alerted != nullptr)
+	{
+		delete mp_alerted;
+		mp_alerted = nullptr;
+	}
 }
 
 void GuardInvestigateState::Init(int number, sf::Vector2f* p_position, float* p_rotation, AnimatedSprite* sprite, Grid2D* p_grid) {
@@ -149,7 +160,7 @@ bool GuardInvestigateState::Detected(sf::Vector2f playerPosition, CollisionManag
 	float directionLooking = -(*mp_rotation) + 90;
 	int diffAngle = static_cast<int>(angleToPlayer - directionLooking + 360) % 360;
 
-	if(diffAngle < 300 && diffAngle > 60) {
+	if(diffAngle < 330 && diffAngle > 30) {
 		return false;
 	}
 	sf::Vector2f direction;
@@ -161,11 +172,14 @@ bool GuardInvestigateState::Detected(sf::Vector2f playerPosition, CollisionManag
 		if(p_collisionManager->Circle_WallCollision(playerPosition - vectorBetween, 15)) {
 			return false;
 		}
-		
-		for(int i = 0; i < p_furnitureManager->GetCount(); i++) {
-			sf::Sprite tempSprite = *mp_sprite->getSprite();
-			tempSprite.setScale(0.1, 0.1);
-			tempSprite.setPosition(playerPosition - vectorBetween);
+		sf::Sprite tempSprite = *mp_sprite->getSprite();
+		tempSprite.setScale(0.1, 0.1);
+		tempSprite.setPosition(playerPosition - vectorBetween);
+
+		if(p_collisionManager->Circle_DoorCollision(tempSprite) != nullptr) {
+			return false;
+		}
+		for(int i = 0; i < p_furnitureManager->GetCount(); i++) {	
 			if(p_collisionManager->Circle_FurnitureCollision(tempSprite, *p_furnitureManager->GetFurniture(i))) {
 				return false;
 			}
@@ -174,14 +188,7 @@ bool GuardInvestigateState::Detected(sf::Vector2f playerPosition, CollisionManag
 		vectorBetween.x -= direction.x * 10;
 		vectorBetween.y -= direction.y * 10;
 
-		float sqr = sqrtf(vectorBetween.x * vectorBetween.x + vectorBetween.y * vectorBetween.y);
-
-		if(sqr > 0) {
-			distance = sqrtf(vectorBetween.x * vectorBetween.x + vectorBetween.y * vectorBetween.y);
-		}
-		else {
-			return false;
-		}
+		distance = sqrtf(vectorBetween.x * vectorBetween.x + vectorBetween.y * vectorBetween.y);
 	}
 
 	return true;

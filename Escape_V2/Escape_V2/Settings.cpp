@@ -19,14 +19,6 @@ clock_t Settings::ms_oldTime = clock();
 InputManager Settings::ms_inputManager;
 SoundManager Settings::ms_soundManager;
 
-Settings::Settings() {
-
-}
-
-Settings::~Settings() {
-
-}
-
 void Settings::Load(const std::string& c_path) {
 	{
 		std::string path = "../data/" + c_path;

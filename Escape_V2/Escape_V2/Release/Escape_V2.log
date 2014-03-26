@@ -2,7 +2,8 @@
   GameState.cpp
 c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\SearchCell.h(21): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
 c:\users\rullis\documents\github\petulant-octo-cyril\escape_v2\escape_v2\SearchCell.h(22): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
-GameState.cpp(322): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+GameState.cpp(127): warning C4244: 'argument' : conversion from 'float' to 'unsigned int', possible loss of data
+GameState.cpp(392): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
   Generating code
   Finished generating code
   Escape_V2.vcxproj -> C:\Users\Rullis\Documents\GitHub\petulant-octo-cyril\Escape_V2\Release\Escape_V2.exe

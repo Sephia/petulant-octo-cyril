@@ -12,8 +12,8 @@ GuardFootSteps::~GuardFootSteps() {
 
 }
 
-void GuardFootSteps::AddRipple(sf::Vector2f position, float rotation, AnimatedSprite* sprite) {
-	m_ripples.push_back(new FootStepRipples(position, rotation, sprite));
+void GuardFootSteps::AddRipple(sf::Vector2f position, float rotation, AnimatedSprite* sprite, sf::Sound* sound) {
+	m_ripples.push_back(new FootStepRipples(position, rotation, sprite, sound));
 }
 
 void GuardFootSteps::Cleanup() {

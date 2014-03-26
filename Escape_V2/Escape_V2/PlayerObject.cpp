@@ -7,6 +7,7 @@
 #include "CollisionManager.h"
 #include "FurnitureManager.h"
 #include "Furniture.h"
+#include "FoV.h"
 
 PlayerObject::PlayerObject(AnimatedSprite* sprite) {
 	mp_sprite = sprite;
@@ -32,7 +33,7 @@ sf::Vector2f PlayerObject::GetPosition() {
 	return m_position;
 }
 
-int PlayerObject::Update(CollisionManager* p_collisionManager, FurnitureManager* p_furnitureManager) {
+int PlayerObject::Update(CollisionManager* p_collisionManager, FurnitureManager* p_furnitureManager, FoV* p_fov) {
 
 	sf::Vector2f vec(0.0f, 0.0f);
 
@@ -57,7 +58,7 @@ int PlayerObject::Update(CollisionManager* p_collisionManager, FurnitureManager*
 	}
 
 	SetDirection(vec);
-	int noice = Movement(p_collisionManager, p_furnitureManager);
+	int noice = Movement(p_collisionManager, p_furnitureManager, p_fov);
 	UpdateSprite();
 	return noice;
 }
@@ -75,7 +76,7 @@ void PlayerObject::SetDirection(sf::Vector2f direction) {
 	NormalizeDirection();
 }
 
-int PlayerObject::Movement(CollisionManager* p_collisionManager, FurnitureManager* p_furnitureManager) {
+int PlayerObject::Movement(CollisionManager* p_collisionManager, FurnitureManager* p_furnitureManager, FoV* p_fov) {
 	int collisionFurnitureX = -1;
 	int collisionFurnitureY = -1;
 	if(m_direction.x > 0.001 || m_direction.y > 0.001 || m_direction.x < -0.001 || m_direction.y < -0.001) {
@@ -87,7 +88,8 @@ int PlayerObject::Movement(CollisionManager* p_collisionManager, FurnitureManage
 			if(!p_collisionManager->Circle_WallCollision(temp_sprite)) {
 				for(int i = 0; i < p_furnitureManager->GetCount(); i++) {
 					if(p_collisionManager->Circle_FurnitureCollision(temp_sprite, *p_furnitureManager->GetFurniture(i))) {
-						collisionFurnitureX = 1;
+						//ToDo: Fix the noice from furnitures
+						collisionFurnitureX = p_furnitureManager->GetFurniture(i)->GetNoise();
 						break;
 					}
 				}
@@ -154,6 +156,10 @@ int PlayerObject::Movement(CollisionManager* p_collisionManager, FurnitureManage
 		}
 		mp_sprite->getSprite()->setRotation(atan2(m_direction.y, m_direction.x) * 180 / 3.141592f + 90);
 	}
+
+	//Updates the FoV
+	p_fov->Update(m_position);
+
 	if(collisionFurnitureX > collisionFurnitureY)
 		return collisionFurnitureX;
 	return collisionFurnitureY;

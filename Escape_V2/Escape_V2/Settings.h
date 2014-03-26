@@ -8,9 +8,6 @@
 
 class Settings {
 public:
-	Settings();
-	~Settings();
-
 	static void Load(const std::string& c_path);
 	static void UpdateDeltatime();
 	static void SetFullscreen();
