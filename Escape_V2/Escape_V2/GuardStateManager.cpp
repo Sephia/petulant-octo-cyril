@@ -30,12 +30,12 @@ void GuardStateManager::Attach(GuardState *p_state) {
 	m_states.push_back(p_state);
 }
 
-bool GuardStateManager::Update(sf::Vector2f player_position, CollisionManager* p_collisionManager) {
+bool GuardStateManager::Update(sf::Vector2f playerPosition, CollisionManager* p_collisionManager, FurnitureManager* p_furnitureManager) {
 	if(mp_currentState == nullptr) {
 		return true;
 	}
 
-	if(mp_currentState->Update(player_position, p_collisionManager)) {
+	if(mp_currentState->Update(playerPosition, p_collisionManager, p_furnitureManager)) {
 		ChangeState();
 		return false;
 	}
@@ -89,8 +89,8 @@ void GuardStateManager::AddWaypointToFront(sf::Vector2f waypoint) {
 	mp_currentState->AddWaypointToFront(waypoint);
 }
 
-bool GuardStateManager::Detected(sf::Vector2f player_position, CollisionManager* p_collisionManager) {
-	return mp_currentState->Detected(player_position, p_collisionManager);
+bool GuardStateManager::Detected(sf::Vector2f playerPosition, CollisionManager* p_collisionManager, FurnitureManager* p_furnitureManager) {
+	return mp_currentState->Detected(playerPosition, p_collisionManager, p_furnitureManager);
 }
 
 bool GuardStateManager::IsCurrent(std::string& type) {

@@ -18,6 +18,7 @@ public:
 	static void Shoot(sf::Vector2f from, sf::Vector2f to);
 	static void DrawShot();
 	static void ResetShot();
+	static bool IsShot();
 
 	static std::map<int, std::vector<sf::Vector2f>> m_allGuardWaypoints;
 	static std::vector<sf::Vector2f> ms_guards;

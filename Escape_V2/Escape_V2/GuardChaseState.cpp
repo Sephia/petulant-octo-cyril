@@ -3,6 +3,7 @@
 #include "GuardChaseState.h"
 #include "AnimatedSprite.h"
 #include "CollisionManager.h"
+#include "FurnitureManager.h"
 #include "PathFinding.h"
 #include "Grid2D.h"
 #include "stdafx.h"
@@ -49,11 +50,11 @@ void GuardChaseState::Init(int number, sf::Vector2f* p_position, float* p_rotati
 	mp_pathfinding->Init(mp_grid);
 }
 
-bool GuardChaseState::Update(sf::Vector2f player_position, CollisionManager* p_collisionManager) {
-	if(!Detected(player_position, p_collisionManager)) {
+bool GuardChaseState::Update(sf::Vector2f playerPosition, CollisionManager* p_collisionManager, FurnitureManager* p_furnitureManager) {
+	if(!Detected(playerPosition, p_collisionManager, p_furnitureManager)) {
 		if(m_justLostSight) {
 			m_waypoints.clear();
-			m_waypoints.push_back(player_position);
+			m_waypoints.push_back(playerPosition);
 			mp_pathfinding->m_foundGoal = false;
 			mp_pathfinding->m_initializedStartGoal = false;
 			m_justLostSight = false;
@@ -90,7 +91,7 @@ void GuardChaseState::AddWaypointToFront(sf::Vector2f waypoint) {
 	m_waypoints.push_back(waypoint);
 }
 
-bool GuardChaseState::Detected(sf::Vector2f playerPosition, CollisionManager* p_collisionManager) {
+bool GuardChaseState::Detected(sf::Vector2f playerPosition, CollisionManager* p_collisionManager, FurnitureManager* p_furnitureManager) {
 	sf::Vector2f vectorBetween(playerPosition - *mp_position);
 	float distance = sqrtf(vectorBetween.x * vectorBetween.x + vectorBetween.y * vectorBetween.y);
 
@@ -116,6 +117,15 @@ bool GuardChaseState::Detected(sf::Vector2f playerPosition, CollisionManager* p_
 			return false;
 		}
 
+		for(int i = 0; i < p_furnitureManager->GetCount(); i++) {
+			sf::Sprite tempSprite = *mp_sprite->getSprite();
+			tempSprite.setScale(0.1, 0.1);
+			tempSprite.setPosition(playerPosition - vectorBetween);
+			if(p_collisionManager->Circle_FurnitureCollision(tempSprite, *p_furnitureManager->GetFurniture(i))) {
+				return false;
+			}
+		}
+
 		vectorBetween.x -= direction.x * 10;
 		vectorBetween.y -= direction.y * 10;
 
@@ -129,14 +139,14 @@ bool GuardChaseState::Detected(sf::Vector2f playerPosition, CollisionManager* p_
 void GuardChaseState::Movement() {
 	if(!mp_pathfinding->m_foundGoal) {
 		while(!mp_pathfinding->m_foundGoal) {
-			if(!mp_pathfinding->FindPath(sf::Vector2f((*mp_position).x, (*mp_position).y), sf::Vector2f(m_waypoints.at(0).x, m_waypoints.at(0).y))) {
+			if(!mp_pathfinding->FindPath(*mp_position,m_waypoints.at(0))) {
 				break;
 			}
 		}
 	}
 
 	if(mp_pathfinding->m_foundGoal) {
-		m_waypoints.at(0) = mp_pathfinding->NextPathPos(sf::Vector2f((*mp_position).x, (*mp_position).y), 5.0f);
+		m_waypoints.at(0) = mp_pathfinding->NextPathPos(*mp_position, 10.0f);
 	}
 
 	if(m_waypoints.size() > 0) {
@@ -160,7 +170,7 @@ void GuardChaseState::Movement() {
 			mp_sprite->ChangeAnimation("Guard1Walking.png");
 			sf::Vector2f distance = *mp_position - m_waypoints.at(0);
 			float dist = sqrtf(distance.x * distance.x + distance.y * distance.y);
-			if(dist > 5.0f) {
+			if(dist > 1.0f) {
 				distance.x /= dist;
 				distance.y /= dist;
 
@@ -194,7 +204,7 @@ bool GuardChaseState::Rotate(int rotationWay) {
 	}
 
 	if(diffDegrees < 5 || diffDegrees > 355) {
-		*mp_rotation = static_cast<int>(*mp_rotation) % 360;
+		*mp_rotation = rotationToGetTo;
 		return true;
 	}
 	else if(diffDegrees >= 185) {

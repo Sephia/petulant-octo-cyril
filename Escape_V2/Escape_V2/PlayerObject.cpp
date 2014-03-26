@@ -38,20 +38,22 @@ int PlayerObject::Update(CollisionManager* p_collisionManager, FurnitureManager*
 
 	m_sneak = !Settings::ms_inputManager.IsDownKeyboard(sf::Keyboard::LShift);
 
-	if(Settings::ms_inputManager.IsDownKeyboard(sf::Keyboard::W)) {
-		vec.y -= 1;	
-	}
+	if(!Settings::IsShot()) {
+		if(Settings::ms_inputManager.IsDownKeyboard(sf::Keyboard::W)) {
+			vec.y -= 1;	
+		}
 
-	if(Settings::ms_inputManager.IsDownKeyboard(sf::Keyboard::S)) {
-		vec.y += 1;	
-	}
+		if(Settings::ms_inputManager.IsDownKeyboard(sf::Keyboard::S)) {
+			vec.y += 1;	
+		}
 
-	if(Settings::ms_inputManager.IsDownKeyboard(sf::Keyboard::A)) {
-		vec.x -= 1;
-	}
+		if(Settings::ms_inputManager.IsDownKeyboard(sf::Keyboard::A)) {
+			vec.x -= 1;
+		}
 
-	if(Settings::ms_inputManager.IsDownKeyboard(sf::Keyboard::D)) {
-		vec.x += 1;
+		if(Settings::ms_inputManager.IsDownKeyboard(sf::Keyboard::D)) {
+			vec.x += 1;
+		}
 	}
 
 	SetDirection(vec);
@@ -170,7 +172,10 @@ void PlayerObject::NormalizeDirection() {
 
 void PlayerObject::UpdateSprite() {
 
-	if(Settings::ms_inputManager.IsDownKeyboard(sf::Keyboard::LShift) && (Settings::ms_inputManager.IsDownKeyboard(sf::Keyboard::W) || Settings::ms_inputManager.IsDownKeyboard(sf::Keyboard::A) || Settings::ms_inputManager.IsDownKeyboard(sf::Keyboard::S) || Settings::ms_inputManager.IsDownKeyboard(sf::Keyboard::D))) {
+	if(Settings::IsShot()) {
+		mp_sprite->ChangeAnimation("PlayerDying.png");
+	}
+	else if(Settings::ms_inputManager.IsDownKeyboard(sf::Keyboard::LShift) && (Settings::ms_inputManager.IsDownKeyboard(sf::Keyboard::W) || Settings::ms_inputManager.IsDownKeyboard(sf::Keyboard::A) || Settings::ms_inputManager.IsDownKeyboard(sf::Keyboard::S) || Settings::ms_inputManager.IsDownKeyboard(sf::Keyboard::D))) {
 		mp_sprite->ChangeAnimation("PlayerRunning.png");
 	}
 	else if(Settings::ms_inputManager.IsDownKeyboard(sf::Keyboard::W) || Settings::ms_inputManager.IsDownKeyboard(sf::Keyboard::A) || Settings::ms_inputManager.IsDownKeyboard(sf::Keyboard::S) || Settings::ms_inputManager.IsDownKeyboard(sf::Keyboard::D)) {

@@ -231,3 +231,7 @@ void Settings::DrawShot() {
 void Settings::ResetShot() {
 	ms_shoot = false;
 }
+
+bool Settings::IsShot() {
+	return ms_shoot;
+}

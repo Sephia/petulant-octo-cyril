@@ -3,6 +3,8 @@
 #include "GuardShootingState.h"
 #include "AnimatedSprite.h"
 #include "CollisionManager.h"
+#include "FurnitureManager.h"
+#include "Furniture.h"
 #include "Settings.h"
 #include "PathFinding.h"
 #include "Grid2D.h"
@@ -46,15 +48,15 @@ void GuardShootingState::Init(int number, sf::Vector2f* p_position, float* p_rot
 	mp_pathfinding->Init(mp_grid);
 }
 
-bool GuardShootingState::Update(sf::Vector2f player_position, CollisionManager* p_collisionManager) {
-	if(!Detected(player_position, p_collisionManager)) {
+bool GuardShootingState::Update(sf::Vector2f playerPosition, CollisionManager* p_collisionManager, FurnitureManager* p_furnitureManager) {
+	if(!Detected(playerPosition, p_collisionManager, p_furnitureManager)) {
 		m_nextState = "GuardChaseState";
 		m_done = true;
 	}
 
 
 	if(m_timer > 2.5f) {
-		Shoot(p_collisionManager, player_position);
+		Shoot(p_collisionManager, playerPosition);
 	}
 	else if(m_timer > 1.0f) {
 		mp_sprite->ChangeAnimation("Guard1Shooting.png");
@@ -87,7 +89,7 @@ void GuardShootingState::AddWaypointToFront(sf::Vector2f waypoint) {
 
 }
 
-bool GuardShootingState::Detected(sf::Vector2f playerPosition, CollisionManager* p_collisionManager) {
+bool GuardShootingState::Detected(sf::Vector2f playerPosition, CollisionManager* p_collisionManager, FurnitureManager* p_furnitureManager) {
 	sf::Vector2f vectorBetween(playerPosition - *mp_position);
 	float distance = sqrtf(vectorBetween.x * vectorBetween.x + vectorBetween.y * vectorBetween.y);
 
@@ -105,6 +107,14 @@ bool GuardShootingState::Detected(sf::Vector2f playerPosition, CollisionManager*
 	while(distance > 8) {
 		if(p_collisionManager->Circle_WallCollision(playerPosition - vectorBetween, 10)) {
 			return false;
+		}
+		for(int i = 0; i < p_furnitureManager->GetCount(); i++) {
+			sf::Sprite tempSprite = *mp_sprite->getSprite();
+			tempSprite.setScale(0.1, 0.1);
+			tempSprite.setPosition(playerPosition - vectorBetween);
+			if(p_collisionManager->Circle_FurnitureCollision(tempSprite, *p_furnitureManager->GetFurniture(i))) {
+				return false;
+			}
 		}
 
 		vectorBetween.x -= direction.x * 10;

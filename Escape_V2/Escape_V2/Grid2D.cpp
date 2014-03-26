@@ -3,6 +3,7 @@
 #include "Level.h"
 #include "CollisionManager.h"
 #include "Settings.h"
+#include "FurnitureManager.h"
 
 Grid2D::Grid2D() {
 	squareSize = 30;
@@ -12,7 +13,7 @@ Grid2D::Grid2D() {
 Grid2D::~Grid2D() {
 }
 
-void Grid2D::Init(Level* p_level, CollisionManager* cm) {
+void Grid2D::Init(sf::Sprite* p_sprite, Level* p_level, CollisionManager* cm, FurnitureManager* p_fm) {
 
 	width = static_cast<int>(p_level->GetSpriteSize().x) / squareSize;
 	height = static_cast<int>(p_level->GetSpriteSize().y) / squareSize;
@@ -22,10 +23,19 @@ void Grid2D::Init(Level* p_level, CollisionManager* cm) {
 	for(unsigned int i = 0; i < m_grid.size(); i++) {
 		m_grid.at(i).resize(width);
 		for(unsigned int j = 0; j < m_grid.at(i).size(); j++) {
-			bool walkable = cm->Circle_WallCollision(sf::Vector2f(j * squareSize + squareSize / 2.0f, i * squareSize + squareSize / 2.0f), squareSize / 2.0f);
-			if(walkable) {
+			bool walkable = false;
+			if(!cm->Circle_WallCollision(sf::Vector2f(j * squareSize, i * squareSize), squareSize / 2.0f)) {
+				sf::Sprite tempSprite = *p_sprite;
+				tempSprite.setScale(0.15f, 0.15f);
+				tempSprite.setPosition(sf::Vector2f(j * squareSize, i * squareSize));
+				for(int f = 0; f < p_fm->GetCount(); f++) {
+					if(cm->Circle_FurnitureCollision(tempSprite, *p_fm->GetFurniture(f))) {
+						break;
+					}
+					walkable = true;
+				}
 			}
-			m_grid.at(i).at(j) = !walkable;
+			m_grid.at(i).at(j) = walkable;
 		}
 	}	
 }

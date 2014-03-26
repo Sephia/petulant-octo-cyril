@@ -44,8 +44,14 @@ GameState::~GameState() {
 }
 
 void GameState::Enter() {
-	m_nextState = "";
+	sf::Texture* loadingScreenTexture = new sf::Texture;
+	loadingScreenTexture->loadFromFile("../Data/Sprites/LoadingScreen.png");
+	sf::Sprite* loadingScreenSprite = new sf::Sprite(*loadingScreenTexture);
 
+	Settings::ms_window->draw(*loadingScreenSprite);
+	Settings::ms_window->display();
+
+	m_nextState = "";
 	
 	if(m_levelToLoad == 0) {
 		m_pathToLevel = "Tutorial/";
@@ -98,9 +104,18 @@ void GameState::Enter() {
 	if(!wl->LoadFromFile("../data/" + m_pathToLevel + "Walls.txt")) {
 		abort();
 	}
+	if(!fm->LoadFromFile("../data/" + m_pathToLevel + "Furniture.txt",ls)) {
+		abort();
+	}
+	if(!km->LoadFromFile("../data/" + m_pathToLevel + "Keys.txt")) {
+		abort();
+	}
+	if(!dm->LoadFromFile("../data/" + m_pathToLevel + "Doors.txt")) {
+		abort();
+	}
 
 	mp_grid = new Grid2D();
-	mp_grid->Init(mp_level, cl);
+	mp_grid->Init(mp_player->GetSprite(), mp_level, cl, fm);
 
 	for(unsigned int i = 0; i < Settings::ms_guards.size(); i++) {
 		m_guards.push_back(new Guard(i, m_spriteManager.Load("Guard1.txt"), mp_grid));
@@ -143,7 +158,6 @@ void GameState::Enter() {
 		guardLight->SetAlwaysUpdate(true);
 	}
 
-
 	ltbl::Light_Point* testLight2 = new ltbl::Light_Point();
 	testLight2->m_center = Vec2f(Settings::ms_enter.x, -4150);
 	testLight2->m_radius = 1000.0f;
@@ -159,17 +173,7 @@ void GameState::Enter() {
 	lm->AddLight(testLight2, lm);
 
 	testLight2->SetAlwaysUpdate(false);
-
-	if(!fm->LoadFromFile("../data/" + m_pathToLevel + "Furniture.txt",ls)) {
-		abort();
-	}
-	if(!km->LoadFromFile("../data/" + m_pathToLevel + "Keys.txt")) {
-		abort();
-	}
-	if(!dm->LoadFromFile("../data/" + m_pathToLevel + "Doors.txt")) {
-		abort();
-	}
-
+	
 	if (!m_music.openFromFile("../data/music/I Knew a Guy - Stealth.wav")) {
 		std::cout << "Failed loading music for GameState!\n";
 	}
@@ -296,7 +300,7 @@ bool GameState::Update() {
 		}
 
 		//updates the guard
-		m_guards.at(i)->Update(mp_player->GetPosition(), cl);
+		m_guards.at(i)->Update(mp_player->GetPosition(), cl, fm);
 
 		//checks to see if a foot step is to be created. Move or change so it is in sync with the walk animation
 		if(m_guards.at(i)->IsWalking() && m_timerGuards > 0.5f) {
@@ -349,7 +353,7 @@ bool GameState::Update() {
 
 	//checks if the player has won or lost.
 	//ToDo: Fix so it does the right thing. Separate win and loss.
-	if(Settings::ms_gameOver && m_gameOverTimer > 1.0f) {
+	if(Settings::ms_gameOver && m_gameOverTimer > 3.2f) {
 		m_nextState = "StartMenuState";
 		Settings::ms_gameOver = false;
 		return false;

@@ -20,10 +20,10 @@ void PathFinding::Init(Grid2D* grid) {
 }
 
 bool PathFinding::FindPath(sf::Vector2f currentPos, sf::Vector2f targetPos) {
-	currentPos.x = currentPos.x / m_grid->GetSquareSize() + 0.5f;
-	currentPos.y = currentPos.y / m_grid->GetSquareSize() + 0.5f;
-	targetPos.x = targetPos.x / m_grid->GetSquareSize() + 0.5f;
-	targetPos.y = targetPos.y / m_grid->GetSquareSize() + 0.5f;
+	currentPos.x = currentPos.x / m_grid->GetSquareSize();
+	currentPos.y = currentPos.y / m_grid->GetSquareSize();
+	targetPos.x = targetPos.x / m_grid->GetSquareSize();
+	targetPos.y = targetPos.y / m_grid->GetSquareSize();
 
 	if(!m_initializedStartGoal) {
 		for(unsigned int i = 0; i < m_openList.size(); i++) {
@@ -187,13 +187,9 @@ void PathFinding::ContinuePath() {
 sf::Vector2f PathFinding::NextPathPos(sf::Vector2f pos, float radius) {
 	sf::Vector2f nextPos = pos;
 	if(m_pathToGoal.size() > 0) {
-		pos.x = pos.x - m_grid->GetSquareSize() / 2;
-		pos.y = pos.y - m_grid->GetSquareSize() / 2;
-
 		pos.x /= m_grid->GetSquareSize();
 		pos.y /= m_grid->GetSquareSize();
 		radius /= m_grid->GetSquareSize();
-
 
 		unsigned int index = 1;
 
@@ -208,9 +204,8 @@ sf::Vector2f PathFinding::NextPathPos(sf::Vector2f pos, float radius) {
 			}
 		}
 
-		nextPos.x = nextPos.x * m_grid->GetSquareSize() + m_grid->GetSquareSize() / 2;
-		nextPos.y = nextPos.y * m_grid->GetSquareSize() + m_grid->GetSquareSize() / 2;
-
+		nextPos.x = nextPos.x * m_grid->GetSquareSize();
+		nextPos.y = nextPos.y * m_grid->GetSquareSize();
 	}
 	return nextPos;
 }

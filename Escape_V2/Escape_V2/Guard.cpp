@@ -44,10 +44,10 @@ Guard::~Guard() {
 	}
 }
 
-void Guard::Update(sf::Vector2f playerPosition, CollisionManager* p_collisionManager) {
+void Guard::Update(sf::Vector2f playerPosition, CollisionManager* p_collisionManager, FurnitureManager* p_furnitureManager) {
 	m_prevPosition = m_position;
 
-	mp_guardStateManager->Update(playerPosition, p_collisionManager);
+	mp_guardStateManager->Update(playerPosition, p_collisionManager, p_furnitureManager);
 
 	UpdateAnimation(playerPosition);
 }

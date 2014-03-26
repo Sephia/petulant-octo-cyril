@@ -4,6 +4,7 @@
 
 class Level;
 class CollisionManager;
+class FurnitureManager;
 
 class Grid2D
 {
@@ -11,7 +12,7 @@ public:
 	Grid2D(void);
 	~Grid2D(void);
 
-	void Init(Level* p_level, CollisionManager* p_cm);
+	void Init(sf::Sprite* p_sprite, Level* p_level, CollisionManager* p_cm, FurnitureManager* p_fm);
 	bool Walkable(int x, int y);
 	bool SetWalkable(int x, int y, bool walkable);
 	void Draw();

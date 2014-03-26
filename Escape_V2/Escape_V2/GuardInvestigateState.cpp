@@ -4,6 +4,7 @@
 #include "AnimatedSprite.h"
 #include "Settings.h"
 #include "CollisionManager.h"
+#include "FurnitureManager.h"
 #include "PathFinding.h"
 #include "Grid2D.h"
 #include "stdafx.h"
@@ -52,8 +53,8 @@ void GuardInvestigateState::Init(int number, sf::Vector2f* p_position, float* p_
 	mp_pathfinding->Init(mp_grid);
 }
 
-bool GuardInvestigateState::Update(sf::Vector2f player_position, CollisionManager* p_collisionManager) {
-	if(!Detected(player_position, p_collisionManager)) {
+bool GuardInvestigateState::Update(sf::Vector2f playerPosition, CollisionManager* p_collisionManager, FurnitureManager* p_furnitureManager) {
+	if(!Detected(playerPosition, p_collisionManager, p_furnitureManager)) {
 		Movement();
 	}
 	else {
@@ -91,13 +92,13 @@ void GuardInvestigateState::AddWaypointToFront(sf::Vector2f waypoint) {
 void GuardInvestigateState::Movement() {
 	if(!mp_pathfinding->m_foundGoal) {
 		while(!mp_pathfinding->m_foundGoal) {
-			if(!mp_pathfinding->FindPath(sf::Vector2f((*mp_position).x, (*mp_position).y), sf::Vector2f(m_waypoints.at(0).x, m_waypoints.at(0).y))) {
+			if(!mp_pathfinding->FindPath(*mp_position, m_waypoints.at(0))) {
 				break;
 			}
 		}
 	}
 	if(mp_pathfinding->m_foundGoal) {
-		m_nextPosition = mp_pathfinding->NextPathPos(sf::Vector2f((*mp_position).x, (*mp_position).y), 5.0f);
+		m_nextPosition = mp_pathfinding->NextPathPos(*mp_position, 5.0f);
 	}
 
 	if(m_waypoints.size() > 0) {
@@ -136,7 +137,7 @@ void GuardInvestigateState::Movement() {
 	}
 }
 
-bool GuardInvestigateState::Detected(sf::Vector2f playerPosition, CollisionManager* p_collisionManager) {
+bool GuardInvestigateState::Detected(sf::Vector2f playerPosition, CollisionManager* p_collisionManager, FurnitureManager* p_furnitureManager) {
 	sf::Vector2f vectorBetween(playerPosition - *mp_position);
 	float distance = sqrtf(vectorBetween.x * vectorBetween.x + vectorBetween.y * vectorBetween.y);
 
@@ -160,16 +161,18 @@ bool GuardInvestigateState::Detected(sf::Vector2f playerPosition, CollisionManag
 		if(p_collisionManager->Circle_WallCollision(playerPosition - vectorBetween, 15)) {
 			return false;
 		}
+		
+		for(int i = 0; i < p_furnitureManager->GetCount(); i++) {
+			sf::Sprite tempSprite = *mp_sprite->getSprite();
+			tempSprite.setScale(0.1, 0.1);
+			tempSprite.setPosition(playerPosition - vectorBetween);
+			if(p_collisionManager->Circle_FurnitureCollision(tempSprite, *p_furnitureManager->GetFurniture(i))) {
+				return false;
+			}
+		}
 
 		vectorBetween.x -= direction.x * 10;
 		vectorBetween.y -= direction.y * 10;
-
-		/*sf::CircleShape circ(15);
-		circ.setPosition(playerPosition - vectorBetween);
-		circ.setFillColor(sf::Color(100, 100, 100));
-		circ.setOrigin(15.0f, 15.0f);
-		Settings::ms_window->draw(circ);
-		Settings::ms_window->display();*/
 
 		float sqr = sqrtf(vectorBetween.x * vectorBetween.x + vectorBetween.y * vectorBetween.y);
 
@@ -187,7 +190,7 @@ bool GuardInvestigateState::Detected(sf::Vector2f playerPosition, CollisionManag
 bool GuardInvestigateState::Rotate(int rotationWay) {
 	float rotationToGetTo;
 	int diffDegrees;
-	float rotationSpeed = 5.0f;
+	float rotationSpeed = 4.0f;
 
 	if(rotationWay < 0) {
 		diffDegrees = 10;
@@ -199,7 +202,6 @@ bool GuardInvestigateState::Rotate(int rotationWay) {
 		rotationToGetTo = ( static_cast<int>(atan2(mp_position->y - m_nextPosition.y, mp_position->x - m_nextPosition.x) * 180 / static_cast<float>(M_PI) - 90) + 360 ) % 360;
 		diffDegrees = ( static_cast<int>(*mp_rotation - rotationToGetTo) + 720 ) % 360;
 	}
-
 
 	if(diffDegrees < 5 || diffDegrees > 355) {
 		*mp_rotation = rotationToGetTo;

@@ -7,6 +7,7 @@
 class AnimatedSprite;
 class GuardStateManager;
 class CollisionManager;
+class FurnitureManager;
 class Grid2D;
 
 class Guard {
@@ -15,7 +16,7 @@ public:
 	~Guard();
 	
 	void UpdateAnimation(sf::Vector2f playerPosition);
-	void Update(sf::Vector2f playerPosition, CollisionManager* p_collisionManager);
+	void Update(sf::Vector2f playerPosition, CollisionManager* p_collisionManager, FurnitureManager* p_furnitureManager);
 	void Draw();
 	sf::Vector2f GetPosition();
 	void AddWaypointToFront(sf::Vector2f waypoint);
