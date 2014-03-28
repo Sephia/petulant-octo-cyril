@@ -461,7 +461,15 @@ void StartMenuState::Draw() {
 		Settings::ms_window->draw(*mp_creditsRoll);
 	}
 
+	if(Settings::ms_inputManager.IsDownOnceKeyboard(sf::Keyboard::F11)) {
+		Settings::SetFullscreen();
+	}
+	else if(Settings::ms_inputManager.IsDownOnceKeyboard(sf::Keyboard::F12)) {
+		Settings::SetWindowed();
+	}
+
 	Settings::ms_window->display();
+	Settings::ms_window->clear();
 }
 
 std::string StartMenuState::Next() {
@@ -477,11 +485,20 @@ void StartMenuState::Reset() {
 }
 
 void StartMenuState::UpdateEvents() {
+	Settings::ms_inputManager.PostUpdate();
+
 	sf::Event event;
 	while (Settings::ms_window->pollEvent(event)) {
 		if (event.type == sf::Event::Closed) {
 			Settings::ms_window->close();
 			m_done = true;
+		}
+		else if(event.type == sf::Event::KeyPressed) {
+			Settings::ms_inputManager.m_keyboard_current[event.key.code] = true;
+		}
+
+		else if(event.type == sf::Event::KeyReleased) {
+			Settings::ms_inputManager.m_keyboard_current[event.key.code] = false;
 		}
 	}
 
@@ -781,6 +798,4 @@ void StartMenuState::UpdateEvents() {
 
 
 	}
-	
-	
 }

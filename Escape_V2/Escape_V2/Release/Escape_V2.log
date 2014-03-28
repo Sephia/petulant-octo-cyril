@@ -1,15 +1,80 @@
-﻿Project file contains ToolsVersion="12.0". This toolset may be unknown or missing, in which case you may be able to resolve this by installing the appropriate version of MSBuild, or the build may have been forced to a particular ToolsVersion for policy reasons. Treating the project as if it had ToolsVersion="4.0". For more information, please see http://go.microsoft.com/fwlink/?LinkId=291333.
-  SoundManager.cpp
-SoundManager.cpp(45): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
-SoundManager.cpp(115): warning C4244: '=' : conversion from 'float' to 'unsigned int', possible loss of data
-SoundManager.cpp(119): warning C4244: 'return' : conversion from 'unsigned int' to 'float', possible loss of data
-SoundManager.cpp(251): warning C4244: 'return' : conversion from 'unsigned int' to 'float', possible loss of data
-SoundManager.cpp(256): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
-SoundManager.cpp(259): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
-  SoundRippleManager.cpp
-  StartMenuState.cpp
-StartMenuState.cpp(744): warning C4244: 'argument' : conversion from 'const float' to 'unsigned int', possible loss of data
-StartMenuState.cpp(762): warning C4244: 'argument' : conversion from 'const float' to 'unsigned int', possible loss of data
-  Generating code
-  Finished generating code
-  Escape_V2.vcxproj -> C:\Users\Rullis\Documents\GitHub\petulant-octo-cyril\Escape_V2\Release\Escape_V2.exe
+﻿Build started 2014-03-28 05:36:14.
+     1>Project "D:\petulant-octo-cyril\Escape_V2\Escape_V2\Escape_V2.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"..\Deps\let-there-be-light" /I"..\Deps\SFML-2.1\include\\" /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt GameState.cpp
+         GameState.cpp
+     1>d:\petulant-octo-cyril\escape_v2\escape_v2\SearchCell.h(21): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>d:\petulant-octo-cyril\escape_v2\escape_v2\SearchCell.h(22): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>GameState.cpp(140): warning C4244: 'argument' : conversion from 'float' to 'unsigned int', possible loss of data
+     1>GameState.cpp(410): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\petulant-octo-cyril\Escape_V2\Release\WithIntent.exe" /NOLOGO /LIBPATH:"..\Deps\SFML-2.1\lib" /LIBPATH:"...\Deps\let-there-be-light" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\petulant-octo-cyril\Escape_V2\Release\WithIntent.pdb" /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\petulant-octo-cyril\Escape_V2\Release\WithIntent.lib" /MACHINE:X86 /SAFESEH Release\Escape_V2.res
+         Release\AABB.obj
+         Release\Color3f.obj
+         Release\Point2i.obj
+         Release\Vec2f.obj
+         Release\ConvexHull.obj
+         Release\EmissiveLight.obj
+         Release\Light.obj
+         Release\LightSystem.obj
+         Release\Light_Point.obj
+         Release\ShadowFin.obj
+         Release\QuadTree.obj
+         Release\QuadTreeNode.obj
+         Release\QuadTreeOccupant.obj
+         Release\StaticQuadTree.obj
+         Release\Utils.obj
+         Release\AnimatedSprite.obj
+         Release\Background.obj
+         Release\CollisionManager.obj
+         Release\CreditState.obj
+         Release\Door.obj
+         Release\DoorManager.obj
+         Release\Engine.obj
+         Release\FootStepRipples.obj
+         Release\FoV.obj
+         Release\Furniture.obj
+         Release\FurnitureManager.obj
+         Release\GameOverState.obj
+         Release\GameState.obj
+         Release\Grid2D.obj
+         Release\Guard.obj
+         Release\GuardChaseState.obj
+         Release\GuardFootSteps.obj
+         Release\GuardInvestigateState.obj
+         Release\GuardPatrolState.obj
+         Release\GuardSearchState.obj
+         Release\GuardShootingState.obj
+         Release\GuardStateManager.obj
+         Release\GUI.obj
+         Release\HullManager.obj
+         Release\InputManager.obj
+         Release\Key.obj
+         Release\KeyManager.obj
+         Release\Level.obj
+         Release\LightManager.obj
+         Release\LoadingState.obj
+         Release\main.obj
+         Release\OptionsState.obj
+         Release\PathFinding.obj
+         Release\PlayerObject.obj
+         Release\SearchCell.obj
+         Release\Settings.obj
+         Release\SoundManager.obj
+         Release\SoundRipple.obj
+         Release\SoundRippleManager.obj
+         Release\SpriteManager.obj
+         Release\StartMenuState.obj
+         Release\State.obj
+         Release\StateManager.obj
+         Release\stdafx.obj
+         Release\VictoryState.obj
+         Release\WallManager.obj
+         Generating code
+         Finished generating code
+         Escape_V2.vcxproj -> D:\petulant-octo-cyril\Escape_V2\Release\WithIntent.exe
+     1>Done Building Project "D:\petulant-octo-cyril\Escape_V2\Escape_V2\Escape_V2.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:06.58

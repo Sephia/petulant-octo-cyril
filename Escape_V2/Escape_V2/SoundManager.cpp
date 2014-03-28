@@ -78,7 +78,7 @@ MusicEntity::MusicEntity(sf::Music* song)
 :mp_musicStream(song)
 {
     mp_musicStream->setRelativeToListener(true);
-    mp_musicStream->setPosition(0, 0, -1);
+    mp_musicStream->setPosition(0, 0, 0);
 }
 MusicEntity::~MusicEntity()
 {
@@ -129,7 +129,7 @@ bool MusicEntity::IsMuted()
 
 SoundManager::SoundManager()
 {
-    m_listener.setPosition(0, 0, 0);
+	sf::Listener::setPosition(0, 0, 0);
     Sounds.clear();
     Songs.clear();
 }
@@ -184,7 +184,7 @@ std::string SoundManager::newSong(std::string filename, bool Looping)
 
 void SoundManager::Update(sf::Vector2f playerPosition)
 {
-    m_listener.setPosition(playerPosition.x, 0, playerPosition.y);
+    sf::Listener::setPosition(playerPosition.x, 0, playerPosition.y);
 }
 
 SoundEntity* SoundManager::GetSound(std::string filename)

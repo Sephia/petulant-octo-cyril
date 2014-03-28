@@ -26,7 +26,7 @@ Door::Door(int x, int y, sf::Texture* texture, int degree, sf::Color* key, bool 
     }
     sf::Vector2f circlePosition = sf::Vector2f(this->getLocalBounds().width / 2, this->getLocalBounds().height / 2);
     float radius = sqrtf(circlePosition.x * circlePosition.x + circlePosition.y * circlePosition.y);
-    mp_useRadius = new sf::CircleShape(radius);
+    mp_useRadius = new sf::CircleShape(radius*1.5f);
     mp_useRadius->setOrigin(mp_useRadius->getLocalBounds().width/2, mp_useRadius->getLocalBounds().height/2);
     sf::Vector2f newCirclePosition;
     newCirclePosition.x = circlePosition.x * cosf(m_degree * (M_PI / 180)) - circlePosition.y * sinf(m_degree * (M_PI / 180));

@@ -69,7 +69,7 @@ void SoundRipple::Draw() {
 		m_scales.at(i).x *= 1.055f;
 		m_scales.at(i).y *= 1.055f;
 		sf::Color color = mp_sprite->getSprite()->getColor();
-		color.a *= 0.98;
+		color.a *= 0.965;
 		mp_sprite->getSprite()->setColor(color);
 		Settings::ms_window->draw(*mp_sprite->getSprite());
 	}

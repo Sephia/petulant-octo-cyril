@@ -21,5 +21,12 @@ public:
 
 private:
 	std::string m_nextState;
+	float m_timer;
+
+	sf::Texture* mp_texture1;
+	sf::Sprite* mp_sprite1;
+
+	sf::Texture* mp_texture2;
+	sf::Sprite* mp_sprite2;
 };
 

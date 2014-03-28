@@ -1,0 +1,8 @@
+2535 4716 0 False 255 255 255 Door.png
+1987 3936 0 False 255 255 255 Door.png
+2615 3448 0 False 255 255 255 Door.png
+3025 2718 0 False 255 255 255 Door.png
+3024 2388 0 False 255 255 255 Door.png
+2681 1758 0 False 255 255 255 Door.png
+868 1068 270 False 0 255 0 Door.png
+§

@@ -30,7 +30,7 @@ void Grid2D::Init(sf::Sprite* p_sprite, Level* p_level, CollisionManager* cm, Fu
 				tempSprite.setPosition(sf::Vector2f(j * squareSize, i * squareSize));
 				for(int f = 0; f < p_fm->GetCount(); f++) {
 					if(cm->Circle_FurnitureCollision(tempSprite, *p_fm->GetFurniture(f))) {
-						break;
+						continue;
 					}
 					walkable = true;
 				}

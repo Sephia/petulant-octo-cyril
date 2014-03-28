@@ -19,6 +19,7 @@ public:
 
 	static std::map<int, std::vector<sf::Vector2f>> m_allGuardWaypoints;
 	static std::vector<sf::Vector2f> ms_guards;
+	static std::vector<int> ms_guardsRotation;
 	static std::vector<sf::Vector2f> ms_roomWaypoints;
 	static sf::RenderWindow *ms_window;
 	static float ms_deltatime;

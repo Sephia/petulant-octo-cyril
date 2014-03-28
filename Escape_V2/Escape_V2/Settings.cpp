@@ -5,6 +5,7 @@
 
 std::map<int, std::vector<sf::Vector2f>> Settings::m_allGuardWaypoints;
 std::vector<sf::Vector2f> Settings::ms_guards;
+std::vector<int> Settings::ms_guardsRotation;
 std::vector<sf::Vector2f> Settings::ms_roomWaypoints;
 sf::RenderWindow *Settings::ms_window = nullptr;
 float Settings::ms_deltatime = 0.1f;
@@ -29,6 +30,8 @@ void Settings::Load(const std::string& c_path) {
 		sf::Vector2f vect;
 
 		m_allGuardWaypoints.clear();
+		ms_guards.clear();
+		ms_guardsRotation.clear();
 
 
 		if(stream.is_open()) {
@@ -52,6 +55,7 @@ void Settings::Load(const std::string& c_path) {
 							std::back_inserter<std::vector<std::string> >(tokens));
 
 						ms_guards.push_back(sf::Vector2f((float)atof(tokens.at(0).c_str()), (float)atof(tokens.at(1).c_str())));
+						ms_guardsRotation.push_back(atoi(tokens.at(2).c_str()));
 					}
 					std::istringstream sstream(row);
 					std::vector<std::string> tokens;

@@ -36,7 +36,6 @@ Guard::Guard(int number, AnimatedSprite* p_sprite, Grid2D* p_grid) {
 	m_foot = 0;
 }
 
-
 Guard::~Guard() {
 	if(mp_guardStateManager != nullptr) {
 		delete mp_guardStateManager;

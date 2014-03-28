@@ -97,6 +97,5 @@ public:
 private:
     std::map <std::string, SoundEntity*> Sounds;
 	std::map <std::string, MusicEntity*> Songs;
-    sf::Listener m_listener;
     
 };

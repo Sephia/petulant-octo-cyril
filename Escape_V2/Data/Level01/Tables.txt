@@ -1,0 +1,8 @@
+2214 4225 0  1 Secretary_Desk.png 3
+2167 1711 0  1 Secretary_Desk.png 3
+2214 4358 180  1 Secretary_Desk.png 3
+2214 4751 0  1 Secretary_Desk.png 3
+2217 4888 180  1 Secretary_Desk.png 3
+2871 1031 0  1 Secretary_Desk.png 3
+2802 4848 125  1 Table.png 3
+§

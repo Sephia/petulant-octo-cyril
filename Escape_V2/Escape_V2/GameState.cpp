@@ -22,6 +22,7 @@
 #include "GuardFootSteps.h"
 #include "Level.h"
 #include "Door.h"
+#include "SoundManager.h"
 
 GameState::GameState() {
 	m_nextState = "";
@@ -33,10 +34,10 @@ GameState::GameState() {
 	mp_gui = nullptr;
 	mp_guardFootSteps = nullptr;
 	mp_level = nullptr;
-	m_levelToLoad = 3;
+	m_levelToLoad = 0;
 
-	mp_openDoor = nullptr;
-	mp_closeDoor = nullptr;
+	mp_music_undetected = nullptr;
+	mp_music_detected = nullptr;
 	mp_keySound = nullptr;
 	mp_unlock = nullptr;
 	mp_death = nullptr;
@@ -53,9 +54,8 @@ GameState::~GameState() {
 }
 
 void GameState::Enter() {
-	loadingScreenTexture = new sf::Texture;
-	loadingScreenTexture->loadFromFile("../Data/Sprites/LoadingScreen.png");
-	loadingScreenSprite = new sf::Sprite(*loadingScreenTexture);
+	loadingScreenTexture.loadFromFile("../Data/Sprites/0procent.png");
+	loadingScreenSprite = new sf::Sprite(loadingScreenTexture);
 
 	Settings::ms_window->clear();
 	Settings::ms_window->draw(*loadingScreenSprite);
@@ -112,12 +112,24 @@ void GameState::Enter() {
 	fm = new FurnitureManager(hl);
 	cl = new CollisionManager(wl, km, dm);
 
+	loadingScreenTexture.loadFromFile("../Data/Sprites/30procent.png");
+	loadingScreenSprite->setTexture(loadingScreenTexture);
+	Settings::ms_window->clear();
+	Settings::ms_window->draw(*loadingScreenSprite);
+	Settings::ms_window->display();
+
 	if(!wl->LoadFromFile("../data/" + m_pathToLevel + "Walls.txt")) {
 		abort();
 	}
 	if(!fm->LoadFromFile("../data/" + m_pathToLevel + "Furniture.txt",ls)) {
 		abort();
 	}
+	loadingScreenTexture.loadFromFile("../Data/Sprites/60procent.png");
+	loadingScreenSprite->setTexture(loadingScreenTexture);
+	Settings::ms_window->clear();
+	Settings::ms_window->draw(*loadingScreenSprite);
+	Settings::ms_window->display();
+
 	if(!km->LoadFromFile("../data/" + m_pathToLevel + "Keys.txt")) {
 		abort();
 	}
@@ -129,6 +141,12 @@ void GameState::Enter() {
 
 	mp_grid = new Grid2D();
 	mp_grid->Init(mp_player->GetSprite(), mp_level, cl, fm);
+
+	loadingScreenTexture.loadFromFile("../Data/Sprites/90procent.png");
+	loadingScreenSprite->setTexture(loadingScreenTexture);
+	Settings::ms_window->clear();
+	Settings::ms_window->draw(*loadingScreenSprite);
+	Settings::ms_window->display();
 
 	for(unsigned int i = 0; i < Settings::ms_guards.size(); i++) {
 		m_guards.push_back(new Guard(i, m_spriteManager.Load("Guard1.txt"), mp_grid));
@@ -187,9 +205,8 @@ void GameState::Enter() {
 
 	testLight2->SetAlwaysUpdate(false);
 
-	if (!m_music.openFromFile("../data/music/I Knew a Guy - Stealth.wav")) {
-		std::cout << "Failed loading music for GameState!\n";
-	}
+	Settings::ms_soundManager.newSong("../data/music/I Knew a Guy - Stealth.wav", true);
+	Settings::ms_soundManager.newSong("../data/music/Simplex-Menu_Music.wav", true);
 
 	Settings::ms_soundManager.newSound("../data/sound/RUN_1.ogg", false, 500, 0.1f);
 	Settings::ms_soundManager.newSound("../data/sound/RUN_2.ogg", false, 500, 0.1f);
@@ -206,14 +223,12 @@ void GameState::Enter() {
 	Settings::ResetShot();
 
 	mp_guardFootSteps = new GuardFootSteps();
-	m_music.setLoop(true);
-	m_music.play();
-	mp_openDoor = Settings::ms_soundManager.GetSound("../data/sound/DOOR_OPEN.ogg")->CreateSound(sf::Vector2f(0,0));
-	mp_closeDoor = Settings::ms_soundManager.GetSound("../data/sound/DOOR_CLOSE.ogg")->CreateSound(sf::Vector2f(0,0));
 	mp_keySound = Settings::ms_soundManager.GetSound("../data/sound/PICKUP_KEY.ogg")->CreateSound(sf::Vector2f(0,0));
 	mp_unlock = Settings::ms_soundManager.GetSound("../data/sound/UNLOCK_DOOR.ogg")->CreateSound(sf::Vector2f(0,0));
 	mp_death = Settings::ms_soundManager.GetSound("../data/sound/DEATH_SOUND-REAL.ogg")->CreateSound(sf::Vector2f(0,0));
 	mp_jokeDeath = Settings::ms_soundManager.GetSound("../data/sound/DEATH_SOUND.ogg")->CreateSound(sf::Vector2f(0,0));
+
+	Settings::ms_soundManager.GetSong("../data/music/I Knew a Guy - Stealth.wav")->Play();
 }
 
 void GameState::Exit() {
@@ -287,32 +302,20 @@ void GameState::Exit() {
 		ls = nullptr;
 	}
 
-	if(loadingScreenTexture != nullptr) {
-		delete loadingScreenTexture;
-		loadingScreenTexture = nullptr;
-	}
 	if(loadingScreenSprite != nullptr) {
 		delete loadingScreenSprite;
-		loadingScreenTexture = nullptr;
+		loadingScreenSprite = nullptr;
 	}
 
 	m_soundRippleManager.Cleanup();
 
 	m_spriteManager.Cleanup();
 
-	m_music.stop();
+	Settings::ms_soundManager.GetSong("../data/music/I Knew a Guy - Stealth.wav")->Stop();
 
 	if(mp_keySound != nullptr) {
 		delete mp_keySound;
 		mp_keySound = nullptr;
-	}
-	if (mp_openDoor != nullptr) {
-		delete mp_openDoor;
-		mp_openDoor = nullptr;
-	}
-	if(mp_closeDoor != nullptr) {
-		delete mp_closeDoor;
-		mp_closeDoor = nullptr;
 	}
 	if(mp_unlock != nullptr) {
 		delete mp_unlock;
@@ -439,16 +442,16 @@ bool GameState::Update() {
 				{
 					if(!SoundEntity::IsMuted())
 					{
-						mp_closeDoor->play();
-						mp_closeDoor->setPosition(door->getPosition().x, 0, door->getPosition().y);
+						sf::Sound* mp_closeDoor = Settings::ms_soundManager.GetSound("../data/sound/DOOR_CLOSE.ogg")->CreateSound(door->getPosition());
+						m_soundRippleManager.CreateSoundRipple(mp_player->GetPosition(), 1, true, m_spriteManager.Load("Ripple.txt"), mp_closeDoor);
 					}
 				}
 				else
 				{
 					if(!SoundEntity::IsMuted())
 					{
-						mp_openDoor->play();
-						mp_openDoor->setPosition(door->getPosition().x, 0, door->getPosition().y);
+						sf::Sound* mp_openDoor = Settings::ms_soundManager.GetSound("../data/sound/DOOR_OPEN.ogg")->CreateSound(door->getPosition());
+						m_soundRippleManager.CreateSoundRipple(mp_player->GetPosition(), 1, true, m_spriteManager.Load("Ripple.txt"), mp_openDoor);
 					}
 				}
 			}
@@ -484,7 +487,7 @@ bool GameState::Update() {
 		Settings::ms_gameOver = false;
 		return false;
 	}
-	else if(mp_player->GetPosition().x > Settings::ms_exit.x && mp_player->GetPosition().x < Settings::ms_exit.x + 200 && mp_player->GetPosition().y > Settings::ms_exit.y && mp_player->GetPosition().y < Settings::ms_exit.y + 200) {
+	else if(mp_player->GetPosition().x > Settings::ms_exit.x - 100 && mp_player->GetPosition().x < Settings::ms_exit.x + 100 && mp_player->GetPosition().y > Settings::ms_exit.y - 100 && mp_player->GetPosition().y < Settings::ms_exit.y + 100) {
 		m_levelToLoad++;
 		m_levelToLoad = m_levelToLoad % 5;
 		if(m_levelToLoad == 0) {
@@ -497,7 +500,7 @@ bool GameState::Update() {
 		}
 	}
 	else if(Settings::ms_gameOver) {
-		if(m_gameOverTimer > 1.5f && !m_deathSoundPlayed)
+		if(m_gameOverTimer > 0.5f && !m_deathSoundPlayed)
 		{
 			int random = rand()%10;
 			if(random == 0)
@@ -513,27 +516,27 @@ bool GameState::Update() {
 		m_gameOverTimer += Settings::ms_deltatime;
 	}
 
-	if(Settings::ms_inputManager.IsDownOnceKeyboard(sf::Keyboard::F1)) {
+	if(Settings::ms_inputManager.IsDownOnceKeyboard(sf::Keyboard::F1) && Settings::ms_inputManager.IsDownKeyboard(sf::Keyboard::LControl) && Settings::ms_inputManager.IsDownKeyboard(sf::Keyboard::LShift)) {
 		m_levelToLoad = 1;
 		Exit();
 		Enter();
 	}
-	else if(Settings::ms_inputManager.IsDownOnceKeyboard(sf::Keyboard::F2)) {
+	else if(Settings::ms_inputManager.IsDownOnceKeyboard(sf::Keyboard::F2) && Settings::ms_inputManager.IsDownKeyboard(sf::Keyboard::LControl) && Settings::ms_inputManager.IsDownKeyboard(sf::Keyboard::LShift)) {
 		m_levelToLoad = 2;
 		Exit();
 		Enter();
 	}
-	else if(Settings::ms_inputManager.IsDownOnceKeyboard(sf::Keyboard::F3)) {
+	else if(Settings::ms_inputManager.IsDownOnceKeyboard(sf::Keyboard::F3) && Settings::ms_inputManager.IsDownKeyboard(sf::Keyboard::LControl) && Settings::ms_inputManager.IsDownKeyboard(sf::Keyboard::LShift)) {
 		m_levelToLoad = 3;
 		Exit();
 		Enter();
 	}
-	else if(Settings::ms_inputManager.IsDownOnceKeyboard(sf::Keyboard::F4)) {
+	else if(Settings::ms_inputManager.IsDownOnceKeyboard(sf::Keyboard::F4) && Settings::ms_inputManager.IsDownKeyboard(sf::Keyboard::LControl) && Settings::ms_inputManager.IsDownKeyboard(sf::Keyboard::LShift)) {
 		m_levelToLoad = 4;
 		Exit();
 		Enter();
 	}
-	else if(Settings::ms_inputManager.IsDownOnceKeyboard(sf::Keyboard::F5)) {
+	else if(Settings::ms_inputManager.IsDownOnceKeyboard(sf::Keyboard::F5) && Settings::ms_inputManager.IsDownKeyboard(sf::Keyboard::LControl) && Settings::ms_inputManager.IsDownKeyboard(sf::Keyboard::LShift)) {
 		m_levelToLoad = 0;
 		Exit();
 		Enter();
@@ -544,12 +547,16 @@ bool GameState::Update() {
 	else if(Settings::ms_inputManager.IsDownOnceKeyboard(sf::Keyboard::F12)) {
 		Settings::SetWindowed();
 	}
+	else if(Settings::ms_inputManager.IsDownOnceKeyboard(sf::Keyboard::Escape)) {
+		m_nextState = "StartMenuState";
+		return false;
+	}
 
 	return true;
 }
 
 void GameState::Draw() {
-
+	//mp_view->setCenter(m_guards.at(1)->GetPosition());
 	mp_view->setCenter(mp_player->GetPosition());
 
 	Settings::ms_window->setView(*mp_view);

@@ -13,6 +13,14 @@ Level::Level(const std::string& c_path) {
 }
 
 Level::~Level() {
+	if(mp_levelTexture != nullptr) {
+		delete mp_levelTexture;
+		mp_levelTexture = nullptr;
+	}
+	if(mp_levelSprite != nullptr) {
+		delete mp_levelSprite;
+		mp_levelSprite = nullptr;
+	}
 }
 
 void Level::Draw() {

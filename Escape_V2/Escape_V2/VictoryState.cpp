@@ -43,6 +43,19 @@ bool VictoryState::Update() {
 		return false;
 	}
 
+	if(Settings::ms_inputManager.IsDownOnceKeyboard(sf::Keyboard::Return)) {
+		m_nextState = "StartMenuState";
+		return false;
+	}
+	else if(Settings::ms_inputManager.IsDownOnceKeyboard(sf::Keyboard::Space)) {
+		m_nextState = "GameState";
+		return false;
+	}
+	else if(Settings::ms_inputManager.IsDownOnceKeyboard(sf::Keyboard::Escape)) {
+		m_nextState = "";
+		return false;
+	}
+
 	return true;
 }
 
@@ -79,9 +92,6 @@ bool VictoryState::UpdateEvents() {
 		}
 	}
 	
-	if(Settings::ms_inputManager.IsDownOnceKeyboard(sf::Keyboard::Escape) || Settings::ms_inputManager.IsDownOnceKeyboard(sf::Keyboard::Space) || Settings::ms_inputManager.IsDownOnceKeyboard(sf::Keyboard::Return)) {
-		m_done = true;
-		m_nextState = "StartMenuState";
-	}
+	
 	return m_done;
 }

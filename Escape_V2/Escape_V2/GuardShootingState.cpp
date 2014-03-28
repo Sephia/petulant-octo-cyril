@@ -27,6 +27,8 @@ void GuardShootingState::Enter() {
 	m_done = false;
 	m_timer = 0.0f;
 	mp_sprite->ChangeAnimation("Guard1DrawWeapon.png");
+	Settings::ms_soundManager.GetSong("../data/music/I Knew a Guy - Stealth.wav")->Stop();
+	Settings::ms_soundManager.GetSong("../data/music/Simplex-Menu_Music.wav")->Play();
 
 	Settings::ms_soundManager.newSound("../data/sound/GUARD_SHOOTING.ogg", false, 2000, 1.0f);
     mp_shooting = Settings::ms_soundManager.GetSound("../data/sound/GUARD_SHOOTING.ogg")->CreateSound(*mp_position);

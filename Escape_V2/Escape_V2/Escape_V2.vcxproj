@@ -38,7 +38,12 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <TargetName>WithIntent</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <TargetName>WithIntent</TargetName>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -304,6 +309,7 @@
     <ClInclude Include="OptionsState.h" />
     <ClInclude Include="PathFinding.h" />
     <ClInclude Include="PlayerObject.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="SearchCell.h" />
     <ClInclude Include="Settings.h" />
     <ClInclude Include="SoundManager.h" />
@@ -317,6 +323,12 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="VictoryState.h" />
     <ClInclude Include="WallManager.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Data\Sprites\WithIntentIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Escape_V2.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

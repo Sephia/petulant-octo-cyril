@@ -39,16 +39,14 @@ void GuardPatrolState::Init(int number, sf::Vector2f* p_position, float* p_rotat
 	mp_rotation = p_rotation;
 
 	m_nextWaypoint = 0;
-
+	
 	for(unsigned int i = 0; i < Settings::m_allGuardWaypoints[m_number].size(); i++) {
 		m_waypoints.push_back(Settings::m_allGuardWaypoints[m_number].at(i));
 	}
-	if(m_waypoints.size() > 0) {
+	if(m_waypoints.size() > 1) {
 		*mp_rotation = atan2(mp_position->y - m_waypoints.at(m_nextWaypoint).y, mp_position->x - m_waypoints.at(m_nextWaypoint).x) * 180 / static_cast<float>(M_PI) - 90;
 	}
-	else {
-		*mp_rotation = 0.0f;
-	}
+	
 
 	mp_sprite = sprite;
 
@@ -92,38 +90,30 @@ void GuardPatrolState::Movement() {
 					break;
 				}
 			}
-			m_nextPosition = mp_pathfinding->NextPathPos(*mp_position, 10);
 		}
 
 		if(mp_pathfinding->m_foundGoal) {
-			m_nextPosition = mp_pathfinding->NextPathPos(*mp_position, 3.0f);
+			m_nextPosition = mp_pathfinding->NextPathPos(*mp_position, 7.0f);
 		}
 
 		if(Rotate()) {
 			mp_sprite->ChangeAnimation("Guard1Walking.png");
 			sf::Vector2f distance = *mp_position - m_nextPosition;
 			float dist = sqrtf(distance.x * distance.x + distance.y * distance.y);
-			if(dist > 1.0f) {
+			if(dist > 0.0f) {
 				distance.x /= dist;
 				distance.y /= dist;
 
 				*mp_position = *mp_position - distance * m_speed * Settings::ms_deltatime;
 			}
-			else {
 
+			distance = *mp_position - m_waypoints.at(m_nextWaypoint);
+			dist = sqrtf(distance.x * distance.x + distance.y * distance.y);
+			if(dist < 50.0f) {
 				m_nextWaypoint++;
 				m_nextWaypoint %= m_waypoints.size();
 				mp_pathfinding->m_foundGoal = false;
 				mp_pathfinding->m_initializedStartGoal = false;
-
-				if(!mp_pathfinding->m_foundGoal) {
-					while(!mp_pathfinding->m_foundGoal) {
-						if(!mp_pathfinding->FindPath(*mp_position, m_waypoints.at(m_nextWaypoint))) {
-							break;
-						}
-					}
-					m_nextPosition = mp_pathfinding->NextPathPos(*mp_position, 10);
-				}
 			}
 		}
 		else {

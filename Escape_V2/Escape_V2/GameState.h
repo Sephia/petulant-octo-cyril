@@ -22,6 +22,7 @@ class GUI;
 class FoV;
 class GuardFootSteps;
 class Level;
+class MusicEntity;
 
 namespace ltbl {
 	class LightSystem;
@@ -64,9 +65,8 @@ private:
 	SpriteManager m_spriteManager;
 	SoundRippleManager m_soundRippleManager;
 
-	sf::Music m_music;
-	sf::Sound* mp_openDoor;
-	sf::Sound* mp_closeDoor;
+	MusicEntity* mp_music_undetected;
+	MusicEntity* mp_music_detected;
 	sf::Sound* mp_keySound;
 	sf::Sound* mp_unlock;
 	sf::Sound* mp_death;
@@ -99,6 +99,6 @@ private:
 	GUI* mp_gui;
 	FoV* mp_fov;
 
-	sf::Texture* loadingScreenTexture;
+	sf::Texture loadingScreenTexture;
 	sf::Sprite* loadingScreenSprite;
 };

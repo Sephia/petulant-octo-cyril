@@ -90,7 +90,10 @@ bool FurnitureManager::LoadFromFile(std::string filename, ltbl::LightSystem* lm)
 				textureName = "OfficeChair_" + ss2.str() + ".png";
 			}
 			else if(textureName == "SecretaryDesk.png") {	//Randomize which secretary desk to pick 1-9
-				int random = (rand() % 9) + 1;
+				int random = (rand() % 50) + 1;
+				if(random > 11) {
+					random = random % 5 + 1;
+				}
 				std::stringstream ss2;
 				ss2 << random;
 				textureName = "SecretaryDesk_" + ss2.str() + ".png";

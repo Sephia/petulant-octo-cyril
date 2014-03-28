@@ -1,0 +1,9 @@
+2061 4457 270 False 255 255 255 Door.png
+2040 1478 90 False 255 255 255 Door.png
+2967 1468 90 False 255 255 255 Door.png
+3329 1274 270 False 255 255 255 Door.png
+3327 3406 270 False 255 255 255 Door.png
+3697 3019 0 False 255 255 255 Door.png
+3701 2081 0 False 255 255 255 Door.png
+3255 885 180 False 0 128 192 Door.png
+§
