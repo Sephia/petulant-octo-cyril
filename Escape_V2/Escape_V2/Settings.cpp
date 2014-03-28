@@ -178,7 +178,7 @@ void Settings::SetFullscreen() {
 	sf::ContextSettings setting;
 	setting.antialiasingLevel = 8;
 	ms_window->close();
-	ms_window->create(*it, "SFML shapes", sf::Style::Fullscreen, setting);
+	ms_window->create(*it, "With Intent", sf::Style::Fullscreen, setting);
 	Settings::ms_window->setFramerateLimit(60);
 }
 
@@ -200,7 +200,7 @@ void Settings::SetWindowed() {
 	sf::ContextSettings setting;
 	setting.antialiasingLevel = 8;
 	ms_window->close();
-	ms_window->create(video, "SFML shapes", sf::Style::Default, setting);
+	ms_window->create(video, "With Intent", sf::Style::Default, setting);
 	Settings::ms_window->setFramerateLimit(60);
 }
 

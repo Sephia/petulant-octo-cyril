@@ -1,16 +1,21 @@
-﻿Build started 2014-03-28 02:14:44.
+﻿Build started 2014-03-28 08:26:57.
      1>Project "D:\petulant-octo-cyril\Escape_V2\Escape_V2\Escape_V2.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"..\Deps\let-there-be-light" /I"..\Deps\SFML-2.1\include\\" /ZI /nologo /W3 /WX- /sdl /MP /Od /Oy- /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt GuardPatrolState.cpp
-         GuardPatrolState.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"..\Deps\let-there-be-light" /I"..\Deps\SFML-2.1\include\\" /ZI /nologo /W3 /WX- /sdl /MP /Od /Oy- /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt GameState.cpp Grid2D.cpp
+     1>cl : Command line warning D9030: '/Gm' is incompatible with multiprocessing; ignoring /MP switch
+         Grid2D.cpp
+     1>d:\petulant-octo-cyril\escape_v2\escape_v2\grid2d.cpp(26): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>d:\petulant-octo-cyril\escape_v2\escape_v2\grid2d.cpp(29): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>d:\petulant-octo-cyril\escape_v2\escape_v2\grid2d.cpp(43): warning C4018: '>=' : signed/unsigned mismatch
+         GameState.cpp
      1>d:\petulant-octo-cyril\escape_v2\escape_v2\searchcell.h(21): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
      1>d:\petulant-octo-cyril\escape_v2\escape_v2\searchcell.h(22): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\guardpatrolstate.cpp(152): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\guardpatrolstate.cpp(169): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\guardpatrolstate.cpp(191): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\guardpatrolstate.cpp(204): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>d:\petulant-octo-cyril\escape_v2\escape_v2\gamestate.cpp(140): warning C4244: 'argument' : conversion from 'float' to 'unsigned int', possible loss of data
+     1>d:\petulant-octo-cyril\escape_v2\escape_v2\gamestate.cpp(411): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+         Generating Code...
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\petulant-octo-cyril\Escape_V2\Debug\Escape_V2.exe" /INCREMENTAL /NOLOGO /LIBPATH:"..\Deps\SFML-2.1\lib" /LIBPATH:"...\Deps\let-there-be-light" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\petulant-octo-cyril\Escape_V2\Debug\Escape_V2.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\petulant-octo-cyril\Escape_V2\Debug\Escape_V2.lib" /MACHINE:X86 Debug\AABB.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\petulant-octo-cyril\Escape_V2\Debug\WithIntent.exe" /INCREMENTAL /NOLOGO /LIBPATH:"..\Deps\SFML-2.1\lib" /LIBPATH:"...\Deps\let-there-be-light" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\petulant-octo-cyril\Escape_V2\Debug\WithIntent.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\petulant-octo-cyril\Escape_V2\Debug\WithIntent.lib" /MACHINE:X86 Debug\Escape_V2.res
+         Debug\AABB.obj
          Debug\Color3f.obj
          Debug\Point2i.obj
          Debug\Vec2f.obj
@@ -71,9 +76,9 @@
          Debug\stdafx.obj
          Debug\VictoryState.obj
          Debug\WallManager.obj
-         Escape_V2.vcxproj -> D:\petulant-octo-cyril\Escape_V2\Debug\Escape_V2.exe
+         Escape_V2.vcxproj -> D:\petulant-octo-cyril\Escape_V2\Debug\WithIntent.exe
      1>Done Building Project "D:\petulant-octo-cyril\Escape_V2\Escape_V2\Escape_V2.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:02.19
+Time Elapsed 00:00:03.76

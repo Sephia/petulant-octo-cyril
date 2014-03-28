@@ -93,7 +93,7 @@ void GuardPatrolState::Movement() {
 		}
 
 		if(mp_pathfinding->m_foundGoal) {
-			m_nextPosition = mp_pathfinding->NextPathPos(*mp_position, 7.0f);
+			m_nextPosition = mp_pathfinding->NextPathPos(*mp_position, 12.0f);
 		}
 
 		if(Rotate()) {
@@ -120,7 +120,6 @@ void GuardPatrolState::Movement() {
 			mp_sprite->ChangeAnimation("Guard1Turning.png");
 		}
 	}
-
 }
 
 void GuardPatrolState::AddWaypointToFront(sf::Vector2f waypoint) {

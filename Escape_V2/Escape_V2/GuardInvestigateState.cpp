@@ -109,7 +109,7 @@ void GuardInvestigateState::Movement() {
 		}
 	}
 	if(mp_pathfinding->m_foundGoal) {
-		m_nextPosition = mp_pathfinding->NextPathPos(*mp_position, 5.0f);
+		m_nextPosition = mp_pathfinding->NextPathPos(*mp_position, 12.0f);
 	}
 
 	if(m_waypoints.size() > 0) {
@@ -121,7 +121,6 @@ void GuardInvestigateState::Movement() {
 				Rotate(1);
 			}
 			else {
-				//ToDo: Change from Patrol to Search when Search is ready
 				m_nextState = "GuardPatrolState";
 				m_done = true;
 			}
@@ -133,7 +132,7 @@ void GuardInvestigateState::Movement() {
 			mp_sprite->ChangeAnimation("Guard1Walking.png");
 			sf::Vector2f distance = *mp_position - m_nextPosition;
 			float dist = sqrtf(distance.x * distance.x + distance.y * distance.y);
-			if(dist > 1.0f) {
+			if(dist > 5.0f) {
 				distance.x /= dist;
 				distance.y /= dist;
 
@@ -144,7 +143,6 @@ void GuardInvestigateState::Movement() {
 				m_timer += Settings::ms_deltatime;
 			}
 		}
-		else mp_sprite->ChangeAnimation("Guard1Turning.png");
 	}
 }
 
@@ -222,6 +220,8 @@ bool GuardInvestigateState::Rotate(int rotationWay) {
 	}
 
 	*mp_rotation = static_cast<int>(*mp_rotation) % 360;
+
+	mp_sprite->ChangeAnimation("Guard1Turning.png");
 
 	return false;
 }

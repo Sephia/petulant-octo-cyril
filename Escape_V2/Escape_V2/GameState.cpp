@@ -228,6 +228,7 @@ void GameState::Enter() {
 	mp_death = Settings::ms_soundManager.GetSound("../data/sound/DEATH_SOUND-REAL.ogg")->CreateSound(sf::Vector2f(0,0));
 	mp_jokeDeath = Settings::ms_soundManager.GetSound("../data/sound/DEATH_SOUND.ogg")->CreateSound(sf::Vector2f(0,0));
 
+	Settings::ms_soundManager.GetSong("../data/music/Simplex-Menu_Music.wav")->Stop();
 	Settings::ms_soundManager.GetSong("../data/music/I Knew a Guy - Stealth.wav")->Play();
 }
 
@@ -458,7 +459,7 @@ bool GameState::Update() {
 		}
 	}
 
-	//check if key is close neough to pick up
+	//check if key is close enough to pick up
 	sf::CircleShape* circle_key = cl->Circle_KeyPickup(*mp_player->GetSprite());
 	if(circle_key != nullptr) {
 		Key* key = km->PickUpKey(circle_key);

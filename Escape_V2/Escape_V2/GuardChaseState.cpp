@@ -164,7 +164,7 @@ void GuardChaseState::Movement() {
 			}
 			else {
 				//ToDo: Change from Patrol to Search when Search is ready
-				m_nextState = "GuardSearchState";
+				m_nextState = "GuardPatrolState";
 				m_done = true;
 			}
 

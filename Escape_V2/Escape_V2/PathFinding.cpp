@@ -57,7 +57,7 @@ bool PathFinding::FindPath(sf::Vector2f currentPos, sf::Vector2f targetPos) {
 	if(m_initializedStartGoal) {
 		ContinuePath();
 	}
-	if(m_openList.size() == 0 && m_visitedList.size() > 1) {
+	if(m_openList.size() == 0 && m_visitedList.size() > 0) {
 		return false;
 	}
 	return true;

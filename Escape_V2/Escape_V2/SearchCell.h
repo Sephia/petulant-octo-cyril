@@ -2,7 +2,7 @@
 
 #include "stdafx.h"
 
-#define WORLD_SIZE 500
+#define WORLD_SIZE 1500
 
 class SearchCell {
 public:

@@ -6,9 +6,8 @@
 #include "FurnitureManager.h"
 
 Grid2D::Grid2D() {
-	squareSize = 30;
+	squareSize = 50;
 }
-
 
 Grid2D::~Grid2D() {
 }
@@ -49,8 +48,8 @@ bool Grid2D::Walkable(int x, int y) {
 }
 
 bool Grid2D::SetWalkable(int x, int y, bool walkable) {
-	if(static_cast<unsigned int>(y) < m_grid.size()) {
-		if(static_cast<unsigned int>(x) < m_grid.at(y).size()) {
+	if(static_cast<unsigned int>(y) < m_grid.size() && static_cast<unsigned int>(y) > 0) {
+		if(static_cast<unsigned int>(x) < m_grid.at(y).size() && static_cast<unsigned int>(x) > 0) {
 			m_grid.at(y).at(x) = walkable;
 			return true;
 		}
@@ -59,7 +58,7 @@ bool Grid2D::SetWalkable(int x, int y, bool walkable) {
 }
 
 void Grid2D::Draw() {
-	
+
 	sf::RectangleShape *circ = new sf::RectangleShape(sf::Vector2f(30.0f, 30.0f));
 	circ->setOutlineThickness(-2);
 	circ->setFillColor(sf::Color(0, 0, 0, 0));
@@ -76,7 +75,7 @@ void Grid2D::Draw() {
 			Settings::ms_window->draw(*circ);
 		}
 	}
-	
+
 }
 
 int Grid2D::GetSquareSize() {

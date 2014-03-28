@@ -1,12 +1,11 @@
-﻿Build started 2014-03-28 05:36:14.
+﻿Build started 2014-03-28 08:34:13.
      1>Project "D:\petulant-octo-cyril\Escape_V2\Escape_V2\Escape_V2.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"..\Deps\let-there-be-light" /I"..\Deps\SFML-2.1\include\\" /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt GameState.cpp
-         GameState.cpp
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\SearchCell.h(21): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
-     1>d:\petulant-octo-cyril\escape_v2\escape_v2\SearchCell.h(22): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
-     1>GameState.cpp(140): warning C4244: 'argument' : conversion from 'float' to 'unsigned int', possible loss of data
-     1>GameState.cpp(410): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"..\Deps\let-there-be-light" /I"..\Deps\SFML-2.1\include\\" /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Grid2D.cpp
+         Grid2D.cpp
+     1>Grid2D.cpp(26): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>Grid2D.cpp(29): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>Grid2D.cpp(43): warning C4018: '>=' : signed/unsigned mismatch
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\petulant-octo-cyril\Escape_V2\Release\WithIntent.exe" /NOLOGO /LIBPATH:"..\Deps\SFML-2.1\lib" /LIBPATH:"...\Deps\let-there-be-light" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\petulant-octo-cyril\Escape_V2\Release\WithIntent.pdb" /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\petulant-octo-cyril\Escape_V2\Release\WithIntent.lib" /MACHINE:X86 /SAFESEH Release\Escape_V2.res
          Release\AABB.obj
@@ -77,4 +76,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:06.58
+Time Elapsed 00:00:06.16
